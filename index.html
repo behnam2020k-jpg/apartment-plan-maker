@@ -1,0 +1,1100 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.sg{display:grid;gap:6px;margin-top:6px}.sg button{display:flex;flex-wrap:wrap;gap:2px 12px;justify-content:space-between;text-align:right;background:transparent;color:var(--ink);border:1px solid var(--line);font-size:13px;padding:8px 12px;min-height:40px;font-weight:400}.sg button[aria-pressed="true"]{border-color:var(--accent);background:var(--soft)}.sg b{color:var(--accent)}#errBox{border-color:var(--line)}#errBox.bad{border-color:var(--er)}.pri:disabled{background:#8a939c;border-color:#8a939c;color:#fff;opacity:.4;cursor:not-allowed;filter:grayscale(1)}#ysug button{margin-top:6px}
+</style></head><body>
+<title>ساز پرامپت طراحی پلان</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F5F8;--surface:#fff;--ink:#14202B;--muted:#5B6B7A;--line:#D3DCE5;--accent:#1D4E89;--on-accent:#fff;--soft:#E6EEF8;--ok:#1b7f4b;--er:#c0392b;--wa:#b36b00}
+html{box-sizing:border-box}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1720;--surface:#17212C;--ink:#E6EDF3;--muted:#93A3B3;--line:#2B3947;--accent:#7FB2F0;--on-accent:#0F1720;--soft:#1E2B3A;--ok:#5fd08f;--er:#ff8a7a;--wa:#f0b35a}}
+:root[data-theme="dark"]{--bg:#0F1720;--surface:#17212C;--ink:#E6EDF3;--muted:#93A3B3;--line:#2B3947;--accent:#7FB2F0;--on-accent:#0F1720;--soft:#1E2B3A;--ok:#5fd08f;--er:#ff8a7a;--wa:#f0b35a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{direction:rtl;margin:0;background:var(--bg);color:var(--ink);font-family:"Vazirmatn",Tahoma,"Segoe UI",system-ui,sans-serif;line-height:1.8;font-size:15px}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:22px;margin:0 0 2px;font-weight:700}
+.sub{color:var(--muted);margin:0 0 18px;font-size:14px}
+.grid{display:grid;gap:16px}
+@media(min-width:860px){.grid{grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:start}.out-box{position:sticky;top:16px}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.card h2{font-size:15px;margin:0 0 12px;font-weight:700;color:var(--accent)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 3px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-height:42px}
+textarea{resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.sec{margin-top:18px;padding-top:4px;border-top:1px dashed var(--line)}
+.sec:first-of-type{margin-top:0;border-top:0}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+button{font:inherit;font-weight:500;border-radius:6px;padding:10px 16px;min-height:44px;cursor:pointer;border:1px solid var(--accent)}
+.pri{background:var(--accent);color:var(--on-accent)}
+.sec-btn{background:transparent;color:var(--accent)}
+#out{min-height:420px;height:60vh;font-size:13px;line-height:1.9;white-space:pre-wrap;direction:rtl;text-align:right}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.bar h2{margin:0}
+#msg{color:var(--accent);font-size:13px;min-height:20px}
+.flash{box-shadow:0 0 0 2px var(--accent)}
+[hidden]{display:none!important}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.chip{min-height:38px;padding:6px 12px;border-radius:999px;background:transparent;color:var(--ink);border:1px solid var(--line);font-size:13px}.chip[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.hint{font-size:12px;color:var(--muted);margin:4px 0 8px}
+.lc{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-top:12px;background:var(--bg)}.lc>h4{margin:0 0 4px;font-size:15px;color:var(--accent)}.lc .ast{border:0;padding:0;background:none;margin-top:8px}.lc .ast+.ast,.lc .ast+.xd{border-top:1px dashed var(--line);padding-top:8px}.lc .ast>b{display:block;font-size:13px;margin-bottom:2px}.xbar{height:9px;background:var(--line);border-radius:5px;overflow:hidden;margin:6px 0 2px}.xbar>i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}.xbar.full>i{background:#c0392b}.xbar.ok>i{background:var(--ok,#1e8449)}.xbar.fix>i{background:var(--ok,#1e8449)}.xr.lk{opacity:.5}.xr>.xq,.xr>.xch,.xr>.xmv{grid-column:1/-1}.xq{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}.xq label{margin:0}.xq select{width:auto;min-height:34px}.xch{display:flex;flex-wrap:wrap;gap:6px}.xchip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:14px;padding:3px 10px;font:inherit;font-size:12px;cursor:pointer}.xchip:hover{border-color:var(--accent)}.xv{font-size:13px;color:var(--muted);text-align:center}.xmv{font-size:12px;padding:4px 10px;min-height:32px;justify-self:start}.xbk{width:100%;border-collapse:collapse;font-size:12px;margin-top:4px}.xbk td{padding:3px 4px;border-bottom:1px dashed var(--line)}.xbk td:last-child{text-align:left;white-space:nowrap}.xbk tr.t td{font-weight:700}.xd{margin-top:10px;border-top:1px dashed var(--line);padding-top:6px}.xd>summary{cursor:pointer;font-weight:600;color:var(--ink)}.xr{display:grid;grid-template-columns:1fr 110px;gap:4px 10px;align-items:center;padding:6px 0;border-top:1px dashed var(--line)}.xr label.xl{display:flex;gap:8px;align-items:center;margin:0;color:var(--ink);font-size:13px}.xr input[type=checkbox]{width:auto;min-height:0;margin:0}.xr input.xa{min-height:36px;padding:4px 8px}.xr .hint{grid-column:1/-1;margin:0}.xt{margin-top:6px}.xt.er{color:#c0392b}
+.ast{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px;margin-top:10px;background:var(--bg)}
+.ast .m{margin:4px 0;line-height:1.7}.ast .ar{display:flex;flex-wrap:wrap;gap:2px 12px;padding:6px 0;border-top:1px dashed var(--line)}.ast .rg{color:var(--muted)}.ast summary{cursor:pointer;color:var(--muted);margin-top:6px}
+input[readonly]{opacity:.7;cursor:not-allowed}
+.cb{position:relative}
+.cb input{padding-inline-end:38px}
+.cb-arrow{position:absolute;inset-block:1px;inset-inline-end:1px;width:36px;min-height:0;padding:0;border:0;background:transparent;color:var(--muted);border-radius:6px;font-size:14px;transition:transform .18s ease}
+.cb.open .cb-arrow{transform:rotate(180deg)}
+.cb-list{position:absolute;z-index:30;inset-inline:0;top:calc(100% + 4px);margin:0;padding:4px;list-style:none;max-height:224px;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px;opacity:0;visibility:hidden;transform:translateY(-4px);pointer-events:none;transition:opacity .16s ease,transform .16s ease,visibility 0s linear .16s;-webkit-overflow-scrolling:touch}
+.cb.open .cb-list{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition-delay:0s}
+.cb-list li{padding:8px 10px;border-radius:6px;cursor:pointer;font-size:14px;-webkit-tap-highlight-color:transparent}
+.cb-list li[hidden]{display:none}
+.cb-list li.act,.cb-list li:hover{background:var(--soft)}
+@media (prefers-reduced-motion:reduce){.cb-list,.cb-arrow{transition:none}}
+.ok{color:var(--ok)}.er{color:var(--er)}.wa{color:var(--wa)}.in{color:var(--muted)}
+</style>
+<style>body.bld #xd1,body.bld #xd2,body.bld #xd3,body.bld #pr4,body.bld #pr5,body.bld #asec,body.bld #lc1{display:none!important}</style><div class="wrap">
+  <h1>ساز پرامپت طراحی پلان</h1>
+  <p class="sub">مشخصات پروژه را وارد کنید؛ پرامپت کامل همان لحظه ساخته می‌شود. فیلد خالی با فرض منطقی پر می‌شود.</p>
+  <div class="grid">
+    <div class="card">
+      <h2>مشخصات پروژه</h2>
+      <div class="sec"><label for="pname">نام پروژه</label><input id="pname" type="text" placeholder="مثلاً ویلای شمال">
+        <select id="plist" aria-label="پروژه‌های ذخیره‌شده" style="margin-top:8px"></select>
+        <div class="btns" style="margin-top:8px"><button class="sec-btn" id="psave" type="button">ذخیره پروژه</button><button class="sec-btn" id="pdel" type="button">حذف پروژه</button><span id="msg2" role="status" style="color:var(--accent);font-size:13px;align-self:center"></span></div></div>
+      <div class="sec"><label for="type">نوع ساختمان</label><select id="type"><option>ویلایی</option><option>آپارتمان</option></select>
+<div id="unitW"><label for="unit">نوع واحد (تعداد سطح)</label><select id="unit"><option value="">فرض منطقی</option><option>معمولی (یک‌سطحی)</option><option>دوبلکس (دو سطحی)</option><option>تریبلکس (سه سطحی)</option></select><div id="unitHint" class="hint" hidden></div></div>
+<div id="aptB" hidden><div class="row"><div><label for="aptUn">نوع و تعداد واحد در هر طبقه</label><select id="aptUn"><option value="">فرض منطقی</option><option>1 (تک‌واحدی)</option><option>2 (چندواحدی)</option><option>3 (چندواحدی)</option><option>4 (چندواحدی)</option><option>5 (چندواحدی)</option><option>6 (چندواحدی)</option></select></div></div>
+<label for="aptFl">طبقه‌ای که نقشه‌اش جدا طراحی شود (اختیاری)</label><input id="aptFl" type="text" placeholder="مثلاً همکف، طبقه آخر یا پنت‌هاوس؛ خالی = طبقه تیپ">
+<div hidden><input id="aptLayout" type="hidden" value=""><input id="aptLv" type="text"><select id="aptPh"><option value=""></option></select><select id="aptPos"><option value=""></option></select><select id="aptBal"><option value=""></option></select><div id="aptBw"><select id="aptBW"><option value=""></option></select></div></div>
+        <div class="hint" id="aptNote"></div></div>
+</div>
+<div class="sec">
+<div class="row">
+<div><label for="len">طول زمین (متر)</label><input id="len" type="text" inputmode="decimal" placeholder="مثلاً ۲۰"></div>
+<div><label for="wid">عرض زمین (متر)</label><input id="wid" type="text" inputmode="decimal" placeholder="مثلاً ۱۲"></div>
+</div>
+<div id="occW"><div class="row"><div><label for="occMax">حداکثر سطح اشغال مجاز (٪) 🔒</label><input id="occMax" type="text" inputmode="decimal" value="60" readonly aria-readonly="true"></div><div><label for="occ">سطح اشغال انتخابی (٪)</label><input id="occ" type="text" inputmode="decimal" placeholder="برابر حداکثر"></div></div><div id="occS" class="ast" role="status" aria-live="polite" style="margin-bottom:8px"></div></div>
+</div>
+<div class="sec"><label for="area">سطح زیربنای کل (م²)، خودکار = سطح اشغال × طبقات</label><input id="area" type="text" inputmode="decimal" placeholder="پس از وارد کردن ابعاد زمین محاسبه می‌شود" readonly aria-readonly="true"><input id="fam" type="hidden"><input id="aman" type="hidden"><input id="asel" type="hidden"><input id="yman" type="hidden"><input id="oman" type="hidden"><input id="xsel" type="hidden"><input id="xman" type="hidden"><input id="budget" type="hidden"><input id="floors" type="hidden"><input id="beds" type="hidden"><input id="wcs" type="hidden"><input id="baths" type="hidden"></div>
+<div class="sec"><label>جانمایی فضاها در سطوح (اختیاری)</label>
+<div class="hint" id="lvHint"></div>
+<div id="lvPick" class="ast" hidden style="display:none">
+<div class="row">
+<div><label for="lvLiv">پذیرایی و نشیمن در کدام سطح؟</label><select id="lvLiv"><option value="">به تشخیص معمار</option><option value="1">سطح ۱</option><option value="2">سطح ۲</option><option value="3">سطح ۳</option></select></div>
+<div><label for="lvKit">آشپزخانه در کدام سطح؟</label><select id="lvKit"><option value="">به تشخیص معمار</option><option value="1">سطح ۱</option><option value="2">سطح ۲</option><option value="3">سطح ۳</option></select></div>
+</div>
+<div class="row">
+<div><label for="lvBed">اتاق‌خواب‌ها در کدام سطح؟</label><select id="lvBed"><option value="">به تشخیص معمار</option><option value="1">سطح ۱</option><option value="2">سطح ۲</option><option value="3">سطح ۳</option><option value="all">پراکنده در همه سطوح (طبق تعداد هر سطح)</option></select></div>
+<div><label for="lvWc">سرویس‌های عمومی در کدام سطح؟</label><select id="lvWc"><option value="">به تشخیص معمار</option><option value="1">سطح ۱</option><option value="2">سطح ۲</option><option value="3">سطح ۳</option><option value="all">در همه سطوح</option></select></div>
+</div>
+</div>
+<div id="bsx"><div class="ast" id="bsc0"><b>۱) نوع زیرزمین</b><div class="hint">داشتن یا نداشتن زیرزمین به عهده‌ی شماست. زیرزمین جدا از زیربنای طبقات بالای زمین حساب می‌شود و ضوابط مقررات ملی ساختمان (ارتفاع، نور و تهویه، رطوبت‌بندی، تأسیسات، حریق و خروج) خودکار به پرامپت اضافه می‌شود. اگر پارکینگ زیرزمینی انتخاب کرده باشید، فضاهای این بخش در همان سطح زیرزمین کنار پارکینگ قرار می‌گیرند.</div><div class="row"><div><label for="bsm">زیرزمین / تأسیسات</label><select id="bsm"><option value="">فرض منطقی (ندارد)</option><option>ندارد</option><option>زیرزمین کامل</option><option>نیم‌زیرزمین</option><option>فقط تأسیسات و انباری</option></select></div><div id="bsw" hidden><label for="bsc">مساحت نسبت به همکف</label><select id="bsc"><option value="100">۱۰۰٪ همکف</option><option value="75">۷۵٪ همکف</option><option value="50">۵۰٪ همکف</option></select></div></div></div><div class="ast" id="xd0" hidden><b>۲) فضاهای زیرزمین</b><div class="hint">هر فضایی را که می‌خواهید تیک بزنید؛ اندازه‌ی پیشنهادی خودکار پر می‌شود و ظرفیت زیرزمین (پس از کسر پله، آسانسور، راهرو، پارکینگ و رمپ) پر می‌شود. فضاهای مورد استفاده‌ی دائم (سینما، باشگاه و …) در حالت «فقط تأسیسات و انباری» قفل هستند.</div><div class="xbar" id="xbw0"><i id="xb0"></i></div><div id="xt0" class="hint xt"></div><details class="xd" id="xbd0"><summary>نحوه‌ی محاسبه‌ی ظرفیت زیرزمین</summary><div id="xbk0"></div></details><div id="xs0"></div></div></div>
+<div id="plc"></div><div id="fls" hidden></div><div id="ptot" class="hint"></div><div class="ast" id="xd1"><b>۱) فضاهای این سطح</b><div class="hint">هر فضایی را که برای این سطح می‌خواهید تیک بزنید (اتاق خواب، حمام، WC، پذیرایی، آشپزخانه دوم، سوئیت، اتاق کار و …)؛ اندازه‌ی هر فضا بلافاصله پیشنهاد می‌شود و با دکمه‌های اندازه یا عدد دستی قابل تغییر است. ورودی، هال و حداقل پذیرایی و آشپزخانه‌ی اصلی از ظرفیت این سطح خودکار کسر شده‌اند. اگر مجموع فضاها از ظرفیت بیشتر شود، سیستم خودکار اندازه‌ها و تعدادها را تنظیم می‌کند.</div><div class="xbar" id="xbw1"><i id="xb1"></i></div><div id="xt1" class="hint xt"></div><details class="xd" id="xbd1"><summary>نحوه‌ی محاسبه‌ی ظرفیت این سطح (پله، آسانسور، هال، راهرو)</summary><div id="xbk1"></div></details><div id="xs1"></div></div>
+<div class="ast" id="storBox"><label for="stor">انباری</label><select id="stor"><option value="">فرض منطقی</option><option>ندارد</option><option>دارد</option></select>
+        <div id="sw" hidden><div class="row"><div><label for="storN">تعداد انباری</label><select id="storN"></select></div><div><label for="storA">مساحت هر انباری</label><select id="storA"></select></div></div><label for="storL">محل انباری</label><select id="storL"><option value="">فرض منطقی</option><option>در پارکینگ</option><option>زیرزمین</option><option>همکف</option><option>حیاط</option><option>زیر پله</option><option>پشت‌بام</option></select></div></div>
+</div>
+<div class="sec" id="asec"><label>تفکیک مساحت فضاها (اختیاری)</label>
+        <div class="hint">بعد از جانمایی فضاها، مساحت‌ها خودکار در فیلدها نوشته می‌شود و تا ۷ پیشنهاد نمایش داده می‌شود؛ یکی را انتخاب کنید. هر فیلد را می‌توانید دستی تغییر دهید (عدد دستی ثابت می‌ماند) یا صفر بگذارید تا آن فضا حذف شود. مبنا «سطح زیربنای کل» است.</div>
+        <div class="row"><div><label for="aLiv">مساحت نشیمن و پذیرایی (م²)</label><input id="aLiv" type="text" inputmode="decimal" placeholder="خودکار"></div><div><label for="aKit">مساحت آشپزخانه (م²)</label><input id="aKit" type="text" inputmode="decimal" placeholder="خودکار"></div></div>
+        <div id="aBw" class="row"><div id="aBd1"><label for="aBed1">مساحت اتاق خواب ۱ (م²)</label><input id="aBed1" type="text" inputmode="decimal" placeholder="خودکار"></div><div id="aBd2"><label for="aBed2">مساحت اتاق خواب ۲ (م²)</label><input id="aBed2" type="text" inputmode="decimal" placeholder="خودکار"></div><div id="aBd3"><label for="aBed3">مساحت اتاق خواب ۳ (م²)</label><input id="aBed3" type="text" inputmode="decimal" placeholder="خودکار"></div><div id="aBd4"><label for="aBed4">مساحت اتاق خواب ۴ (م²)</label><input id="aBed4" type="text" inputmode="decimal" placeholder="خودکار"></div><div id="aBd5"><label for="aBed5">مساحت اتاق خواب ۵ (م²)</label><input id="aBed5" type="text" inputmode="decimal" placeholder="خودکار"></div><div id="aBd6"><label for="aBed6">مساحت اتاق خواب ۶ (م²)</label><input id="aBed6" type="text" inputmode="decimal" placeholder="خودکار"></div></div>
+        <div id="asug"></div>
+        <div id="astat" class="ast" role="status" aria-live="polite"></div>
+        <div class="btns"><button class="sec-btn" id="aclear" type="button">بازگشت به پیشنهاد خودکار</button></div>
+      </div>
+      <div class="sec"><label>محدودیت‌های طراحی</label>
+        <label for="shL">دیوار مشترک با همسایه: ضلع‌های طولی زمین</label><select id="shL"><option value="">ندارد</option><option>یک ضلع</option><option>دو ضلع</option></select><div id="shLsw" hidden><label for="shLs">کدام ضلع طولی مشترک است؟</label><select id="shLs"><option value="">به تشخیص معمار</option><option value="top"></option><option value="bottom"></option><option value="left"></option><option value="right"></option></select></div>
+        <label for="shW">دیوار مشترک با همسایه: ضلع‌های عرضی زمین</label><select id="shW"><option value="">ندارد</option><option>یک ضلع</option><option>دو ضلع</option></select><div id="shWsw" hidden><label for="shWs">کدام ضلع عرضی مشترک است؟</label><select id="shWs"><option value="">به تشخیص معمار</option><option value="top"></option><option value="bottom"></option><option value="left"></option><option value="right"></option></select></div>
+        <div style="font-size:12px;color:var(--muted);margin:4px 0 8px">ضلع طولی یعنی ضلع‌های بلندتر زمین و ضلع عرضی یعنی ضلع‌های کوتاه‌تر.</div>
+        <div id="chips" class="chips" hidden></div><input id="limits" type="hidden">
+        <label for="limNote">مورد دیگر (اختیاری)</label><textarea id="limNote" rows="2" placeholder="مثلاً همسایه در ضلع غربی، درخت قدیمی در حیاط"></textarea>
+        </div>
+<div class="sec" id="ysec"><label>حیاط، تراس و روف</label>
+<div class="hint">حیاط همکف از فضای باز زمین (مکمل سطح اشغال، حدود ۴۰٪) تأمین می‌شود و می‌تواند به هر کاربری غیر از زیربنای اصلی تبدیل شود. در دوبلکس و تریبلکس، تراس و باغچه‌ی هر طبقه از زیربنای همان طبقه کسر می‌شود و در تفکیک مساحت خودکار اعمال می‌شود؛ روف جزو زیربنا نیست. تراس و باغچه‌ی طبقات بالا، روف و فضاهای داخلی هر سطح در بخش «تفکیک هر سطح» (بالاتر) تنظیم می‌شود.</div>
+<label for="yardType">حیاط یا تراس در همکف (سطح ۱)</label>
+        <select id="yardType"><option value="">فرض منطقی</option><option>ندارد</option><option>حیاط</option><option>تراس</option><option>حیاط و تراس</option></select>
+        <div id="ysug" class="ast" hidden></div>
+        <div id="yw" hidden><div class="row"><div><label for="yardPos">موقعیت حیاط</label><select id="yardPos"><option value="">انتخاب کنید</option><option>جلویی</option><option>پشتی</option><option>جلویی و پشتی</option></select></div><div><label for="yardM">عمق حیاط (متر)</label><select id="yardM"></select></div></div></div>
+        <div id="tw" hidden><label for="terM">عرض تراس (متر)</label><select id="terM"></select></div>
+<div id="olv" hidden><div class="hint">فضای باز طبقات بالا (نوع را انتخاب کنید؛ مساحت پیشنهادی خودکار پر می‌شود و قابل تغییر است):</div><div id="or2" class="ast" hidden><b>سطح ۲</b><div class="row"><div><label for="ot2">نوع فضای باز</label><select id="ot2"><option value="">انتخاب کنید (بدون فضا)</option><option>ندارد</option><option>تراس</option><option>حیاط معلق (باغچه)</option></select></div><div><label for="oa2">مساحت (م²)</label><input id="oa2" type="text" inputmode="decimal" placeholder="خودکار"></div></div><div id="oh2" class="hint"></div><div class="ast" id="xd2"><b>۱) فضاهای این سطح</b><div class="hint">هر فضایی را که برای این سطح می‌خواهید تیک بزنید؛ اندازه‌ی هر فضا بلافاصله پیشنهاد می‌شود و با دکمه‌های اندازه یا عدد دستی قابل تغییر است. با هر تیک، ظرفیت این سطح پر می‌شود (ظرفیت پس از کسر خودکار پله، آسانسور، هال و راهرو حساب می‌شود)؛ وقتی پر شد بقیه‌ی گزینه‌ها قفل می‌شوند و باید یک فضا را بردارید، کوچک کنید یا به سطح دیگر منتقل کنید.</div><div class="xbar" id="xbw2"><i id="xb2"></i></div><div id="xt2" class="hint xt"></div><details class="xd" id="xbd2"><summary>نحوه‌ی محاسبه‌ی ظرفیت این سطح (پله، آسانسور، هال، راهرو)</summary><div id="xbk2"></div></details><div id="xs2"></div></div></div><div id="or3" class="ast" hidden><b>سطح ۳</b><div class="row"><div><label for="ot3">نوع فضای باز</label><select id="ot3"><option value="">انتخاب کنید (بدون فضا)</option><option>ندارد</option><option>تراس</option><option>حیاط معلق (باغچه)</option></select></div><div><label for="oa3">مساحت (م²)</label><input id="oa3" type="text" inputmode="decimal" placeholder="خودکار"></div></div><div id="oh3" class="hint"></div><div class="ast" id="xd3"><b>۱) فضاهای این سطح</b><div class="hint">هر فضایی را که برای این سطح می‌خواهید تیک بزنید؛ اندازه‌ی هر فضا بلافاصله پیشنهاد می‌شود و با دکمه‌های اندازه یا عدد دستی قابل تغییر است. با هر تیک، ظرفیت این سطح پر می‌شود (ظرفیت پس از کسر خودکار پله، آسانسور، هال و راهرو حساب می‌شود)؛ وقتی پر شد بقیه‌ی گزینه‌ها قفل می‌شوند و باید یک فضا را بردارید، کوچک کنید یا به سطح دیگر منتقل کنید.</div><div class="xbar" id="xbw3"><i id="xb3"></i></div><div id="xt3" class="hint xt"></div><details class="xd" id="xbd3"><summary>نحوه‌ی محاسبه‌ی ظرفیت این سطح (پله، آسانسور، هال، راهرو)</summary><div id="xbk3"></div></details><div id="xs3"></div></div></div><div id="or4" class="ast" hidden><b>سطح ۴</b><div class="row"><div><label for="ot4">نوع فضای باز</label><select id="ot4"><option value="">انتخاب کنید (بدون فضا)</option><option>ندارد</option><option>تراس</option><option>حیاط معلق (باغچه)</option></select></div><div><label for="oa4">مساحت (م²)</label><input id="oa4" type="text" inputmode="decimal" placeholder="خودکار"></div></div><div id="oh4" class="hint"></div></div><div id="or5" class="ast" hidden><b>سطح ۵</b><div class="row"><div><label for="ot5">نوع فضای باز</label><select id="ot5"><option value="">انتخاب کنید (بدون فضا)</option><option>ندارد</option><option>تراس</option><option>حیاط معلق (باغچه)</option></select></div><div><label for="oa5">مساحت (م²)</label><input id="oa5" type="text" inputmode="decimal" placeholder="خودکار"></div></div><div id="oh5" class="hint"></div></div><div id="or6" class="ast" hidden><b>روف (بام بالاترین سطح)</b><div class="row"><div><label for="ot6">نوع فضای باز</label><select id="ot6"><option value="">انتخاب کنید (بدون فضا)</option><option>ندارد</option><option>روف‌گاردن</option><option>نشیمن روباز بام</option></select></div><div><label for="oa6">مساحت (م²)</label><input id="oa6" type="text" inputmode="decimal" placeholder="خودکار"></div></div><div id="oh6" class="hint"></div></div></div><button class="sec-btn" id="oapply" type="button" hidden style="margin-top:8px">اعمال پیشنهاد انواع فضاها</button><div id="osum" class="hint"></div></div>
+<div class="sec"><label for="style">سبک معماری</label>
+<div class="cb" id="cbStyle"><input id="style" type="text" role="combobox" aria-expanded="false" aria-controls="styleList" aria-autocomplete="list" placeholder="از لیست انتخاب کنید یا هر سبکی بنویسید" autocomplete="off"><button type="button" class="cb-arrow" id="styleArrow" tabindex="-1" aria-label="باز و بسته کردن فهرست سبک‌ها">▾</button><ul class="cb-list" id="styleList" role="listbox" aria-label="سبک‌های معماری"><li role="option" tabindex="-1">مدرن</li><li role="option" tabindex="-1">مینیمال</li><li role="option" tabindex="-1">کلاسیک</li><li role="option" tabindex="-1">معاصر</li><li role="option" tabindex="-1">ایرانی سنتی</li><li role="option" tabindex="-1">ایرانی مدرن</li><li role="option" tabindex="-1">مدیترانه‌ای</li><li role="option" tabindex="-1">اسکاندیناوی</li><li role="option" tabindex="-1">ژاپنی</li><li role="option" tabindex="-1">توسکانی ایتالیایی</li><li role="option" tabindex="-1">اسپانیایی</li><li role="option" tabindex="-1">عربی اسلامی</li><li role="option" tabindex="-1">آمریکایی</li><li role="option" tabindex="-1">گرمسیری</li><li role="option" tabindex="-1">شمالی چوبی</li></ul></div></div>
+<div class="sec"><label for="kitchen">نوع آشپزخانه</label><select id="kitchen"><option value="">فرض منطقی</option><option>باز</option><option>بسته</option><option>جزیره‌دار</option></select></div>
+<div class="sec"><label>جهت، ورودی، پارکینگ و تأسیسات</label>
+        <div class="row">
+          <div><label for="north">جهت شمال در پلان</label>
+            <select id="north"><option value="">بالای نقشه</option><option>سمت راست نقشه</option><option>سمت چپ نقشه</option><option>پایین نقشه</option></select></div>
+          <div><label for="entry">ضلع ورودی اصلی</label>
+            <select id="entry"><option value="">فرض منطقی</option><option>ضلع شمالی</option><option>ضلع جنوبی</option><option>ضلع شرقی</option><option>ضلع غربی</option></select></div>
+        </div>
+        <label for="parking">پارکینگ</label>
+        <select id="parking"><option value="">فرض منطقی</option><option>ندارد</option><option>همکف (داخل بنا)</option><option>پیلوتی (همکف باز زیر ساختمان)</option><option>زیرزمین (زیر همکف)</option><option>داخل حیاط (روباز)</option><option>سرپوشیده در حیاط (اتاقک)</option></select>
+        <div id="vsNote" class="hint" hidden>در ویلای یک‌سطحی فقط پارکینگ داخل حیاط ممکن است؛ تعداد خودرو، مساحت پارکینگ، آسانسور و پیلوت غیرفعال است.</div>
+        <div id="pw" hidden><div class="row"><div><label for="parkN">تعداد خودرو</label><select id="parkN"></select></div><div id="plw" hidden><label for="parkLv">تعداد طبقات زیرزمین</label><select id="parkLv"></select></div></div>
+        <label for="parkA">مساحت پارکینگ</label><select id="parkA"></select>
+        <div id="prw" hidden><label for="parkRamp">نوع دسترسی به زیرزمین</label><select id="parkRamp"><option value="">فرض منطقی</option><option>رمپ مستقیم</option><option>رمپ منحنی (مارپیچ)</option><option>آسانسور خودرو (مکانیزه)</option></select></div></div>
+        <label for="elev">آسانسور</label><select id="elev"><option value="">فرض منطقی</option><option>ندارد</option><option>دارد</option></select>
+        <div id="ew" hidden><div class="row"><div><label for="elevN">تعداد اتاقک</label><select id="elevN"></select></div><div><label for="elevC">ظرفیت هر اتاقک</label><select id="elevC"><option value="">فرض منطقی</option><option value="4">4 نفره</option><option value="6">6 نفره</option><option value="8">8 نفره</option></select></div></div></div>
+        
+        <label for="pil">پیلوت</label><select id="pil"><option value="">فرض منطقی</option><option>ندارد</option><option>دارد</option></select>
+        <div id="piw" hidden><div class="row"><div><label for="pilU">کاربری پیلوت</label><select id="pilU"><option value="">فرض منطقی</option><option>پارکینگ</option><option>پارکینگ و ورودی</option><option>فضای باز و سبز</option><option>انباری و تأسیسات</option></select></div><div><label for="pilH">ارتفاع پیلوت</label><select id="pilH"></select></div></div></div>
+        
+        
+      </div>
+      <div id="errBox" class="ast" role="status" aria-live="polite"></div>
+      <div class="btns">
+        <button class="pri" id="gen" type="button">تولید پرامپت</button>
+        <button class="sec-btn" id="reset" type="button">پاک کردن فرم</button>
+      </div>
+    </div>
+    <div class="card out-box" id="box">
+      <div class="bar"><h2>پرامپت نهایی</h2><select id="lang" aria-label="زبان خروجی" style="width:auto"><option value="fa">فارسی</option><option value="en">English</option></select><span id="msg" role="status"></span></div>
+      <textarea id="out" readonly placeholder="پس از تکمیل فرم، دکمه «تولید پرامپت» را بزنید تا پرامپت اینجا ساخته شود"  aria-label="پرامپت نهایی"></textarea>
+      <div class="btns"><button class="pri" id="copy" type="button">کپی پرامپت</button><button class="pri" id="mk" type="button">ساخت پلان (تصویر)</button><select id="fsel" aria-label="طبقه" hidden style="width:auto"></select></div>
+      <div id="pst" role="status" style="font-size:13px;color:var(--accent);min-height:20px;margin-top:6px"></div>
+      <div id="pbox" hidden><div id="psvg" style="overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:8px"></div><div id="pwarn" style="font-size:12px;color:var(--muted);margin-top:6px"></div><div class="btns"><button class="sec-btn" id="dsvg" type="button">دانلود SVG</button><button class="sec-btn" id="dpng" type="button">دانلود PNG</button></div></div>
+    </div>
+  </div>
+</div>
+<script>
+document.documentElement.lang="fa";document.documentElement.dir="rtl";
+var IDS=["pname","lang","fl1","fl2","fl3","fl4","fl5","fam","area","budget","len","wid","floors","beds","wcs","baths","kitchen","type","style","north","entry","parking","parkN","parkLv","parkRamp","parkA","elev","elevN","elevC","stor","storN","storA","storL","pil","pilU","pilH","yardType","yardPos","yardM","terM","limits","limNote","shL","shW","shLs","shWs","unit","aptFl","aptUn","aptPh","aptBd","aptLv","aptPos","aptBal","aptBW","aptLayout","aLiv","aKit","aBed1","aBed2","aBed3","aBed4","aBed5","aBed6","aman","asel","yman","ot2","ot3","ot4","ot5","ot6","oa2","oa3","oa4","oa5","oa6","oman","occ","occMax","lvLiv","lvKit","lvBed","lvWc"].concat((function(){var a=[];for(var j=1;j<=5;j++)["b","e","w","h"].forEach(function(k){a.push("pf"+j+k)});return a})());
+
+var XS=[["bed","اتاق خواب","Bedroom",12,9,"bed","m"],["bath","حمام عمومی","Common bathroom",4.5,3,"bath","m"],["wc","WC عمومی","Common WC",2,1.2,"wc","m"],["liv","پذیرایی / نشیمن خانوادگی","Family lounge / reception",22,12,"living"],["kit","آشپزخانه (دوم / کیچنت)","Second kitchen / kitchenette",10,5.5,"kitchen"],["dine","غذاخوری","Dining room",14,9,"living"],["suite","سوئیت (اتاق خواب با سرویس و اتاق لباس)","Suite (bedroom with its own bath and dressing area)",30,20,"other"],["study","اتاق کار / دفتر","Study / home office",10,6,"other"],["guest","اتاق مهمان","Guest room",12,9,"other"],["cinema","سینمای خانگی","Home cinema",18,12,"other"],["gym","باشگاه / اتاق ورزش","Home gym",14,9,"other"],["lib","کتابخانه / اتاق مطالعه","Library / reading room",12,7,"other"],["play","اتاق بازی / چندمنظوره","Game / multipurpose room",14,9,"other"],["studio","استودیو / اتاق هنر","Studio / hobby room",14,8,"other"],["spa","سونا / جکوزی / اسپا","Sauna / jacuzzi / spa",10,6,"other"],["bar","بار خانگی / کافه‌نشین","Home bar / cafe nook",8,5,"other"],["dress","اتاق لباس (Walk-in)","Walk-in closet",6,3.5,"other"],["laundry","رختشویخانه / لاندری","Laundry room",5,3,"other"],["prayer","نمازخانه","Prayer room",6,3,"other"],["smart","اتاق تأسیسات و خانه هوشمند","Utility / smart-home room",4,2,"other"]];
+var BS=[["util","اتاق تأسیسات / موتورخانه","Utility / mechanical room",8,4,"other",0,0],["pump","منبع آب و اتاق پمپ","Water tank and pump room",5,3,"other",0,0],["stor","انباری","Storage room",8,3,"storage",0,0],["cellar","انبار مواد غذایی / سردخانه","Food store / cold room",6,3,"storage",0,0],["laundry","رختشویخانه / لاندری","Laundry room",6,3,"other",0,0],["wc","سرویس بهداشتی زیرزمین","Basement WC",2.5,1.35,"wc",0,0],["safe","اتاق امن / پناهگاه","Safe room / shelter",8,6,"other",0,0],["cinema","سینمای خانگی","Home cinema",20,12,"other",0,1],["gym","باشگاه / اتاق ورزش","Home gym",16,9,"other",0,1],["spa","سونا / جکوزی / استخر کوچک","Sauna / jacuzzi / small pool",16,8,"other",0,1],["work","کارگاه / ورک‌شاپ","Workshop",14,8,"other",0,1],["game","اتاق بازی / چندمنظوره","Game / multipurpose room",18,9,"other",0,1],["lib","کتابخانه / آرشیو","Library / archive",12,7,"other",0,1],["bar","بار خانگی / فضای پذیرایی زیرزمین","Home bar / basement lounge",14,8,"other",0,1]];
+function xCat(j){return j==0?BS:XS}
+(function(){var P="۰۱۲۳۴۵۶۷۸۹",opt=function(a,b){var h="";for(var n=a;n<=b;n++)h+='<option value="'+n+'">'+P.charAt(n)+'</option>';return h};
+[0,1,2,3].forEach(function(j){var box=document.getElementById("xs"+j),h="";xCat(j).forEach(function(x){var id=j+"_"+x[0],m=x[6]=="m";
+h+='<div class="xr" id="xrw'+id+'"><label class="xl" for="xc'+id+'"><input type="checkbox" class="xc" id="xc'+id+'" data-id="'+id+'"><span>'+x[1]+'</span></label>'+
+(m?'<span class="xv" id="xv'+id+'"></span><div class="xq" id="xqw'+id+'" hidden><label for="xq'+id+'">تعداد</label><select id="xq'+id+'">'+opt(1,6)+'</select>'+(x[0]=="bed"?'<label for="xe'+j+'">دارای حمام اختصاصی</label><select id="xe'+j+'">'+opt(0,6)+'</select>':'')+'</div>':
+'<input class="xa" id="xa'+id+'" type="text" inputmode="decimal" placeholder="خودکار" aria-label="مساحت '+x[1]+' (م²)" disabled>')+
+'<div class="hint" id="xh'+id+'"></div><div class="xch" id="xch'+id+'"></div><button type="button" class="sec-btn xmv" id="xmv'+id+'" data-id="'+id+'" hidden></button></div>';
+if(m){IDS.push("xq"+id);if(x[0]=="bed")IDS.push("xe"+j)}else IDS.push("xa"+id)});box.innerHTML=h});IDS.push("xsel","xman","bsm","bsc")})();
+var $=function(i){return document.getElementById(i)};
+var FB="",EN={"دوبلکس (دو سطحی)":"Duplex (two levels)","تریبلکس (سه سطحی)":"Triplex (three levels)","معمولی (یک‌سطحی)":"Standard (single level)","طبقه بالا":"Upper floor","باز":"Open","بسته":"Closed","جزیره‌دار":"With island","مسکونی":"Residential","ویلایی":"Villa","آپارتمان":"Apartment","آپارتمانی":"Apartment","مدرن":"Modern","مینیمال":"Minimalist","کلاسیک":"Classic","معاصر":"Contemporary","همکف (داخل بنا)":"Ground floor (inside the building)","پیلوتی (همکف باز زیر ساختمان)":"Pilotis (open ground level under the building)","زیرزمین (زیر همکف)":"Underground (below the ground floor)","داخل حیاط (روباز)":"Open-air in the yard","سرپوشیده در حیاط (اتاقک)":"Covered carport in the yard","رمپ مستقیم":"Straight ramp","رمپ منحنی (مارپیچ)":"Curved (spiral) ramp","آسانسور خودرو (مکانیزه)":"Car lift (mechanical)","در پارکینگ":"In the parking area","زیرزمین":"Basement","همکف":"Ground floor","حیاط":"Yard","زیر پله":"Under the stairs","پشت‌بام":"Rooftop","پارکینگ":"Parking","پارکینگ و ورودی":"Parking and entrances","فضای باز و سبز":"Open and green space","انباری و تأسیسات":"Storage and utilities","جلویی":"Front","پشتی":"Rear","جلویی و پشتی":"Front and rear","ایرانی سنتی":"Traditional Iranian (Persian courtyard house)","ایرانی مدرن":"Modern Iranian (neo-traditional)","مدیترانه‌ای":"Mediterranean","اسکاندیناوی":"Scandinavian","ژاپنی":"Japanese","توسکانی ایتالیایی":"Tuscan Italian","اسپانیایی":"Spanish","عربی اسلامی":"Arab-Islamic","آمریکایی":"American","گرمسیری":"Tropical","شمالی چوبی":"Nordic timber","سمت راست نقشه":"Right side of the sheet","سمت چپ نقشه":"Left side of the sheet","پایین نقشه":"Bottom of the sheet","ضلع شمالی":"North side","ضلع جنوبی":"South side","ضلع شرقی":"East side","ضلع غربی":"West side","دارد":"Yes","ندارد":"No","اقتصادی":"Economy","متوسط":"Mid-range","لوکس":"Luxury"};
+function isEn(){return $("lang").value=="en"}
+function nf(){if(isBld())return 1;var s=$("floors").value.replace(/[۰-۹]/g,function(d){return "۰۱۲۳۴۵۶۷۸۹".indexOf(d)});var k=parseInt(s,10);k=Math.max(k>1?k:1,unitLv());return Math.min(k,5)}
+function g(i,f){var s=$(i).value.trim();return s?(isEn()&&EN[s]||s):(f||FB)}
+function buildFa(){
+var land=($("len").value.trim()&&$("wid").value.trim())?($("len").value.trim()+" × "+$("wid").value.trim()):FB;
+return "MASTER PROMPT — PROFESSIONAL RESIDENTIAL FLOOR PLAN DESIGN\n\n"+
+"تو یک معمار حرفه‌ای، متخصص طراحی پلان مسکونی، بهینه‌سازی فضا، طراحی داخلی و نقشه‌کشی فنی معماری هستی.\n\n"+
+"وظیفه تو طراحی یک پلان معماری دقیق، کاربردی، زیبا و اصولی برای "+(isBld()?"یک ساختمان آپارتمانی مسکونی":"یک خانه مسکونی")+" است.\n\n"+
+"طراحی باید بر اساس ابعاد ورودی انجام شود و تمامی فضاها، دیوارها، بازشوها، مسیرهای حرکتی و ارتباطات فضایی با منطق معماری هماهنگ باشند.\n\n"+
+"1. مشخصات پروژه\n\n"+
+"- ابعاد زمین یا محدوده طراحی: "+land+" (طول × عرض؛ طول در راستای افقی نقشه)\n"+
+"- واحد اندازه‌گیری: متر\n"+
+"- تعداد طبقات: "+floorsVal()+"\n"+
+"- تعداد اتاق خواب: "+g("beds")+"\n"+
+"- تعداد سرویس بهداشتی: "+g("wcs")+"\n"+
+"- تعداد حمام: "+g("baths")+"\n"+"- نوع واحد: "+(isBld()?aptKind(false):g("unit"))+"\n"+"- متراژ هدف بنا (مترمربع): "+g("area")+areaLines()+"\n"+
+"- آشپزخانه: "+g("kitchen")+"\n"+
+"- نوع ساختمان: "+g("type")+"\n"+
+"- سبک معماری: "+g("style")+"\n"+
+"- جهت شمال: "+g("north","بالای نقشه")+"\n"+
+"- محل ورودی اصلی: "+entryTxt()+"\n"+
+"- محل پارکینگ: "+parkTxt()+"\n- آسانسور: "+elevTxt()+"\n- انباری: "+storTxt()+"\n- پیلوت: "+pilTxt()+"\n"+
+"- فضای حیاط یا تراس: "+yardTxt()+"\n"+
+"- محدودیت‌های طراحی: "+limTxt()+"\n\n"+
+"در صورت خالی بودن یا مشخص نبودن هر یک از مشخصات، از یک فرض منطقی و استاندارد استفاده کن و آن را در توضیحات اعلام کن.\n\n"+
+floorsFa()+parkFa()+rulesTxt()+secUnit()+secArea()+secPlc()+"2. اصول طراحی معماری\n\n"+
+"پلان باید بر اساس اصول زیر طراحی شود:\n\n"+
+"1. استفاده حداکثری و هوشمندانه از فضای مفید.\n2. جلوگیری از ایجاد فضاهای پرت، راهروهای طولانی و غیرضروری.\n3. ایجاد ارتباط منطقی بین فضاهای عمومی، خصوصی و خدماتی.\n4. جانمایی مناسب اتاق خواب‌ها با حفظ حریم خصوصی.\n5. طراحی ورودی خانه با حفظ حریم فضای داخلی.\n6. ارتباط مناسب آشپزخانه با فضای غذاخوری و نشیمن.\n7. رعایت ابعاد مناسب برای مبلمان و تجهیزات داخلی.\n8. تأمین نور طبیعی و تهویه مناسب برای فضاها.\n9. جانمایی اصولی پنجره‌ها، درها و مسیرهای حرکتی.\n10. رعایت تناسبات هندسی و امکان اجرای واقعی ساختمان.\n\n"+
+"در طراحی، اولویت با عملکرد، آسایش، زیبایی و قابلیت اجرای واقعی است.\n\n"+
+"3. جانمایی فضاها\n\n"+
+"تمام فضاها باید با توجه به ابعاد موجود جانمایی شوند.\n\n"+
+"فضاهای مورد نیاز شامل موارد زیر هستند:\n\n"+
+"- ورودی و فضای تقسیم\n- نشیمن و پذیرایی\n- آشپزخانه\n- فضای غذاخوری\n- اتاق خواب اصلی\n- اتاق خواب‌های فرعی\n- حمام و سرویس بهداشتی\n- کمدها و فضاهای ذخیره‌سازی\n- راهروها و مسیرهای ارتباطی\n- تراس، بالکن یا حیاط در صورت نیاز\n\n"+
+"فضاها را به گونه‌ای سازمان‌دهی کن که رفت‌وآمد بین آن‌ها کوتاه، منطقی و بدون تداخل باشد.\n\n"+
+"در صورت امکان، سرویس‌ها و فضاهای تأسیساتی را نزدیک یکدیگر قرار بده تا اجرای تأسیسات ساده‌تر شود.\n\n"+
+"4. ابعاد و تناسبات\n\n"+
+"تمام فضاها باید دارای ابعاد واقعی و قابل استفاده باشند.\n\n"+
+"برای هر فضا موارد زیر را مشخص کن:\n\n"+
+"- طول\n- عرض\n- مساحت مفید\n- محل درها و پنجره‌ها\n- محل مبلمان و تجهیزات\n- ارتباط با فضاهای مجاور\n\n"+
+"ابعاد باید با مبلمان واقعی و مسیرهای حرکتی هماهنگ باشند.\n\n"+
+"از طراحی اتاق‌های غیرقابل استفاده، راهروهای بسیار باریک، درهای برخوردکننده با مبلمان و چیدمان‌های غیرعملی خودداری کن.\n\n"+
+"5. دیوارها و بازشوها\n\n"+
+"ضخامت دیوارها را متناسب با نوع ساختمان و سیستم سازه‌ای در نظر بگیر.\n\n"+
+"ضخامت دیوارهای داخلی و خارجی باید در نقشه مشخص باشد.\n\n"+
+"محل بازشوها را به صورت دقیق مشخص کن:\n\n"+
+"- در ورودی\n- در اتاق‌ها\n- در حمام و سرویس\n- پنجره‌های خارجی\n- پنجره‌های آشپزخانه\n- بازشوهای نورگیر\n\n"+
+"جهت باز شدن درها باید منطقی باشد و با مبلمان یا مسیرهای حرکتی تداخل نداشته باشد.\n\n"+
+"6. خروجی نقشه\n\n"+
+"پس از تحلیل ابعاد و طراحی پلان، خروجی را در سه بخش ارائه کن.\n\n"+
+"بخش اول: پلان معماری دوبعدی\n\n"+
+"یک نقشه معماری دقیق و حرفه‌ای از نمای بالا (Top View) تولید کن.\n\n"+
+"ویژگی‌های نقشه:\n\n"+
+"- نمای کاملاً عمودی و بدون پرسپکتیو\n- نمایش دقیق دیوارها و تیغه‌ها\n- نمایش درها با قوس بازشو\n- نمایش پنجره‌ها\n- نمایش مبلمان و تجهیزات\n- نمایش ابعاد کلی ساختمان\n- نمایش ابعاد داخلی فضاها\n- نمایش نام فارسی فضاها\n- نمایش مساحت هر فضا\n- نمایش جهت شمال\n- نمایش ورودی اصلی\n- نمایش مقیاس نقشه\n\n"+
+"نقشه باید دارای سبک Technical Architectural Floor Plan باشد.\n\n"+
+"از رنگ‌بندی ملایم، خطوط تمیز و گرافیک حرفه‌ای استفاده کن.\n\n"+
+"نقشه باید خوانا، منظم، متناسب و قابل بررسی توسط یک معمار باشد.\n\n"+
+"بخش دوم: جدول فضاها\n\n"+
+"یک جدول شامل موارد زیر ارائه کن:\n\n"+
+"نام فضا | طول | عرض | مساحت | توضیحات\n\n"+
+"مساحت‌ها را به مترمربع محاسبه کن.\n\n"+
+"مساحت مفید فضاها را از مساحت کل ساختمان تفکیک کن.\n\n"+
+"بخش سوم: تحلیل معماری\n\n"+
+"توضیح بده:\n\n"+
+"- چرا فضاها در این موقعیت قرار گرفته‌اند؟\n- مسیر حرکتی افراد چگونه است؟\n- نور طبیعی از کدام جهت تأمین می‌شود؟\n- حریم خصوصی چگونه حفظ شده است؟\n- چه نقاط قوتی در پلان وجود دارد؟\n- چه محدودیت‌هایی در طراحی وجود دارد؟\n\n"+
+"7. کنترل کیفیت نهایی\n\n"+
+"پیش از ارائه پلان، تمام موارد زیر را بررسی کن:\n\n"+
+"- آیا مجموع ابعاد فضاها با ابعاد کلی ساختمان سازگار است؟\n- آیا دیوارها و فضاها با یکدیگر تداخل ندارند؟\n- آیا ابعاد اتاق‌ها برای استفاده واقعی مناسب هستند؟\n- آیا درها و پنجره‌ها در موقعیت صحیح قرار دارند؟\n- آیا مبلمان با ابعاد اتاق‌ها هماهنگ است؟\n- آیا مسیرهای حرکتی قابل استفاده هستند؟\n- آیا فضای پرت غیرضروری ایجاد شده است؟\n- آیا پلان از نظر هندسی قابل ترسیم و اجرا است؟\n\n"+
+"در صورت وجود تناقض، قبل از ارائه خروجی، طراحی را اصلاح کن.\n\n"+
+"8. دستور نهایی\n\n"+
+"ابتدا ابعاد و محدودیت‌های پروژه را تحلیل کن.\n\n"+
+"سپس یک پلان معماری بهینه طراحی کن.\n\n"+
+"از ارائه پلان‌های غیرواقعی، مبلمان غیرمتناسب، فضاهای بدون دسترسی و ابعاد تخمینی نامنظم خودداری کن.\n\n"+
+"اگر ابعاد ورودی تغییر کرد، طراحی را از ابتدا بر اساس ابعاد جدید بهینه‌سازی کن.\n\n"+
+"هدف نهایی، ارائه یک پلان معماری حرفه‌ای، کاربردی، زیبا، دقیق و قابل تبدیل به نقشه اجرایی است.\n\n"+
+"توجه: نقشه تولیدشده یک طرح مفهومی معماری است و پیش از اجرا باید توسط معمار و مهندس سازه، بر اساس ضوابط محلی، بررسی و تأیید شود.";
+}
+function floorList(){var k=nf(),a=[];for(var j=1;j<=k;j++)a.push("- "+(isEn()?"Floor ":"طبقه ")+j+": "+g("fl"+j,isEn()?"to be decided by the architect":"به تشخیص معمار"));return a.join("\n")}
+function floorsFa(){var k=nf();return k<2?"":"1-1. توزیع طبقات\n\nساختمان "+k+" طبقه است. برای هر طبقه یک پلان جداگانه ارائه کن، پله را در همه طبقات در یک موقعیت یکسان و منطقی قرار بده و سرویس‌ها را در راستای هم بچین. کاربری هر طبقه:\n\n"+floorList()+"\n\n"}
+function floorsEn(){var k=nf();return k<2?"":"\n1.1 Floor distribution\n\nThe building has "+k+" floors. Provide a separate plan for each floor, keep the staircase in the same logical position on every floor and stack the wet areas. Use of each floor:\n\n"+floorList()+"\n"}
+function build(){FB=isEn()?"Not specified (use a reasonable assumption)":"مشخص نشده (فرض منطقی)";return isEn()?buildEn():buildFa()}
+function buildEn(){
+var L=($("len").value.trim()&&$("wid").value.trim())?($("len").value.trim()+" × "+$("wid").value.trim()):FB;
+return `MASTER PROMPT — PROFESSIONAL RESIDENTIAL FLOOR PLAN DESIGN
+
+You are a professional architect specializing in residential floor plans, space optimization, interior design and technical architectural drafting.
+
+Design an accurate, practical, beautiful and well-reasoned floor plan for ${isBld()?"a residential apartment building":"a residential house"}. The design must be driven by the input dimensions; all spaces, walls, openings, circulation paths and spatial relationships must be coherent.
+
+1. Project specifications
+
+- Site or design boundary: ${L} (length × width; length runs horizontally on the sheet)
+- Unit: meters
+- Floors: ${floorsVal()}
+- Bedrooms: ${g("beds")}
+- WCs: ${g("wcs")}
+- Bathrooms: ${g("baths")}
+- Unit type: ${isBld()?aptKind(true):g("unit")}
+- Target built area (m²): ${g("area")}${areaLines()}
+- Kitchen: ${g("kitchen")}
+- Building type: ${g("type")}
+- Architectural style: ${g("style")}
+- North direction: ${g("north","Top of the sheet")}
+- Main entrance: ${entryTxt()}
+- Parking: ${parkTxt()}
+- Elevator: ${elevTxt()}
+- Storage rooms: ${storTxt()}
+- Pilotis: ${pilTxt()}
+- Yard or terrace: ${yardTxt()}
+- Design constraints: ${limTxt()}
+
+If any item is unspecified, use a reasonable standard assumption and state it in your explanation.
+${floorsEn()}${parkEn()}${rulesTxt()}${secUnit()}${secArea()}${secPlc()}
+2. Architectural principles
+
+1. Make maximum, intelligent use of usable space.
+2. Avoid leftover spaces and long or unnecessary corridors.
+3. Create logical links between public, private and service zones.
+4. Place bedrooms to preserve privacy.
+5. Design the entrance to protect interior privacy.
+6. Connect the kitchen well with the dining and living areas.
+7. Respect real furniture and equipment dimensions.
+8. Provide natural light and ventilation for all spaces.
+9. Place windows, doors and circulation paths properly.
+10. Keep geometric proportions and real constructability.
+
+Priority: function, comfort, beauty and real buildability.
+
+3. Space layout
+
+Place all spaces within the available dimensions: entrance and lobby; living and reception; kitchen; dining; master bedroom; secondary bedrooms; bathrooms and WCs; closets and storage; corridors; terrace, balcony or yard if needed. Keep movement between spaces short, logical and conflict-free. Group wet areas and services together to simplify plumbing.
+
+4. Dimensions and proportions
+
+Every space must have real, usable dimensions. For each space give: length, width, usable area, door and window positions, furniture and equipment positions, and adjacency. Dimensions must suit real furniture and circulation. Avoid unusable rooms, very narrow corridors, doors clashing with furniture and impractical layouts.
+
+5. Walls and openings
+
+Choose wall thickness to suit the building type and structural system, and show interior and exterior thicknesses on the plan. Locate exactly: entrance door, room doors, bathroom and WC doors, exterior windows, kitchen windows, skylights and light wells. Door swings must be logical and must not clash with furniture or circulation.
+
+6. Output (three parts)
+
+Part 1: 2D architectural floor plan. A precise, professional top view, strictly orthographic (no perspective), showing walls and partitions, doors with swing arcs, windows, furniture and equipment, overall and interior dimensions, space names in Persian, area of each space, north arrow, main entrance and scale. Style: Technical Architectural Floor Plan with soft colors, clean lines and professional graphics; readable and reviewable by an architect.
+
+Part 2: Space table. Columns: Space | Length | Width | Area | Notes. Areas in m²; separate usable area from total built area.
+
+Part 3: Architectural analysis. Explain why spaces are placed where they are, the circulation of people, where natural light comes from, how privacy is kept, the strengths of the plan and the design limitations.
+
+7. Final quality check
+
+Before presenting, verify: the sum of space dimensions matches the overall dimensions; walls and spaces do not overlap; room sizes suit real use; doors and windows are correctly placed; furniture fits the rooms; circulation paths are usable; no unnecessary leftover space; the plan is geometrically drawable and buildable. If any contradiction exists, fix the design before output.
+
+8. Final instruction
+
+Analyze the dimensions and constraints first, then design an optimized plan. Avoid unrealistic plans, disproportionate furniture, inaccessible spaces and irregular estimated dimensions. If the input dimensions change, redesign from scratch. The goal is a professional, practical, beautiful and accurate plan that can be turned into construction drawings.
+
+Note: This is a conceptual architectural design and must be reviewed and approved by a licensed architect and structural engineer under local regulations.`}
+var LIMS=[["زمین گوشه (دو بر)","Corner plot (two street frontages)"],["شیب یا اختلاف سطح زمین","Sloped site or level difference"],["پارکینگ دو ماشین","Parking for two cars"],["درخت یا عنصر ثابت در زمین","Existing tree or fixed element on site"],["اتاق مهمان","Guest room"],["اتاق کار یا دفتر","Home office or study"],["انباری","Storage room"],["دسترسی بدون پله (سالمند یا معلول)","Step-free access (elderly or disabled)"],["حداکثر نور جنوبی","Maximize south light"],["حفظ حریم از کوچه","Privacy from the street"]];
+function shareArr(){var en=isEn(),r=[],L=$("shL").value,W=$("shW").value,si=sharedInfo(),nm=function(A){return A.s.length?" ("+A.s.map(function(s){return sideNameL(s,en)}).join(en?", ":"، ")+")":""};if(L)r.push(en?"Shared wall with neighbors on "+(L=="دو ضلع"?"both long sides":"one long side")+nm(si.A)+" of the plot; no windows on shared walls":"دیوار مشترک با همسایه در "+L+" طولی زمین"+nm(si.A)+"؛ بدون پنجره در دیوار مشترک");if(W)r.push(en?"Shared wall with neighbors on "+(W=="دو ضلع"?"both short sides":"one short side")+nm(si.B)+" of the plot; no windows on shared walls":"دیوار مشترک با همسایه در "+W+" عرضی زمین"+nm(si.B)+"؛ بدون پنجره در دیوار مشترک");return r}
+function limArr(){var v=$("limits").value;return v?v.split("|"):[]}
+function syncChips(){var a=limArr(),b=$("chips").children;for(var i=0;i<b.length;i++)b[i].setAttribute("aria-pressed",a.indexOf(LIMS[i][0])>-1)}
+function limTxt(){var en=isEn(),n=$("limNote").value.trim(),a=limArr().map(function(x){for(var i=0;i<LIMS.length;i++)if(LIMS[i][0]==x)return en?LIMS[i][1]:x;return x});if(n)a.push(n);a=shareArr().concat(a);return a.length?a.join(en?"; ":"؛ "):(en?"None":"ندارد")}
+/* ---- قوانین ساخت‌وساز (مقررات ملی ساختمان): اعمال خودکار بر اساس انتخاب‌ها ---- */
+var ELEV={"4":{kg:320,cab:[90,100],shaft:[140,160],door:"70-80"},"6":{kg:450,cab:[110,110],shaft:[160,170],door:"80"},"8":{kg:630,cab:[110,140],shaft:[160,190],door:"80-90"}};
+function dig(s){return String(s||"").replace(/[۰-۹]/g,function(d){return "۰۱۲۳۴۵۶۷۸۹".indexOf(d)}).replace(/[٠-٩]/g,function(d){return "٠١٢٣٤٥٦٧٨٩".indexOf(d)})}
+function pd(s){return s.replace(/(\d)\.(\d)/g,"$1٫$2").replace(/\d/g,function(d){return "۰۱۲۳۴۵۶۷۸۹".charAt(+d)})}
+function T(fa,en){return isEn()?en:pd(fa)}
+function hasUG(){return $("parking").value.indexOf("زیرزمین")>-1}
+function elevOn(){var t=$("elev").value;return t=="دارد"||(!t&&bldFl()>=4)}
+function wheelOn(){return limArr().indexOf(LIMS[7][0])>-1}
+function baseRules(){
+var A=parseFloat(dig($("area").value)),sm=A>0&&A<75,r=[];
+r.push(T(sm?"حداقل یک اتاق اقامت با مساحت 9 مترمربع و پهنای 2.5 متر؛ سایر اتاق‌ها با پهنای حداقل 2.4 متر":"حداقل یکی از اتاق‌ها (اتاق خواب اصلی) با مساحت 12 مترمربع و پهنای 2.7 متر؛ سایر اتاق‌ها با پهنای حداقل 2.4 متر",sm?"At least one habitable room of 9 m² and 2.5 m wide; all other rooms at least 2.4 m wide":"At least one habitable room (master bedroom) of 12 m² and 2.7 m wide; all other rooms at least 2.4 m wide"));
+r.push(T("ارتفاع مفید فضاهای اقامت حداقل 2.4 متر؛ در اتاق‌های 12 مترمربع و بزرگ‌تر حداقل 2.6 متر در بیش از 50 درصد سطح و در نشیمن یا سالن در بیش از 75 درصد سطح","Clear height of habitable rooms at least 2.4 m; in rooms of 12 m² or more at least 2.6 m over more than 50 percent of the area, and in the living room or hall over more than 75 percent"));
+r.push(T("آشپزخانه حداقل 5.5 مترمربع با پهنای حداقل 1.8 متر و سطح آزاد حداقل 2.75 مترمربع خارج از قفسه‌بندی؛ در چیدمان دیواری طول حداقل 3 متر؛ دارای بازشوی نورگیر و تخلیه هوا به فضای باز","Kitchen at least 5.5 m² and at least 1.8 m wide, with at least 2.75 m² of free floor area outside the cabinets; a wall-type layout at least 3 m long; with a window to the outdoors and air exhaust"));
+r.push(T("سرویس بهداشتی مستقل حداقل 1.0 × 1.2 متر (ترجیحاً حدود 1.0 × 1.5)؛ ارتفاع حداقل 2.2 متر؛ در واحدهای بزرگ‌تر از 75 مترمربع یا دارای بیش از یک اتاق، تنها سرویس بهداشتی نباید مستقیم از اتاق خواب باز شود","Independent WC at least 1.0 × 1.2 m (preferably about 1.0 × 1.5); height at least 2.2 m; in units over 75 m² or with more than one room, the only WC must not open directly from a bedroom"));
+r.push(T("درب اتاق‌های اقامت حداقل 0.8 متر عرض مفید و 2.05 متر ارتفاع مفید","Doors of habitable rooms at least 0.8 m clear width and 2.05 m clear height"));
+r.push(T("هر اتاق اقامت و آشپزخانه حداقل یک بازشوی نورگیر رو به فضای باز داشته باشد؛ مساحت بازشوی نورگیر اتاق‌ها حداقل 6 درصد (طراحی با حدود 10 درصد) و آشپزخانه حداقل 3 درصد مساحت کف","Each habitable room and the kitchen must have at least one daylight opening to the outdoors; glazed opening area at least 6 percent of floor area for rooms (design for about 10 percent) and at least 3 percent for the kitchen"));
+return r}
+function stairRules(){
+var k=nf(),r=[];
+r.push(T("عرض راهروهای مستقیم حداقل 0.9 متر (برای راحتی 1.0 تا 1.2 متر)","Straight corridors at least 0.9 m wide (1.0 to 1.2 m for comfort)"));
+if(k>=2||hasUG()){
+var nR=Math.ceil(320/17),fl=Math.ceil(nR/2),ln=((fl-1)*0.28+1.1).toFixed(1),wd=(2*1.1+0.1).toFixed(1);
+r.push(T("پله: عرض مفید حداقل 1.1 متر (حداقل 0.9 متر فقط برای پله مستقیم در خانه کم‌طبقه)؛ ارتفاع هر پله حداکثر 18 سانتی‌متر؛ عمق کف پله حدود 26 تا 30 سانتی‌متر (دو برابر ارتفاع + کف پله ≈ 60 تا 64)؛ ارتفاع آزاد بالای پله و پاگرد حداقل 2.05 متر؛ پاگرد هم‌عرض پله؛ ارتفاع نرده حداقل 0.9 متر","Stairs: clear width at least 1.1 m (0.9 m only for a straight flight in a low-rise house); riser at most 18 cm; tread about 26 to 30 cm (2 × riser + tread ≈ 60 to 64 cm); headroom over stairs and landings at least 2.05 m; landing as wide as the stair; guard height at least 0.9 m"));
+r.push(T("برآورد برای ارتفاع طبقه حدود 3.2 متر: حدود "+nR+" پله با ارتفاع 17 سانتی‌متر و عمق 28 سانتی‌متر؛ پله دوبازو با پاگرد حدود "+wd+" × "+ln+" متر فضا می‌خواهد و پله مستقیم حدود 5 متر طول افقی؛ جانمایی پله را با همین فضا هماهنگ کن","Estimate for a floor height of about 3.2 m: about "+nR+" risers of 17 cm with 28 cm treads; a two-flight stair with landing needs about "+wd+" × "+ln+" m, a straight stair about 5 m of horizontal run; place the stair consistently with this footprint"))}
+if(k>=3)r.push(T("چون ساختمان 3 طبقه یا بیشتر از تراز زمین دارد، حداقل یک پلکان باید تا بام امتداد یابد","Because the building has 3 or more floors above ground, at least one stair must continue up to the roof"));
+return r}
+function elevRules(){
+var r=[],t=$("elev").value,k=bldFl();
+if(t=="ندارد"&&k>=4)r.push(T("طول مسیر قائم از تراز ورودی بیش از 7 متر می‌شود و طبق مبحث 15 نصب آسانسور الزامی است؛ این مغایرت را در تحلیل اعلام کن و دست‌کم فضای چاه آسانسور را پیش‌بینی کن","The vertical travel from the entrance level exceeds 7 m, so an elevator is mandatory under part 15 of the Iranian national building code; flag this conflict in the analysis and at least reserve the shaft space"));
+if(!elevOn())return r;
+var c=$("elevC").value||"6",asm=!$("elevC").value,wh=wheelOn(),lab=c,e=ELEV[c];
+if(wh&&c!="8"){e=ELEV["8"];lab="8"}
+var N=$("elevN").value||"1",cw=e.cab[0],cd=e.cab[1];
+if(!t&&k>=4)r.push(T("آسانسور انتخاب نشده بود ولی طول مسیر قائم بیش از 7 متر است و طبق مبحث 15 الزامی است؛ آن را پیش‌بینی کن","No elevator was selected, but the vertical travel exceeds 7 m and an elevator is mandatory under part 15; provide one"));
+r.push(T((asm?"ظرفیت آسانسور مشخص نشده است؛ کابین 6 نفره فرض شود. ":"")+(wh&&c!="8"?"به‌دلیل دسترسی ویلچر، کابین معادل 8 نفره (حداقل 110 × 140) لحاظ شد. ":"")+"هر کابین "+lab+" نفره (حدود "+e.kg+" کیلوگرم): ابعاد داخلی "+cw+" × "+cd+" سانتی‌متر (عرض × عمق) با ارتفاع حدود 220؛ چاه آسانسور (ابعاد خالص داخل دیوار) حدود "+e.shaft[0]+" × "+e.shaft[1]+" سانتی‌متر؛ بازشوی درب "+e.door+" سانتی‌متر عرض و 200 تا 210 ارتفاع؛ تعداد: "+N+" دستگاه",(asm?"Elevator capacity not specified; assume a 6-person cabin. ":"")+(wh&&c!="8"?"Because of wheelchair access, an 8-person-equivalent cabin (at least 110 × 140) is used. ":"")+"Each "+lab+"-person cabin (about "+e.kg+" kg): inner size "+cw+" × "+cd+" cm (width × depth), height about 220; shaft (clear size inside the walls) about "+e.shaft[0]+" × "+e.shaft[1]+" cm; door opening "+e.door+" cm wide and 200 to 210 high; quantity: "+N));
+r.push(T("ضخامت دیوار چاه (حدود 20 سانتی‌متر بتنی) را به ابعاد خالص اضافه کن و ابعاد خالص و ناخالص چاه را روی پلان بنویس؛ بالاسری حدود 3.7 متر بالای کف آخرین توقف و عمق چاهک حدود 1.4 متر (مقدار دقیق طبق جدول سازنده)","Add the shaft wall thickness (about 20 cm of concrete) to the clear size and label both clear and gross shaft sizes on the plan; overhead about 3.7 m above the top landing and pit depth about 1.4 m (exact values per the manufacturer's table)"));
+r.push(T("عمق فضای مقابل درب آسانسور حداقل برابر عمق کابین ("+cd+" سانتی‌متر) و ترجیحاً 150 سانتی‌متر؛ چاه را نزدیک راه‌پله و در مرکز حرکتی بنا و دور از اتاق خواب‌ها (صدا) بگذار؛ فاصله درب واحد تا آسانسور حداکثر 40 متر","The lobby in front of the elevator door at least as deep as the cabin ("+cd+" cm) and preferably 150 cm; place the shaft near the stair, at the circulation center and away from bedrooms (noise); distance from the unit entrance to the elevator at most 40 m"));
+r.push(T("دیوارهای چاه مقاوم حریق حداقل یک ساعت؛ دریچه تخلیه هوای بالای چاه حداقل 1 درصد سطح مقطع چاه (در صورت امتداد بیش از 2 طبقه)؛ عبور لوله و کابل غیرمرتبط از چاه ممنوع"+(hasUG()?"؛ آسانسور تا طبقه پارکینگ زیرزمین ادامه یابد":"")+(wh?"؛ مسیر دسترسی بدون پله تا آسانسور بدون مانع و شیب تند باشد و درب ترجیحاً 90 سانتی‌متر":""),"Shaft walls fire-resistant for at least one hour; air exhaust opening at the top of the shaft at least 1 percent of shaft cross-section (if it spans more than 2 floors); no unrelated pipes or cables through the shaft"+(hasUG()?"; the elevator continues down to the underground parking level":"")+(wh?"; step-free route to the elevator with no abrupt slope, door preferably 90 cm":"")));
+return r}
+function rulesTxt(){
+var en=isEn(),g=[["الف) فضاهای مسکونی","A) Residential spaces",baseRules()],["ب) راهرو و پله","B) Corridors and stairs",stairRules()],["پ) آسانسور","C) Elevator",elevRules()],["ت) جانمایی بنا در زمین","D) Siting on the plot",siteRules()]],o="";
+g.forEach(function(x){if(x[2].length)o+=(en?x[1]:x[0])+"\n- "+x[2].join("\n- ")+"\n\n"});
+if(en)return "\n1.3 National building code rules and mandatory dimensions (applied automatically)\n\nThese rules follow the Iranian national building code (parts 3, 4 and 15) and must be respected during design, not only at the end. If the local municipality rules (site coverage, setbacks, density, parking count) are stricter, they govern and must be stated in the analysis:\n\n"+o+"In the final quality check, verify every dimension above, and show the real cabin and shaft sizes, stair and ramp on the plan and in the space table.\n";
+return "1-3. ضوابط ملی ساخت‌وساز و ابعاد الزامی (اعمال خودکار)\n\nاین ضوابط بر پایه مقررات ملی ساختمان ایران (مباحث 3، 4 و 15) تعیین شده‌اند و باید همزمان با طراحی رعایت شوند، نه فقط در پایان. اگر ضوابط شهرداری محل (سطح اشغال، عقب‌نشینی، تراکم، تعداد پارکینگ) سخت‌گیرانه‌تر بود، همان ملاک است و باید در تحلیل اعلام شود:\n\n"+o+"در کنترل کیفیت نهایی، رعایت تک‌تک ابعاد بالا را بررسی کن و ابعاد واقعی کابین و چاه آسانسور، پله و رمپ را در پلان و جدول فضاها نمایش بده.\n\n"}
+/* ---- ساخت پلان: Claude چیدمان می‌دهد، کد کنترل و رسم می‌کند ---- */
+var PL=[],CUR=0,PN={w:0,d:0},LY=null,LV=[];
+var TC={living:"#f3ead7",bed:"#dfe9f5",kitchen:"#f8e3cf",bath:"#d4ecf0",wc:"#d4ecf0",stair:"#e5e0f0",elev:"#d4d4d4",parking:"#e8e8e8",yard:"#dff0d8",terrace:"#e3f1dc",corridor:"#f7f7f2",entry:"#f3ead7",storage:"#ece6dc",ramp:"#dcdce6",other:"#f2f2f2"};
+var PRIV={bath:1,wc:1,storage:1,bed:2,other:2,parking:2,kitchen:3,living:4,entry:5,corridor:6,stair:6,elev:9,ramp:8,yard:8,terrace:8};
+var GA={living:1,kitchen:1,corridor:1,entry:1,stair:1,elev:1},GB={parking:1,ramp:1};
+var S4=["top","bottom","left","right"],OPP={top:"bottom",bottom:"top",left:"right",right:"left"};
+var SIDEFA={top:"بالای نقشه",bottom:"پایین نقشه",left:"سمت چپ نقشه",right:"سمت راست نقشه"},SIDEEN={top:"top of the sheet",bottom:"bottom of the sheet",left:"left of the sheet",right:"right of the sheet"},GEOFA={N:"شمالی",E:"شرقی",S:"جنوبی",W:"غربی"},GEOEN={N:"north",E:"east",S:"south",W:"west"};
+function num(id){return parseFloat(dig($(id).value).replace(/[٫,]/g,"."))}
+function r1(v){return Math.round(v*100)/100}
+/* جهت‌ها: نگاشت شمال/شرق/جنوب/غرب به ضلع‌های نقشه */
+function gmap(){var n=$("north").value,m={"":{N:"top",E:"right",S:"bottom",W:"left"},"سمت راست نقشه":{N:"right",E:"bottom",S:"left",W:"top"},"پایین نقشه":{N:"bottom",E:"left",S:"top",W:"right"},"سمت چپ نقشه":{N:"left",E:"top",S:"right",W:"bottom"}};return m[n]||m[""]}
+function sideNameL(s,en){var m=gmap(),k;for(k in m)if(m[k]==s)break;return en?GEOEN[k]+" side ("+SIDEEN[s]+")":"ضلع "+GEOFA[k]+" ("+SIDEFA[s]+")"}
+function pdim(){var L=num("len"),W=num("wid");if(!(L>0&&W>0)){var A=num("area")||150,pa=A/nf()*1.7;L=Math.round(Math.sqrt(pa*1.6));W=Math.max(6,Math.round(pa/L));return{w:Math.max(L,W),d:Math.min(L,W)}}return{w:L,d:W}}
+function longSides(){var P=pdim();return P.w>=P.d?["top","bottom"]:["left","right"]}
+function shortSides(){var P=pdim();return P.w>=P.d?["left","right"]:["top","bottom"]}
+function grpSides(a,b,sides){var v=$(a).value;if(!v)return{s:[],u:0};if(v=="دو ضلع")return{s:sides,u:0};var p=$(b).value;return sides.indexOf(p)>-1?{s:[p],u:0}:{s:[],u:1}}
+function sharedInfo(){var A=grpSides("shL","shLs",longSides()),B=grpSides("shW","shWs",shortSides());return{sides:A.s.concat(B.s),unk:A.u+B.u,A:A,B:B}}
+function syncShare(){var ls=longSides(),ss=shortSides();[["shL","shLs",ls],["shW","shWs",ss]].forEach(function(c){var sel=$(c[1]);$(c[1]+"w").hidden=$(c[0]).value!="یک ضلع";for(var i=0;i<sel.options.length;i++){var o=sel.options[i];if(!o.value)continue;o.disabled=c[2].indexOf(o.value)<0;o.textContent=sideNameL(o.value,false)}if(sel.value&&c[2].indexOf(sel.value)<0)sel.value=""})}
+function entrySide(){var m=gmap(),v=$("entry").value,sh=sharedInfo().sides,mp={"ضلع شمالی":"N","ضلع جنوبی":"S","ضلع شرقی":"E","ضلع غربی":"W"},ord=["S","N","E","W"],i;
+if(mp[v]){var s=m[mp[v]];if(sh.indexOf(s)<0)return{s:s,asm:false,conf:false};for(i=0;i<4;i++)if(sh.indexOf(m[ord[i]])<0)return{s:m[ord[i]],asm:false,conf:true}}
+for(i=0;i<4;i++)if(sh.indexOf(m[ord[i]])<0)return{s:m[ord[i]],asm:true,conf:false};return{s:m.S,asm:true,conf:false}}
+function entryTxt(){var v=$("entry").value,es=entrySide(),en=isEn();if(v&&!es.conf)return g("entry");return sideNameL(es.s,en)+(en?(es.conf?" (chosen side is a shared wall, moved)":" (assumed)"):(es.conf?" (ضلع انتخابی مشترک با همسایه است؛ منتقل شد)":" (فرض منطقی)"))}
+/* جانمایی بنا در زمین: عقب‌نشینی‌ها و محدوده مجاز بنا */
+function layout(){var P=pdim(),es=entrySide(),E=es.s,R=OPP[E],sh=sharedInfo().sides,sb={top:0,bottom:0,left:0,right:0},ym=parseFloat(dig($("yardM").value))||0,yp=$("yardPos").value,hy=$("yardType").value.indexOf("حیاط")>-1,pk=$("parking").value;
+S4.forEach(function(s){if(sh.indexOf(s)>-1)return;sb[s]=s==E?2:(s==R?1.5:1.2)});
+if(hy&&ym){if(yp.indexOf("جلویی")>-1&&sh.indexOf(E)<0)sb[E]=Math.max(sb[E],ym);if(yp.indexOf("پشتی")>-1&&sh.indexOf(R)<0)sb[R]=Math.max(sb[R],ym)}
+if(pk.indexOf("حیاط")>-1&&sh.indexOf(E)<0)sb[E]=Math.max(sb[E],5.5);
+if(hasUG()&&sh.indexOf(E)<0)sb[E]=Math.max(sb[E],3);
+[["left","right",P.w],["top","bottom",P.d]].forEach(function(c){var tot=sb[c[0]]+sb[c[1]],fr=Math.max(c[2]-5,0);if(tot>fr&&tot>0){var k=fr/tot;sb[c[0]]*=k;sb[c[1]]*=k}});
+var Ft=0,Ft0=0,envMax=0,unb=0;
+if(!isApt()){var S0=P.w*P.d,ew=P.w-sb.left-sb.right,eh=P.d-sb.top-sb.bottom;Ft=S0*occPct().sel/100;Ft0=Ft;envMax=ew*eh;
+if(Ft>0&&Ft<envMax-.5){var vt=(E=="top"||E=="bottom"),wd=vt?ew:eh,dp=vt?eh:ew,ex=Math.min(dp-Ft/wd,dp-4),tg=sh.indexOf(R)<0?R:(sh.indexOf(E)<0?E:null);if(tg&&ex>0)sb[tg]+=ex}if(Ft>envMax+.5){[R,E,"left","right","top","bottom"].forEach(function(s){if(sh.indexOf(s)>-1||!(sb[s]>0))return;var ew2=P.w-sb.left-sb.right,eh2=P.d-sb.top-sb.bottom,vt2=(s=="top"||s=="bottom"),need=vt2?Ft/ew2-eh2:Ft/eh2-ew2;if(need>0)sb[s]=Math.max(0,sb[s]-need)})}unb=S0-Ft}
+if(isApt())S4.forEach(function(s){sb[s]=0});
+S4.forEach(function(s){sb[s]=Math.round(sb[s]*10)/10});
+return{Ft:Ft,Ft0:Ft0,unb:unb,envMax:envMax,P:P,sb:sb,E:E,conf:es.conf,asm:es.asm,sh:sh,x0:sb.left,x1:r1(P.w-sb.right),y0:sb.top,y1:r1(P.d-sb.bottom)}}
+function yardInfo(Ly){var hy=$("yardType").value.indexOf("حیاط")>-1,ym=parseFloat(dig($("yardM").value))||0,yp=$("yardPos").value,P=Ly.P,E=Ly.E,w=(E=="top"||E=="bottom")?P.w:P.d,c=(yp.indexOf("جلویی")>-1?1:0)+(yp.indexOf("پشتی")>-1?1:0);return{on:hy&&ym>0&&c>0,ym:ym,c:c,w:w,A:ym*w*c}}
+function siteRules(){var Ly=layout(),P=Ly.P,E=Ly.E,es=entrySide(),si=sharedInfo(),gm=gmap(),r=[];
+r.push(T("زمین "+P.w+" متر در راستای افقی نقشه (طول) و "+P.d+" متر در راستای عمودی نقشه (عرض) است؛ شمال در "+SIDEFA[gm.N]+" قرار دارد","The plot is "+P.w+" m horizontal (length) by "+P.d+" m vertical (width) on the sheet; north is at the "+SIDEEN[gm.N]));
+r.push(T("ورودی اصلی از "+sideNameL(E,false)+(es.asm?" (فرض منطقی)":"")+(es.conf?" (ضلع انتخابی مشترک با همسایه است و ورودی به ضلع دیگر منتقل شد)":"")+"؛ درب ورودی عابر روی نمای همین ضلع و جدا از ورودی پارکینگ قرار بگیرد","Main entrance from the "+sideNameL(E,true)+(es.asm?" (assumed)":"")+(es.conf?" (the chosen side is a shared wall, so the entrance was moved)":"")+"; the pedestrian entrance door goes on that facade, separate from the garage entrance"));
+if(Ly.sh.length)r.push(T("دیوار مشترک با همسایه در "+Ly.sh.map(function(s){return sideNameL(s,false)}).join("، ")+": بنا کاملاً به این ضلع‌ها بچسبد (پس‌نشینی صفر)، دیوار ضخامت 35 سانتی‌متر بگیرد و هیچ پنجره یا دری روی آن نباشد؛ نور و تهویه از ضلع‌های آزاد تأمین شود","Shared walls with neighbors on: "+Ly.sh.map(function(s){return sideNameL(s,true)}).join(", ")+": the building must sit flush against these sides (zero setback), with 35 cm walls and no windows or doors on them; take light and ventilation from the free sides"));
+if(si.unk)r.push(T("یکی از ضلع‌های مشترک مشخص نشده است؛ معمار یکی از ضلع‌های مجاز را انتخاب و اعلام کند","One shared side was not specified; the architect picks one valid side and states it"));
+var sbs=S4.filter(function(s){return Ly.sh.indexOf(s)<0&&Ly.sb[s]>0});
+if(!isApt()&&Ly.Ft>0){var yi=yardInfo(Ly),pcx=Ly.Ft/(P.w*P.d)*100;r.push(T("سطح اشغال (زیربنای همکف) "+r1(pcx)+" درصد زمین یعنی حدود "+r1(Ly.Ft)+" مترمربع است و فقط سطح ساخته‌شدهٔ همکف را شامل می‌شود؛ حیاط، فضای سبز، محوطه، پارکینگ و رمپ روباز جزو سطح اشغال نیستند و از "+r1(100-pcx)+" درصد باقی‌مانده ("+r1(Ly.unb)+" مترمربع) تأمین می‌شوند"+(yi.on?"؛ حیاط درخواستی حدود "+r1(yi.A)+" مترمربع است و باید داخل همین فضای باز جا شود":"")+"؛ مساحت ساخته‌شدهٔ همکف نباید از این مقدار بیشتر شود","Site coverage (ground-floor built area) is "+r1(pcx)+"% of the plot, about "+r1(Ly.Ft)+" m², and counts only the built ground floor; yard, green space, grounds and open parking or ramps are NOT part of coverage and come from the remaining "+r1(100-pcx)+"% ("+r1(Ly.unb)+" m²)"+(yi.on?"; the requested yard is about "+r1(yi.A)+" m² and must fit inside that open area":"")+"; the built ground-floor area must not exceed this value"))}
+r.push(T("پس‌نشینی از مرز زمین (پیش‌فرض؛ اگر ضوابط شهرداری محل سخت‌گیرانه‌تر بود همان ملاک است): "+(sbs.length?sbs.map(function(s){return sideNameL(s,false)+" "+Ly.sb[s]+" متر"}).join("، "):"ندارد")+"؛ محدوده مجاز بنا در نقشه: x از "+Ly.x0+" تا "+Ly.x1+" و y از "+Ly.y0+" تا "+Ly.y1+"؛ باقی‌ماندهٔ زمین به‌صورت حیاط یا محوطه ترسیم شود","Setbacks from the plot boundary (defaults; stricter local municipal rules govern): "+(sbs.length?sbs.map(function(s){return sideNameL(s,true)+" "+Ly.sb[s]+" m"}).join(", "):"none")+"; allowed building area on the sheet: x from "+Ly.x0+" to "+Ly.x1+" and y from "+Ly.y0+" to "+Ly.y1+"; the rest of the plot is drawn as yard or open ground"));
+r.push(T("ضخامت دیوار: خارجی 30، داخلی 15 و مشترک با همسایه 35 سانتی‌متر","Wall thickness: exterior 30, interior 15 and shared with neighbors 35 cm"));
+if(bsOn())bsRules(r);return r}
+function levels(){var a=[],N=nf(),i;for(i=1;i<=N;i++)a.push({k:"fl",i:i});if(hasUG()){var lv=parseInt($("parkLv").value,10)||1;for(i=1;i<=lv;i++)a.push({k:"ug",i:i,n:lv})}else if(bsOn())a.push({k:"ug",i:1,n:1,b:1});return a}
+function lvName(l,en){return l.k=="ug"?(en?"Basement ":"زیرزمین ")+l.i:(en?"Floor ":"طبقه ")+l.i}
+function evsz(){if(!elevOn())return null;var c=$("elevC").value||"6";if(wheelOn()&&c!="8")c="8";return ELEV[c].shaft.map(function(v){return v/100})}
+function inR(R,x,y){return R.some(function(r){return x>r.x+.02&&x<r.x+r.w-.02&&y>r.y+.02&&y<r.y+r.h-.02})}
+function onW(r,s){var e=.11,x2=s.x+s.w,y2=s.y+s.w;if(s.o=="h")return(Math.abs(s.y-r.y)<e||Math.abs(s.y-r.y-r.h)<e)&&s.x>=r.x-e&&x2<=r.x+r.w+e;return(Math.abs(s.x-r.x)<e||Math.abs(s.x-r.x-r.w)<e)&&s.y>=r.y-e&&y2<=r.y+r.h+e}
+function isExt(R,r,s){var cx=s.o=="h"?s.x+s.w/2:s.x,cy=s.o=="h"?s.y:s.y+s.w/2,d=.15,a=s.o=="h"?(Math.abs(s.y-r.y)<.11?[cx,cy-d]:[cx,cy+d]):(Math.abs(s.x-r.x)<.11?[cx-d,cy]:[cx+d,cy]);return!inR(R,a[0],a[1])}
+function ovl(a,b){var ox=Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x),oy=Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y);return ox>0&&oy>0?ox*oy:0}
+function fits(q,r){var t=.07;return q.x>=r.x-t&&q.y>=r.y-t&&q.x+q.w<=r.x+r.w+t&&q.y+q.h<=r.y+r.h+t}
+function sharedLen(A,B){var e=.06,ox=Math.min(A.x+A.w,B.x+B.w)-Math.max(A.x,B.x),oy=Math.min(A.y+A.h,B.y+B.h)-Math.max(A.y,B.y);if((Math.abs(A.x+A.w-B.x)<e||Math.abs(B.x+B.w-A.x)<e)&&oy>0)return oy;if((Math.abs(A.y+A.h-B.y)<e||Math.abs(B.y+B.h-A.y)<e)&&ox>0)return ox;return 0}
+function indoor(r,l){if(r.t=="yard")return false;if(l.k=="fl"&&l.i==1){if(r.t=="ramp")return false;if(r.t=="parking"&&$("parking").value.indexOf("حیاط")>-1)return false}return true}
+function lineSide(s,P){var e=.12;if(s.o=="h"){if(Math.abs(s.y)<e)return"top";if(Math.abs(s.y-P.d)<e)return"bottom"}else{if(Math.abs(s.x)<e)return"left";if(Math.abs(s.x-P.w)<e)return"right"}return""}
+function swingRect(s,r){var w=s.w;if(s.o=="h"){var dn=Math.abs(s.y-r.y)<.12;return{x:s.x,y:dn?s.y:s.y-w,w:w,h:w,dir:dn?1:-1}}var rt=Math.abs(s.x-r.x)<.12;return{x:rt?s.x:s.x-w,y:s.y,w:w,h:w,dir:rt?1:-1}}
+function nd(a,def){return(Array.isArray(a)?a:[]).map(function(s){s=s||{};return{x:+s.x,y:+s.y,w:+s.w||def,o:s.o=="v"?"v":"h",main:!!s.main}}).filter(function(s){return isFinite(s.x)&&isFinite(s.y)&&s.w>0})}
+function pchk(fl,l,P,N,Ly){
+var e=[],ug=l.k=="ug",gr=l.k=="fl"&&l.i==1,sh=Ly.sh,c={};
+fl=(fl&&typeof fl=="object")?fl:{};
+var R=Array.isArray(fl.rooms)?fl.rooms:[];
+if(!R.length)return["no rooms returned"];
+var ev=evsz(),pk=$("parking").value,pn=parseInt(dig($("parkN").value),10)||1;
+R=R.filter(function(r,i){if(!r||typeof r!="object"){e.push("room "+i+" is not an object");return false}r.x=+r.x;r.y=+r.y;r.w=+r.w;r.h=+r.h;r.n=String(r.n||"?");r.t=TC[r.t]?r.t:"other";if(![r.x,r.y,r.w,r.h].every(isFinite)||r.w<=0||r.h<=0){e.push("room "+i+" has invalid numbers");return false}return true});
+fl.rooms=R;
+var D=nd(fl.doors,.9),Wn=nd(fl.windows,1.2);fl.doors=D;fl.windows=Wn;
+R.forEach(function(r){var t=r.t,n=r.n,mn=Math.min(r.w,r.h),mx=Math.max(r.w,r.h),a=r.w*r.h;c[t]=(c[t]||0)+1;
+if(r.x<-.05||r.y<-.05||r.x+r.w>P.w+.05||r.y+r.h>P.d+.05)e.push(n+" lies outside the "+P.w+" x "+P.d+" m plot");
+if(t=="bed"&&(a<9||mn<2.4))e.push(n+" bedroom must be at least 9 m2 and 2.4 m wide");
+if(t=="living"&&mn<2.4)e.push(n+" must be at least 2.4 m wide");
+if(t=="kitchen"&&(a<5.5||mn<1.8))e.push(n+" kitchen must be at least 5.5 m2 and 1.8 m wide");
+if(t=="wc"&&(mn<1||mx<1.2))e.push(n+" WC must be at least 1.0 x 1.2 m");
+if(t=="bath"&&(mn<1.2||a<2))e.push(n+" bathroom must be at least 1.2 m wide and 2 m2");
+if(t=="stair"&&(mn<1.1||a<6))e.push(n+" stair needs at least 1.1 m width and about 6 m2 footprint");
+if(t=="corridor"&&mn<.9)e.push(n+" corridor must be at least 0.9 m wide");
+if(t=="elev"&&ev&&!((r.w>=ev[0]-.03&&r.h>=ev[1]-.03)||(r.h>=ev[0]-.03&&r.w>=ev[1]-.03)))e.push(n+" elevator shaft must be at least "+ev[0]+" x "+ev[1]+" m");
+if(t=="parking"&&mn<2.5)e.push(n+" parking must be at least 2.5 m wide");
+if(t=="ramp"){var rk=$("parkRamp").value,need=rk.indexOf("منحنی")>-1?3.65:(pn>=5?3.5:3);
+if(rk.indexOf("آسانسور")>-1){if(mn<3||mx<6)e.push(n+" car-lift room must be at least 3 x 6 m")}
+else if(rk.indexOf("منحنی")>-1){if(mn<need||mx<(ug?6:3))e.push(n+" curved ramp room must be at least "+need+" m wide and "+(ug?6:3)+" m long")}
+else{if(mn<need)e.push(n+" ramp must be at least "+need+" m wide");if(mx<(ug?6:3))e.push(n+" ramp room must show at least "+(ug?6:3)+" m of its length")}}
+if(ug&&{bed:1,living:1,kitchen:1,bath:1,corridor:0,entry:1}[t])e.push(n+": an underground parking level may only hold parking, storage, stair, elevator, ramp and utilities")});
+var pv=!ug&&l.k=="fl"?plcVals(l.i):null;if(pv){var nb=R.filter(function(r){return r.t=="bed"}).length,nw=R.filter(function(r){return r.t=="wc"}).length,nh=R.filter(function(r){return r.t=="bath"}).length,eh=(pv.h||0)+(pv.e||0);if(pv.b!=null&&nb!=pv.b)e.push("this floor must have exactly "+pv.b+" bedrooms (type bed); it has "+nb);if(pv.w!=null&&nw!=pv.w)e.push("this floor must have exactly "+pv.w+" separate WC rooms (type wc); it has "+nw);if((pv.h!=null||pv.e!=null)&&nh!=eh)e.push("this floor must have exactly "+eh+" bathroom rooms (type bath: "+(pv.h||0)+" common plus "+(pv.e||0)+" private, each private one sharing a wall with a bedroom and entered from inside it); it has "+nh)}
+var mm0=masterN();if(!mm0.asm&&mm0.n>0)R.forEach(function(r){if(r.t=="bed"&&r.n.indexOf("مستر")>-1){if(r.w*r.h<12||Math.min(r.w,r.h)<2.7)e.push(r.n+" master bedroom must be at least 12 m2 and 2.7 m wide");if(mOpt("masterBath",true)&&!R.some(function(b){return(b.t=="bath"||b.t=="wc")&&sharedLen(r,b)>=.8}))e.push(r.n+" needs its own bath or WC room sharing a wall with it")}});
+for(var i=0;i<R.length;i++)for(var j=i+1;j<R.length;j++){var A=R[i],B2=R[j];if(ovl(A,B2)>.04)e.push(A.n+" overlaps "+B2.n)}
+var B=R.filter(function(r){return indoor(r,l)}),bb=null;
+if(B.length){bb={x0:1e9,x1:-1e9,y0:1e9,y1:-1e9};B.forEach(function(r){bb.x0=Math.min(bb.x0,r.x);bb.x1=Math.max(bb.x1,r.x+r.w);bb.y0=Math.min(bb.y0,r.y);bb.y1=Math.max(bb.y1,r.y+r.h)})}
+if(!ug&&bb){var gap={left:bb.x0,right:P.w-bb.x1,top:bb.y0,bottom:bb.y1==null?0:P.d-bb.y1};
+S4.forEach(function(s){if(sh.indexOf(s)>-1){if(gap[s]>.1)e.push("the building must touch the shared "+s+" side of the plot (it is "+r1(gap[s])+" m away)")}else if(gap[s]<Ly.sb[s]-.1)e.push("the building is only "+r1(gap[s])+" m from the "+s+" side of the plot; the setback there must be at least "+Ly.sb[s]+" m")})}
+if((N>1||hasUG())&&!c.stair)e.push("no stair room on this level");
+if(ev&&!c.elev&&!isApt())e.push("no elevator shaft room on this level");
+if(!gr&&PL.length&&PL[0]&&PL[0].rooms)["stair","elev"].forEach(function(t){var ref=PL[0].rooms.filter(function(r){return r.t==t})[0];if(!ref)return;var cur=R.filter(function(r){return r.t==t});if(cur.length&&!cur.some(function(r){return Math.abs(r.x-ref.x)<.06&&Math.abs(r.y-ref.y)<.06&&Math.abs(r.w-ref.w)<.06&&Math.abs(r.h-ref.h)<.06}))e.push(t+" must keep exactly the same x,y,w,h as on the ground floor ("+ref.x+","+ref.y+","+ref.w+","+ref.h+")")});
+if(gr&&pk&&pk!="ندارد"&&pk.indexOf("زیرزمین")<0){var pa=R.filter(function(r){return r.t=="parking"}).reduce(function(s,r){return s+r.w*r.h},0);if(pa<12.5*pn)e.push("parking area must be at least "+12.5*pn+" m2 for "+pn+" car(s)")}
+if(ug&&!l.b&&!c.parking)e.push("this underground level needs at least one parking room");
+if(hasUG()&&!c.ramp)e.push("this level needs a ramp room (t:ramp) that leads to the underground parking");
+if(gr&&$("yardType").value.indexOf("حیاط")>-1){var ym=parseFloat(dig($("yardM").value))||0,yr=R.filter(function(r){return r.t=="yard"});if(!yr.length)e.push("the ground floor needs a yard room (t:yard) in the outdoor strip of the plot");else if(ym&&!yr.some(function(r){return Math.min(r.w,r.h)>=ym-.25}))e.push("the yard must be about "+ym+" m deep")}
+/* درها و پنجره‌ها */
+if(!ug)Wn.forEach(function(s){var rs=B.filter(function(r){return onW(r,s)});if(!rs.length)e.push("window at ("+s.x+","+s.y+") is not on any room wall");else if(rs.length>1)e.push("window at ("+s.x+","+s.y+") sits between two rooms; windows go on exterior walls only");if(sh.indexOf(lineSide(s,P))>-1)e.push("window at ("+s.x+","+s.y+") is on a wall shared with the neighbor")});
+D.forEach(function(s){var rs=R.filter(function(r){return onW(r,s)});s.rs=rs;
+if(sh.indexOf(lineSide(s,P))>-1)e.push("door at ("+s.x+","+s.y+") is on a wall shared with the neighbor");
+if(!rs.length){e.push("door at ("+s.x+","+s.y+") is not on any wall");return}
+var cs=rs.slice().sort(function(a,b){return(PRIV[a.t]||5)-(PRIV[b.t]||5)}),ch=null;
+for(var i=0;i<cs.length;i++){var q=swingRect(s,cs[i]);if(fits(q,cs[i])){ch={q:q,r:cs[i]};break}}
+if(!ch){e.push("door at ("+s.x+","+s.y+") cannot swing inside "+cs[0].n+" (needs a free "+s.w+" x "+s.w+" m square next to the door)");return}
+s.sw=ch.q;s.rm=ch.r;
+s.cz=s.o=="h"?[{x:s.x,y:s.y-.8,w:s.w,h:.8},{x:s.x,y:s.y,w:s.w,h:.8}]:[{x:s.x-.8,y:s.y,w:.8,h:s.w},{x:s.x,y:s.y,w:.8,h:s.w}]});
+for(var i=0;i<D.length;i++)for(var j=i+1;j<D.length;j++){var a=D[i],b=D[j];if(a.sw&&b.sw&&ovl(a.sw,b.sw)>.04){e.push("the swings of the doors at ("+a.x+","+a.y+") and ("+b.x+","+b.y+") collide");continue}
+if(a.o==b.o){var same=a.o=="h"?Math.abs(a.y-b.y)<.11:Math.abs(a.x-b.x)<.11,ov=a.o=="h"?Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x):Math.min(a.y+a.w,b.y+b.w)-Math.max(a.y,b.y);if(same&&ov>.05)e.push("two doors overlap at ("+a.x+","+a.y+")")}}
+var wcs=R.filter(function(r){return r.t=="wc"});
+if(wcs.length==1)D.forEach(function(s){if(s.rs&&s.rs.indexOf(wcs[0])>-1){var bd=s.rs.filter(function(r){return r.t=="bed"})[0];if(bd)e.push("the only WC opens directly into "+bd.n+"; its door must open to a corridor or the living area")}});
+/* ورودی اصلی */
+if(gr){var md=D.filter(function(s){return s.main});
+if(md.length!=1)e.push("exactly one door on the ground floor must have main:true (the main entrance); found "+md.length);
+else if(bb){var m=md[0],E=Ly.E,ed={top:[bb.y0,"h"],bottom:[bb.y1,"h"],left:[bb.x0,"v"],right:[bb.x1,"v"]}[E],ok=m.o==ed[1]&&Math.abs((m.o=="h"?m.y:m.x)-ed[0])<.12&&(m.o=="h"?(m.x>=bb.x0-.1&&m.x+m.w<=bb.x1+.1):(m.y>=bb.y0-.1&&m.y+m.w<=bb.y1+.1));if(!ok)e.push("the main entrance door must lie on the building facade that faces the "+E+" side of the sheet (the entry side), on the building edge ("+(ed[1]=="h"?"y":"x")+" = "+r1(ed[0])+")")}}
+else if(D.some(function(s){return s.main}))e.push("only the ground floor has a main:true door");
+/* در، پنجره و دسترسی هر فضا */
+R.forEach(function(r){if(!{living:1,bed:1,kitchen:1,bath:1,wc:1,storage:1,entry:1}[r.t])return;
+if(!D.some(function(s){return onW(r,s)}))e.push(r.n+" has no door on its walls");
+if(!ug&&{living:1,bed:1,kitchen:1}[r.t]&&!Wn.some(function(s){return onW(r,s)&&isExt(B,r,s)&&sh.indexOf(lineSide(s,P))<0}))e.push(r.n+" needs a window on an exterior wall that is not shared with a neighbor")});
+/* اتصال فضاها */
+var adj=R.map(function(){return[]});
+function link(i,j){if(i!=j&&adj[i].indexOf(j)<0){adj[i].push(j);adj[j].push(i)}}
+D.forEach(function(s){var ix=[];R.forEach(function(r,i){if(onW(r,s))ix.push(i)});for(var a=0;a<ix.length;a++)for(var b=a+1;b<ix.length;b++)link(ix[a],ix[b])});
+for(var i=0;i<R.length;i++)for(var j=i+1;j<R.length;j++){var A=R[i],B3=R[j],ga=GA[A.t]&&GA[B3.t],gb=GB[A.t]&&GB[B3.t];if((ga||gb)&&sharedLen(A,B3)>=.8)link(i,j)}
+var st=[];R.forEach(function(r,i){var ok=false;if(gr){if(r.t=="parking"&&indoor(r,l))ok=true;if(D.some(function(s){return s.main&&onW(r,s)}))ok=true}else ok=r.t=="stair"||r.t=="elev"||(ug&&r.t=="ramp");if(ok)st.push(i)});
+if(st.length){var seen={},q=st.slice();st.forEach(function(i){seen[i]=1});while(q.length){var u=q.shift();adj[u].forEach(function(v){if(!seen[v]){seen[v]=1;q.push(v)}})}
+R.forEach(function(r,i){if(!seen[i]&&r.t!="yard"&&!(gr&&r.t=="ramp"))e.push(r.n+" is not reachable: connect it by a door or an open link to the entrance"+(gr?"":" or the stair"))})}
+return e}
+function pinfo(){var P=PN;if(!PL[0]||!PL[0].rooms||!(P.w>0))return"";var a=0;PL[0].rooms.forEach(function(r){if(indoor(r,{k:"fl",i:1}))a+=r.w*r.h});return" | سطح اشغال تقریبی همکف: "+Math.round(a/(P.w*P.d)*100)+"٪ زمین"}
+function pfin(){var w=[],n={bed:0,wc:0,bath:0},ar=0,g=function(i){return parseInt(dig($(i).value),10)||0},fa=PL.filter(function(p){return p.lv&&p.lv.k=="fl"});
+fa.forEach(function(fl){fl.rooms.forEach(function(r){if(n[r.t]!=null)n[r.t]++;if(r.t!="yard"&&r.t!="terrace"&&r.t!="ramp")ar+=r.w*r.h})});
+w=w.concat(pfinExtra(fa));
+if(n.bed<g("beds"))w.push("تعداد اتاق خواب کمتر از درخواست است ("+n.bed+" از "+g("beds")+")");
+if(n.wc<g("wcs"))w.push("تعداد سرویس بهداشتی کمتر از درخواست است");
+if(n.bath<g("baths"))w.push("تعداد حمام کمتر از درخواست است");
+var T0=num("area");if(T0>0&&Math.abs(ar-T0)/T0>.2)w.push("مساحت کل پلان ("+Math.round(ar)+" مترمربع) بیش از ۲۰٪ با متراژ هدف فاصله دارد");
+if(hasUG()){var pa=0;PL.forEach(function(p){if(p.lv&&p.lv.k=="ug")p.rooms.forEach(function(r){if(r.t=="parking")pa+=r.w*r.h})});var pn=parseInt(dig($("parkN").value),10)||1;if(PL.some(function(p){return p.lv&&p.lv.k=="ug"})&&pa<12.5*pn)w.push("مساحت پارکینگ زیرزمین برای "+pn+" خودرو کافی نیست")}
+if($("yardType").value.indexOf("تراس")>-1&&!fa.some(function(p){return p.rooms.some(function(r){return r.t=="terrace"})}))w.push("تراس درخواست شده بود ولی در پلان نیامده");
+if(LY&&LY.conf)w.push("ضلع انتخاب‌شده برای ورودی مشترک با همسایه است؛ ورودی به "+sideNameL(LY.E,false)+" منتقل شد");
+if(sharedInfo().unk)w.push("یکی از ضلع‌های مشترک مشخص نشده؛ کنترل خودکار آن انجام نشد");
+PL.forEach(function(fl){if(fl.warn)w.push(lvName(fl.lv,false)+": هنوز مغایرت دارد — "+fl.warn.slice(0,3).join("; ")+" (کنترل دستی لازم است)")});return w}
+function ex(s){return String(s).replace(/[<>&"]/g,function(c){return{"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]})}
+/* ---- رسم ---- */
+function wallsOf(R){var out=[];R.forEach(function(r){[["h",r.y,r.x,r.x+r.w,-1],["h",r.y+r.h,r.x,r.x+r.w,1],["v",r.x,r.y,r.y+r.h,-1],["v",r.x+r.w,r.y,r.y+r.h,1]].forEach(function(e){var o=e[0],c=e[1],a=e[2],b=e[3],sg=e[4],pts=[a,b];R.forEach(function(q){if(q===r)return;[o=="h"?q.x:q.y,o=="h"?q.x+q.w:q.y+q.h].forEach(function(p){if(p>a+.02&&p<b-.02)pts.push(p)})});pts.sort(function(u,v){return u-v});for(var i=0;i<pts.length-1;i++){var p0=pts[i],p1=pts[i+1];if(p1-p0<.02)continue;var mid=(p0+p1)/2;out.push({o:o,c:c,a:p0,b:p1,ext:!inR(R,o=="h"?mid:c+sg*.15,o=="h"?c+sg*.15:mid)})}})});return out}
+function wcand(r,w,h,m){m=m||.05;var o=[],cx=r.x+(r.w-w)/2,cy=r.y+(r.h-h)/2,vy=r.y+(r.h-w)/2;
+o.push({x:cx,y:r.y+m,w:w,h:h,s:"top"},{x:cx,y:r.y+r.h-h-m,w:w,h:h,s:"bottom"},{x:r.x+m,y:vy,w:h,h:w,s:"left"},{x:r.x+r.w-h-m,y:vy,w:h,h:w,s:"right"});
+o.push({x:r.x+m,y:r.y+m,w:w,h:h,s:"top"},{x:r.x+r.w-w-m,y:r.y+m,w:w,h:h,s:"top"},{x:r.x+m,y:r.y+r.h-h-m,w:w,h:h,s:"bottom"},{x:r.x+r.w-w-m,y:r.y+r.h-h-m,w:w,h:h,s:"bottom"},{x:r.x+m,y:r.y+m,w:h,h:w,s:"left"},{x:r.x+m,y:r.y+r.h-w-m,w:h,h:w,s:"left"},{x:r.x+r.w-h-m,y:r.y+m,w:h,h:w,s:"right"},{x:r.x+r.w-h-m,y:r.y+r.h-w-m,w:h,h:w,s:"right"});return o}
+function ccand(r,w,h,m){m=m||.05;return[{x:r.x+m,y:r.y+m,w:w,h:h},{x:r.x+r.w-w-m,y:r.y+m,w:w,h:h},{x:r.x+m,y:r.y+r.h-h-m,w:w,h:h},{x:r.x+r.w-w-m,y:r.y+r.h-h-m,w:w,h:h}]}
+function tp(cs,sw,pl,r){for(var i=0;i<cs.length;i++){var q=cs[i];if(q.x<r.x-.01||q.y<r.y-.01||q.x+q.w>r.x+r.w+.01||q.y+q.h>r.y+r.h+.01)continue;if(sw.some(function(z){return ovl(q,{x:z.x-.1,y:z.y-.1,w:z.w+.2,h:z.h+.2})>0}))continue;if(pl.some(function(p){return ovl(q,{x:p.x-.05,y:p.y-.05,w:p.w+.1,h:p.h+.1})>0}))continue;pl.push(q);return q}return null}
+function psvg(fl,P,ttl,l){var S=40,m=72,W=P.w*S+2*m,H=P.d*S+2*m,o=[],F='font-family="Vazirmatn,Tahoma,sans-serif"',Ly=LY||layout(),R=fl.rooms,D=fl.doors||[],Wn=fl.windows||[],ug=l.k=="ug",B=R.filter(function(r){return indoor(r,l)}),sh=Ly.sh,pw=P.w*S,ph=P.d*S;
+var SW=[],cars=parseInt(dig($("parkN").value),10)||99;D.forEach(function(s){if(s.sw)SW.push(s.sw);(s.cz||[]).forEach(function(z){SW.push(z)})});
+function rc(q,f,rx){return'<rect x="'+q.x*S+'" y="'+q.y*S+'" width="'+q.w*S+'" height="'+q.h*S+'" rx="'+(rx||0)+'" fill="'+(f||"#fff")+'" stroke="#667" stroke-width="1"/>'}
+function ln(x1,y1,x2,y2,c,w){return'<line x1="'+x1*S+'" y1="'+y1*S+'" x2="'+x2*S+'" y2="'+y2*S+'" stroke="'+(c||"#667")+'" stroke-width="'+(w||1)+'"/>'}
+function ci(x,y,rad,f){return'<circle cx="'+x*S+'" cy="'+y*S+'" r="'+rad*S+'" fill="'+(f||"none")+'" stroke="#667" stroke-width="1"/>'}
+function tx(x,y,t,fs,col,an,extra){return'<text x="'+x+'" y="'+y+'" font-size="'+fs+'" text-anchor="'+(an||"middle")+'" fill="'+(col||"#222")+'" '+(extra||"")+'>'+t+'</text>'}
+o.push('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" '+F+'><defs><pattern id="ht" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#888" stroke-width="2"/></pattern></defs><rect width="'+W+'" height="'+H+'" fill="#fff"/><g transform="translate('+m+','+m+')">');
+o.push('<rect width="'+pw+'" height="'+ph+'" fill="none" stroke="#999" stroke-dasharray="6 4"/>');
+/* دیوار همسایه و معبر */
+sh.forEach(function(s){var b={top:[0,-14,pw,14],bottom:[0,ph,pw,14],left:[-14,0,14,ph],right:[pw,0,14,ph]}[s];o.push('<rect x="'+b[0]+'" y="'+b[1]+'" width="'+b[2]+'" height="'+b[3]+'" fill="url(#ht)" stroke="#888"/>')});
+var E=Ly.E,sl={top:[0,-44,pw,-44,pw/2,-50,0],bottom:[0,ph+58,pw,ph+58,pw/2,ph+70,0],left:[-44,0,-44,ph,-50,ph/2,-90],right:[pw+44,0,pw+44,ph,pw+52,ph/2,90]}[E];
+o.push('<line x1="'+sl[0]+'" y1="'+sl[1]+'" x2="'+sl[2]+'" y2="'+sl[3]+'" stroke="#999" stroke-width="3" stroke-dasharray="14 6"/>'+tx(sl[4],sl[5],"معبر",11,"#555","middle",'transform="rotate('+sl[6]+' '+sl[4]+' '+sl[5]+')"'));
+/* کف فضاها */
+R.forEach(function(r){var ind=indoor(r,l);o.push('<rect x="'+r.x*S+'" y="'+r.y*S+'" width="'+r.w*S+'" height="'+r.h*S+'" fill="'+TC[r.t]+'" '+(ind?'':'stroke="#7a9a7a" stroke-width="1" stroke-dasharray="5 3"')+'/>')});
+/* دیوارها */
+wallsOf(B).forEach(function(w){var shr=w.ext&&sh.indexOf(w.o=="h"?(Math.abs(w.c)<.1?"top":(Math.abs(w.c-P.d)<.1?"bottom":"")):(Math.abs(w.c)<.1?"left":(Math.abs(w.c-P.w)<.1?"right":"")))>-1,th=(w.ext?(shr?.35:.3):.15)*S;o.push(w.o=="h"?'<line x1="'+w.a*S+'" y1="'+w.c*S+'" x2="'+w.b*S+'" y2="'+w.c*S+'" stroke="#222" stroke-width="'+th+'" stroke-linecap="square"/>':'<line x1="'+w.c*S+'" y1="'+w.a*S+'" x2="'+w.c*S+'" y2="'+w.b*S+'" stroke="#222" stroke-width="'+th+'" stroke-linecap="square"/>')});
+/* مبلمان و تجهیزات */
+function pill(q,s,n){var a=[],pw2=.55,ph2=.35,i;for(i=0;i<n;i++){var f=n==1?.5:(i?.78:.22),x,y,w,h;if(s=="top"||s=="bottom"){w=pw2;h=ph2;x=q.x+q.w*f-pw2/2;y=s=="top"?q.y+.08:q.y+q.h-.08-ph2}else{w=ph2;h=pw2;y=q.y+q.h*f-pw2/2;x=s=="left"?q.x+.08:q.x+q.w-.08-ph2}a.push(rc({x:x,y:y,w:w,h:h},"#eef",3))}return a.join("")}
+var parked=0;
+R.forEach(function(r){var pl=[],f=r.t,a=r.w*r.h,mn=Math.min(r.w,r.h),mx=Math.max(r.w,r.h),q;
+if(f=="bed"&&mn>=2.4){var bw=a>=12?1.6:1.2;q=tp(wcand(r,bw,2),SW,pl,r);if(q)o.push(rc(q,"#fff",2)+pill(q,q.s,bw>=1.6?2:1))}
+else if(f=="living"&&mn>=2.8&&a>=12){q=tp(wcand(r,2.2,.9),SW,pl,r);if(q){o.push(rc(q,"#e9e2d0",4));var tb=q.s=="top"?{x:q.x+q.w/2-.5,y:q.y+q.h+.45,w:1,h:.5}:q.s=="bottom"?{x:q.x+q.w/2-.5,y:q.y-.95,w:1,h:.5}:q.s=="left"?{x:q.x+q.w+.45,y:q.y+q.h/2-.5,w:.5,h:1}:{x:q.x-.95,y:q.y+q.h/2-.5,w:.5,h:1};tb=tp([tb],SW,pl,r);if(tb)o.push(rc(tb,"#fff",3))}
+if(a>=24){var dq=tp([{x:r.x+(r.w-1.6)/2,y:r.y+(r.h-.9)/2,w:1.6,h:.9},{x:r.x+.6,y:r.y+.6,w:1.6,h:.9},{x:r.x+r.w-2.2,y:r.y+r.h-1.5,w:1.6,h:.9}],SW,pl,r);if(dq){o.push(rc(dq,"#fff",2));for(var k=0;k<2;k++){var cx=dq.x+.25+k*.75;o.push(rc({x:cx,y:dq.y-.42,w:.4,h:.38},"#fff",3),rc({x:cx,y:dq.y+dq.h+.04,w:.4,h:.38},"#fff",3))}}}}
+else if(f=="kitchen"){var cs=[];[3.6,3,2.4,1.8].forEach(function(L){var lw=Math.min(r.w-.1,L),lh=Math.min(r.h-.1,L);cs.push({x:r.x+.05,y:r.y+.05,w:lw,h:.6},{x:r.x+.05,y:r.y+r.h-.65,w:lw,h:.6},{x:r.x+.05,y:r.y+.05,w:.6,h:lh},{x:r.x+r.w-.65,y:r.y+.05,w:.6,h:lh})});cs.sort(function(u,v){return Math.max(v.w,v.h)-Math.max(u.w,u.h)});q=tp(cs,SW,pl,r);if(q){o.push(rc(q,"#f1ece3"));var hz=q.w>q.h,L=hz?q.w:q.h,kp=function(u,v,w2,h2){return hz?{x:q.x+u,y:q.y+v,w:w2,h:h2}:{x:q.x+v,y:q.y+u,w:h2,h:w2}};o.push(rc(kp(L*.15,.1,.5,.4),"#dfe8ee",3));for(var k=0;k<4;k++){var hp=kp(L*.62+(k%2)*.22,.12+Math.floor(k/2)*.2,0,0);o.push(ci(hp.x,hp.y,.07))}}}
+else if(f=="bath"||f=="wc"){if(f=="bath"){if(a>=5){q=tp(wcand(r,1.7,.7),SW,pl,r);if(q)o.push(rc(q,"#fff",8))}else{q=tp(ccand(r,.9,.9),SW,pl,r);if(q)o.push(rc(q,"#fff"),ln(q.x,q.y,q.x+q.w,q.y+q.h,"#99a",.7),ln(q.x+q.w,q.y,q.x,q.y+q.h,"#99a",.7))}}
+q=tp(wcand(r,.4,.7),SW,pl,r);if(q)o.push(rc(q,"#fff",8));q=tp(wcand(r,.5,.4),SW,pl,r);if(q)o.push(rc(q,"#fff",6))}
+else if(f=="stair")o.push(stair(r));
+else if(f=="elev"){var ie={x:r.x+.12,y:r.y+.12,w:r.w-.24,h:r.h-.24};o.push(rc(ie,"none"),ln(ie.x,ie.y,ie.x+ie.w,ie.y+ie.h),ln(ie.x+ie.w,ie.y,ie.x,ie.y+ie.h))}
+else if(f=="parking"&&mn>=2.5){var vt=r.h>=5,hzp=!vt&&r.w>=5;if(vt||hzp){var cnt=Math.floor((vt?r.w:r.h)/2.5);for(var k=0;k<cnt&&parked<cars;k++,parked++){var cq=vt?{x:r.x+k*2.5+.35,y:r.y+.4,w:1.8,h:4.5}:{x:r.x+.4,y:r.y+k*2.5+.35,w:4.5,h:1.8};o.push(rc(cq,"#fff",8));o.push(vt?ln(cq.x+.15,cq.y+1.2,cq.x+cq.w-.15,cq.y+1.2,"#99a"):ln(cq.x+1.2,cq.y+.15,cq.x+1.2,cq.y+cq.h-.15,"#99a"))}}}
+else if(f=="ramp"){var hzr=r.w>=r.h,Lr=hzr?r.w:r.h,i;for(i=1;i<Lr/.6;i++)o.push(hzr?ln(r.x+i*.6,r.y,r.x+i*.6,r.y+r.h,"#aab",.8):ln(r.x,r.y+i*.6,r.x+r.w,r.y+i*.6,"#aab",.8));o.push(hzr?ln(r.x+.3,r.y+r.h*.2,r.x+r.w-.3,r.y+r.h*.2,"#556",1.5):ln(r.x+r.w*.2,r.y+.3,r.x+r.w*.2,r.y+r.h-.3,"#556",1.5))}});
+function stair(r){var hz=r.w>=r.h,L=hz?r.w:r.h,Wd=hz?r.h:r.w,out=[];function s2(u1,v1,u2,v2,w){var p=hz?[r.x+u1,r.y+v1,r.x+u2,r.y+v2]:[r.x+v1,r.y+u1,r.x+v2,r.y+u2];out.push(ln(p[0],p[1],p[2],p[3],"#667",w||1))}
+var two=Wd>=2.2,fw=two?(Wd-.1)/2:Wd,ld=two?Math.min(1.2,L*.35):0,run=L-ld,n=Math.max(3,Math.round(run/.28)),i;
+for(i=1;i<n;i++){var u=i*run/n;s2(u,0,u,fw);if(two)s2(u,fw+.1,u,Wd)}
+if(two){s2(run,0,run,Wd);s2(0,fw+.05,run,fw+.05,1.5)}
+s2(.25,fw/2,run-.25,fw/2,1.5);s2(run-.25,fw/2,run-.45,fw/2-.12,1.5);s2(run-.25,fw/2,run-.45,fw/2+.12,1.5);return out.join("")}
+/* پنجره‌ها و درها */
+if(!ug)Wn.forEach(function(s){var x1=s.x*S,y1=s.y*S,x2=s.o=="h"?(s.x+s.w)*S:x1,y2=s.o=="h"?y1:(s.y+s.w)*S;o.push('<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#fff" stroke-width="13"/><line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#3a7bd5" stroke-width="8"/><line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#fff" stroke-width="2"/>')});
+D.forEach(function(s){var x=s.x*S,y=s.y*S,w=s.w*S,h=s.o=="h",dir=s.sw?s.sw.dir:1;
+o.push('<line x1="'+x+'" y1="'+y+'" x2="'+(h?x+w:x)+'" y2="'+(h?y:y+w)+'" stroke="#fff" stroke-width="14"/>');
+if(h)o.push('<line x1="'+x+'" y1="'+y+'" x2="'+x+'" y2="'+(y+dir*w)+'" stroke="#222" stroke-width="1.6"/><path d="M'+(x+w)+','+y+' A'+w+','+w+' 0 0 '+(dir==1?1:0)+' '+x+','+(y+dir*w)+'" fill="none" stroke="#222" stroke-width="1.1"/>');
+else o.push('<line x1="'+x+'" y1="'+y+'" x2="'+(x+dir*w)+'" y2="'+y+'" stroke="#222" stroke-width="1.6"/><path d="M'+x+','+(y+w)+' A'+w+','+w+' 0 0 '+(dir==1?0:1)+' '+(x+dir*w)+','+y+'" fill="none" stroke="#222" stroke-width="1.1"/>');
+if(s.main){var d2=dir,ax1,ay1,ax2,ay2;if(h){ax1=x+w/2;ax2=ax1;ay2=y-d2*3;ay1=y-d2*52}else{ay1=y+w/2;ay2=ay1;ax2=x-d2*3;ax1=x-d2*52}
+o.push('<line x1="'+ax1+'" y1="'+ay1+'" x2="'+ax2+'" y2="'+ay2+'" stroke="#c0392b" stroke-width="2.5"/><polygon fill="#c0392b" points="'+(h?(ax2-5)+','+(ay2-d2*8)+' '+(ax2+5)+','+(ay2-d2*8)+' '+ax2+','+ay2:(ax2-d2*8)+','+(ay2-5)+' '+(ax2-d2*8)+','+(ay2+5)+' '+ax2+','+ay2)+'"/>'+tx(h?ax1:ax1,h?ay1-(d2==1?6:-14):ay1-8,"ورودی اصلی",11,"#c0392b","middle"))}});
+/* برچسب فضاها */
+R.forEach(function(r){var mn=Math.min(r.w,r.h),fs=Math.max(8,Math.min(13,mn*S/5.5)),cx=(r.x+r.w/2)*S,cy=(r.y+r.h/2)*S,pt='paint-order="stroke" stroke="#fff" stroke-width="3" stroke-linejoin="round"',ln2=mn*S>=64;
+var nm=ex(r.n)+(r.t=="ramp"?" ٪۱۵":"");
+o.push(tx(cx,cy-(ln2?fs*.6:2),nm,fs,"#111","middle",pt)+(ln2?tx(cx,cy+fs*.5,r1(r.w)+" × "+r1(r.h),fs-2,"#444","middle",pt):"")+tx(cx,cy+(ln2?fs*1.7:fs),(r.w*r.h).toFixed(1)+" m²",fs-1,"#555","middle",pt))});
+/* ابعاد، شمال و مقیاس */
+o.push('<line x1="0" y1="-26" x2="'+pw+'" y2="-26" stroke="#333"/><line x1="0" y1="-31" x2="0" y2="-21" stroke="#333"/><line x1="'+pw+'" y1="-31" x2="'+pw+'" y2="-21" stroke="#333"/>'+tx(pw/2,-30,P.w+" m",12,"#333"));
+o.push('<line x1="-26" y1="0" x2="-26" y2="'+ph+'" stroke="#333"/><line x1="-31" y1="0" x2="-21" y2="0" stroke="#333"/><line x1="-31" y1="'+ph+'" x2="-21" y2="'+ph+'" stroke="#333"/>'+tx(0,0,P.d+" m",12,"#333","middle",'transform="translate(-32,'+ph/2+') rotate(-90)"'));
+if(B.length){var bx0=1e9,bx1=-1e9,by0=1e9,by1=-1e9;B.forEach(function(r){bx0=Math.min(bx0,r.x);bx1=Math.max(bx1,r.x+r.w);by0=Math.min(by0,r.y);by1=Math.max(by1,r.y+r.h)});o.push(tx(pw/2,ph+34,(ug?"زیرزمین":"بنا")+" "+r1(bx1-bx0)+" × "+r1(by1-by0)+" m",12,"#333"))}
+o.push('<line x1="0" y1="'+(ph+22)+'" x2="'+5*S+'" y2="'+(ph+22)+'" stroke="#222" stroke-width="3"/>'+tx(2.5*S,ph+38,"5 m",11,"#222")+tx(pw,ph+38,ex(ttl),13,"#111","end"));
+o.push('</g>');
+var rot={top:0,right:90,bottom:180,left:-90}[gmap().N],a=rot*Math.PI/180;
+o.push('<g transform="translate('+(W-30)+',34) rotate('+rot+')"><polygon points="0,-16 7,8 0,3 -7,8" fill="#222"/></g>'+tx(W-30+24*Math.sin(a),34-24*Math.cos(a)+4,"N",12,"#222"));
+o.push('</svg>');return o.join("")}
+function pprompt(l,N,prev,P,Ly,err,brief){var ev=evsz(),ug=l.k=="ug",gr=l.k=="fl"&&l.i==1,E=Ly.E,t=[],sn=function(s){return sideNameL(s,true)};
+var desc=ug?(l.b?"the basement / utility level (below the ground floor)":"underground parking level "+l.i+" of "+l.n+" (below the ground floor)"):"floor "+l.i+" of "+N+(gr?" (the ground floor)":"");
+var sbs=S4.filter(function(s){return Ly.sh.indexOf(s)<0&&Ly.sb[s]>0}).map(function(s){return s+" "+Ly.sb[s]+" m"}).join(", ");
+t.push("You are an architect. From the brief below design the floor plan layout of "+desc+" as strict JSON. Units: meters. The plot is "+P.w+" x "+P.d+" m: x runs 0 to "+P.w+" left to right, y runs 0 to "+P.d+" top to bottom. Rooms are non-overlapping rectangles on a 0.1 m grid, all inside the plot. Room types t: living, bed, kitchen, bath, wc, stair, elev, parking, yard, terrace, corridor, entry, storage, ramp, other. Names n in Persian. Follow every dimension rule in the brief"+(ev?" (elevator shaft room at least "+ev[0]+" x "+ev[1]+" m)":"")+".");
+if(!ug)t.push("SITE (checked by code): the building rooms of this floor must lie inside x "+Ly.x0+" to "+Ly.x1+" and y "+Ly.y0+" to "+Ly.y1+(sbs?" (setbacks: "+sbs+")":"")+"; tile that footprint without gaps. Site coverage is limited to this footprint (about "+Math.round(Ly.Ft/(P.w*P.d)*100)+"% of the plot); the yard and open ground are the remaining unbuilt area and never count as coverage."+(Ly.sh.length?" The building must touch the neighbor-shared sides ("+Ly.sh.join(", ")+") with no setback, and those facades have no windows and no doors.":"")+(gr?" The part of the plot outside the footprint is drawn as rooms of type yard (the yard strip must be as deep as the setback). Do not put yard rooms on upper floors.":""));
+else if(l.b)t.push("SITE: this is the basement / utility level below the ground floor. Its rooms must lie inside the building footprint of the ground floor (x "+Ly.x0+" to "+Ly.x1+", y "+Ly.y0+" to "+Ly.y1+") and cover about "+Math.round(bsCov()*100)+" percent of it; windows are not needed. Mode: "+bsMode()+". It holds only the rooms listed under BASEMENT SPACES plus stair, elevator and corridor (no bedrooms, living rooms, kitchens, baths or entries). Keep stair and elevator at the exact x,y,w,h of the ground floor.");
+else t.push("SITE: this underground level may use the plot up to its edges; windows are not needed. It holds only parking rooms (each at least 2.5 m wide, about 12.5 m2 per car), stair, elevator, storage and utilities, plus the ramp. Keep stair and elevator at the exact x,y,w,h of the ground floor.");
+var mq=mastersPrompt(ug);if(mq)t.push(mq);
+var pv2=!ug&&l.k=="fl"?plcVals(l.i):null;if(pv2)t.push("LEVEL CONTENT (checked by code): bedrooms (type bed) "+pv2.b+", bedrooms with a private bath inside "+pv2.e+" (separate type bath room attached to the bedroom, door from inside it), separate common WC rooms (type wc) "+pv2.w+", common bath rooms (type bath) "+pv2.h+"; null means free choice.");
+if(!ug&&l.k=="fl"&&l.i>=1&&l.i<=3){var xp=xPrompt(l.i);if(xp)t.push(xp)}
+if(ug&&(l.b||l.i==1)&&bsOn()){var bp=xPrompt(0);if(bp)t.push(bp)}
+if(gr)t.push("MAIN ENTRANCE: the main entrance faces the "+sn(E)+" (the street side). Exactly one door must have \"main\":true; it lies on the building facade that faces the "+E+" side of the sheet, on the building edge, and opens into an entry or living room.");
+else t.push("No door on this level may have main:true.");
+if(Ly.sh.length==0&&sharedInfo().unk)t.push("One neighbor-shared side is unspecified; choose a valid side.");
+if(hasUG()&&(gr||ug))t.push("RAMP: include a room of type ramp for the car ramp to the underground parking"+(ug?" (on level 1 it lies directly below the ground-floor ramp; ramps of 15 percent need about "+Math.round(3.2/.15)+" m of total length, so show at least 6 m of it)":" in the front strip near the "+E+" side; it is outdoors, at least 3 m wide, and may start at the street")+".");
+t.push("DOORS and WINDOWS: {x,y,w,o} where o is h for a segment on a horizontal wall starting at (x,y) and running right, v for a vertical wall running down; door w 0.9 (main door 1.0 to 1.1), window w 1.0 to 2.0. Swing directions are computed by code, so leave a free 0.9 x 0.9 m square inside the room next to each door, keep door swings from colliding and never overlap two doors. Every living, bed, kitchen, bath, wc, storage and entry room needs a door on its own wall; every room must be reachable from the entrance by doors (living, kitchen, corridor, entry and stair may open to each other directly); every living, bed and kitchen room needs a window on an exterior wall (a wall with no room behind it). The only WC must not open directly into a bedroom.");
+t.push("Schema: {\"rooms\":[{\"n\":\"نشیمن\",\"t\":\"living\",\"x\":0,\"y\":0,\"w\":5,\"h\":4}],\"doors\":[{\"x\":2,\"y\":4,\"w\":0.9,\"o\":\"h\",\"main\":false}],\"windows\":[{\"x\":1,\"y\":0,\"w\":1.5,\"o\":\"h\"}]}. Reply with JSON only.");
+if(prev.length)t.push("Levels already designed (keep stair and elevator at exactly the same x,y,w,h): "+JSON.stringify(prev.map(function(p){return{level:lvName(p.lv,true),rooms:p.rooms}})));
+if(err)t.push("Fix these problems from your last attempt: "+err);
+return t.join("\n")+"\n\nBRIEF:\n"+brief}
+function pshow(){var fl=PL[CUR];if(!fl)return;$("psvg").innerHTML=psvg(fl,PN,($("pname").value||"")+" — "+lvName(fl.lv,isEn()),fl.lv);$("pbox").hidden=false;var s=$("fsel");s.hidden=PL.length<2;s.innerHTML="";PL.forEach(function(p,i){var o=document.createElement("option");o.value=i;o.textContent=lvName(p.lv,false);s.appendChild(o)});s.value=CUR;var w=pfin();$("pwarn").textContent=(w.length?"⚠ "+w.join(" | "):"همه کنترل‌های خودکار گذشت. برای اجرا بررسی معمار لازم است.")+pinfo()}
+async function mkPlan(){var st=$("pst");if(!(window.claude&&claude.use)){st.textContent="ساخت پلان فقط در صفحه منتشرشده کار می‌کند";return}
+var sm=await claude.use("sample");if(!sm){st.textContent="ساخت پلان در این نمایش در دسترس نیست";return}
+var N=nf(),P=pdim(),Ly=layout(),LVs=levels(),brief=build(),b=$("mk");PN=P;LY=Ly;LV=LVs;PL=[];b.disabled=true;
+try{for(var f=0;f<LVs.length;f++){var l=LVs[f],err="",fl=null,e=[];
+for(var t=0;t<3;t++){st.textContent="در حال طراحی "+lvName(l,false)+" ("+(f+1)+" از "+LVs.length+")"+(t?" (اصلاح "+t+")":"")+" ...";
+fl=await sm.json(pprompt(l,N,PL,P,Ly,err,brief),{cache:false,modelTier:"complex"});e=pchk(fl,l,P,N,Ly);if(!e.length)break;err=e.slice(0,10).join("; ")}
+if(!fl||typeof fl!="object")fl={rooms:[],doors:[],windows:[]};
+if(e.length)fl.warn=e;fl.lv=l;PL.push(fl)}
+CUR=0;pshow();st.textContent="پلان آماده شد"}
+catch(x){st.textContent=x&&x.code=="rate_limited"?"سقف تعداد درخواست پر شده؛ کمی بعد دوباره امتحان کن":"ساخت پلان انجام نشد: "+((x&&x.message)||"خطا");if(PL.length)pshow()}
+b.disabled=false}
+async function dlPlan(kind){var dl=window.claude&&await claude.use("downloads");if(!dl){$("pst").textContent="ذخیره فایل در این نمایش در دسترس نیست";return}
+var fl=PL[CUR],svg=psvg(fl,PN,($("pname").value||"")+" — "+lvName(fl.lv,false),fl.lv),nm=($("pname").value||"plan").replace(/\s+/g,"-")+"-"+lvName(fl.lv,true).replace(/\s+/g,"");
+try{if(kind=="svg"){await dl.save({filename:nm+".svg",data:svg});return}
+var im=new Image();await new Promise(function(ok,no){im.onload=ok;im.onerror=no;im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg)});
+var cv=document.createElement("canvas");cv.width=im.width*2;cv.height=im.height*2;var cx=cv.getContext("2d");cx.fillStyle="#fff";cx.fillRect(0,0,cv.width,cv.height);cx.drawImage(im,0,0,cv.width,cv.height);
+var bl=await new Promise(function(r){cv.toBlob(r,"image/png")});await dl.save({filename:nm+".png",data:bl})}
+catch(x){if(!x||x.code!="declined")$("pst").textContent="ذخیره انجام نشد"}}
+function showYard(){var t=$("yardType").value;$("yw").hidden=t.indexOf("حیاط")<0;$("tw").hidden=t.indexOf("تراس")<0}
+function yardTxt(){var b=yardTxt0(),o=outTxt();return o?(b?b+(isEn()?"; ":"؛ ")+o:o):b}
+function yardTxt0(){if(isApt()){var en0=isEn(),b=$("aptBal").value,d=$("aptBW").value;return!b?FB:(b=="ندارد"?(en0?"No balcony":"بدون بالکن"):(en0?"Balcony"+(d?", depth "+d+" m":""):"بالکن"+(d?" با عمق "+d+" متر":"")))}var en=isEn(),t=$("yardType").value;if(!t)return FB;if(t=="ندارد")return en?"None":"ندارد";var a=[],p=$("yardPos").value,m=$("yardM").value,tm=$("terM").value;if(t.indexOf("حیاط")>-1)a.push(en?(p?EN[p]+" ":"")+"yard"+(m?", depth "+m+" m":""):"حیاط"+(p?" "+p:"")+(m?" با عمق "+m+" متر":""));if(t.indexOf("تراس")>-1)a.push(en?"Terrace"+(tm?", width "+tm+" m":""):"تراس"+(tm?" با عرض "+tm+" متر":""));return a.join(en?" and ":" و ")}
+function showPark(){var t=$("parking").value,u=t.indexOf("زیرزمین")>-1;$("pw").hidden=!(t&&t!="ندارد");$("plw").hidden=!u;$("prw").hidden=!u}
+function parkTxt(){var en=isEn(),t=$("parking").value;if(!t)return FB;if(t=="ندارد")return en?"None":"ندارد";var n=$("parkN").value,ar=$("parkA").value||(n?n*25:""),u=t.indexOf("زیرزمین")>-1,lv=u?$("parkLv").value:"",rp=u?$("parkRamp").value:"";return en?(EN[t]||t)+(n?", for "+n+" car(s)":"")+(lv?", "+lv+" underground level(s)":"")+(rp?", access by "+(EN[rp]||rp):"")+(ar?", area about "+ar+" m²":""):t+(n?"، برای "+n+" خودرو":"")+(lv?"، در "+lv+" طبقه زیرزمین":"")+(rp?"، دسترسی با "+rp:"")+(ar?"، مساحت حدود "+ar+" متر مربع":"")}
+function parkLines(){var en=isEn(),t=$("parking").value;if(!t||t=="ندارد")return null;var u=t.indexOf("زیرزمین")>-1,p=t.indexOf("پیلوتی")>-1,y=t.indexOf("حیاط")>-1,a=[];
+a.push(en?"Each parking bay about 2.5 × 5 m; maneuvering aisle about 5 to 6 m":"ابعاد هر جای پارک حدود ۲٫۵ × ۵ متر و عرض مسیر گردش حدود ۵ تا ۶ متر");
+a.push(en?"Garage entrance directly from the street, separate from the pedestrian entrance":"ورودی پارکینگ مستقیم از معبر و جدا از ورودی عابر");
+if(u){var lv=parseInt($("parkLv").value,10)||1,n=parseInt($("parkN").value,10)||0,dp=lv*3.2,rl=Math.round(dp/0.15);
+a.push(T("عرض مفید رمپ تک‌خودرو مستقیم حداقل 2.5 متر برای کمتر از 5 خودرو و 3.5 متر برای 5 تا 25 خودرو (طراحی با 3.0 تا 3.5 متر توصیه می‌شود)؛ رمپ منحنی تک‌خودرو حداقل 3.65 متر؛ شیب حداکثر 15 درصد با شیب ملایم‌تر در ابتدا و انتها؛ ارتفاع آزاد حداقل 2.2 متر","Straight single-car ramp clear width at least 2.5 m for fewer than 5 cars and 3.5 m for 5 to 25 cars (design for 3.0 to 3.5 m); curved single-car ramp at least 3.65 m; slope at most 15 percent, gentler at the start and end; clear height at least 2.2 m"));
+a.push(T("برآورد: برای "+lv+" طبقه زیرزمین با اختلاف تراز حدود "+dp.toFixed(1)+" متر (هر طبقه ≈ 3.2) طول رمپ با شیب 15 درصد حدود "+rl+" متر می‌شود؛ اگر طول یا عرض زمین کفایت نمی‌کند، رمپ منحنی یا دوبازو با ایستگاه گردش 90 درجه پیش‌بینی کن و این محدودیت را اعلام کن","Estimate: for "+lv+" underground level(s) with a level difference of about "+dp.toFixed(1)+" m (about 3.2 m each) the ramp at 15 percent is about "+rl+" m long; if the plot length or width is insufficient, use a curved or two-leg ramp with a 90-degree turning landing and report this constraint"));
+a.push(T("مساحت ناخالص هر خودرو حدود 25 مترمربع (شامل مسیر گردش)؛ اتصال پارکینگ به پله و آسانسور با در یا فضای واسط انجام شود؛ پله و آسانسور ارتباط مستقیم با طبقات پارکینگ داشته باشند و تهویه مکانیکی پیش‌بینی شود","Gross area per car about 25 m² (including maneuvering); the link between parking and the stair or elevator must be through a door or an intermediate space; stair and elevator connect directly to the parking levels and mechanical ventilation is provided"));
+if(($("parkRamp").value||"").indexOf("آسانسور")>-1)a.push(T("آسانسور خودرو نمی‌تواند تنها راه ورود و خروج خودرو باشد؛ علاوه بر آن رمپ یا مسیر دیگر پیش‌بینی کن (آسانسور خودرو با درب اتوماتیک و برق اضطراری)","A car lift cannot be the only vehicle access; also provide a ramp or another route (the car lift with automatic doors and emergency power)"))}
+if(p)a.push(en?"Align pilotis columns with the bay layout; keep columns out of the car-door opening zones":"ستون‌های پیلوتی با شبکه جای پارک هماهنگ باشند و در محدوده باز شدن درهای خودرو قرار نگیرند");
+if(y)a.push(en?"Keep a clear maneuvering path in the yard and a safe distance from windows and the facade":"مسیر مانور خودرو در حیاط آزاد بماند و فاصله مناسب با پنجره‌ها و نمای ساختمان رعایت شود");
+a.push(en?"Check the exact bay count and dimensions against local municipal rules and report any conflict":"تعداد و ابعاد دقیق جای پارک را با ضوابط شهرداری محلی کنترل کن و مغایرت را اعلام کن");return a}
+function parkFa(){var a=parkLines();return a?"1-2. ضوابط طراحی پارکینگ\n\nپارکینگ را مطابق اصول متداول ساختمان‌های ایرانی طراحی کن:\n\n- "+a.join("\n- ")+"\n\n":""}
+function parkEn(){var a=parkLines();return a?"\n1.2 Parking design notes\n\nDesign the parking following common Iranian residential practice:\n\n- "+a.join("\n- ")+"\n":""}
+function showExtras(){var sb=bsOn();$("storBox").hidden=sb;if(sb){["stor","storN","storA","storL"].forEach(function(i){$(i).value=""})}function on(v){return v&&v!="ندارد"}$("ew").hidden=!on($("elev").value);$("sw").hidden=!on($("stor").value);$("piw").hidden=!on($("pil").value)}
+function elevTxt(){var en=isEn(),t=$("elev").value;if(!t)return FB;if(t=="ندارد")return en?"None":"ندارد";var n=$("elevN").value,c=$("elevC").value;return en?"Yes"+(n?", "+n+" cabin(s)":"")+(c?", capacity "+c+" persons per cabin":""):"دارد"+(n?"، "+n+" اتاقک":"")+(c?"، ظرفیت هر اتاقک "+c+" نفره":"")}
+function storTxt(){var en=isEn();if(bsOn()){var hs=xOn(0,"stor")||xOn(0,"cellar");return hs?(en?"Yes, in the basement (see the basement spaces list)":"دارد، در زیرزمین (طبق فضاهای زیرزمین)"):(en?"No separate storage; only what is listed in the basement spaces":"انباری جداگانه ندارد؛ فقط آنچه در فضاهای زیرزمین آمده")}var t=$("stor").value;if(!t)return FB;if(t=="ندارد")return en?"None":"ندارد";var n=$("storN").value,a=$("storA").value,l=$("storL").value;return en?"Yes"+(n?", "+n+" room(s)":"")+(a?", about "+a+" m² each":"")+(l?", location: "+(EN[l]||l):""):"دارد"+(n?"، "+n+" انباری":"")+(a?"، هر کدام حدود "+a+" متر مربع":"")+(l?"، محل: "+l:"")}
+function pilTxt(){var en=isEn(),t=$("pil").value;if(!t)return FB;if(t=="ندارد")return en?"None":"ندارد";var u=$("pilU").value,h=$("pilH").value;return en?"Yes"+(u?", use: "+(EN[u]||u):"")+(h?", clear height about "+h+" m":""):"دارد"+(u?"، کاربری: "+u:"")+(h?"، ارتفاع حدود "+h+" متر":"")}
+/* ---- دوبلکس/تریبلکس، اتاق مستر، تفکیک و کنترل مساحت ---- */
+var AW={liv:3,kit:1,bed:1,mas:1.4},AMIN={liv:12,kit:5.5,bed:9,mas:12},ANM={liv:["نشیمن و پذیرایی","living and reception"],kit:["آشپزخانه","kitchen"],bed:["هر اتاق خواب معمولی","each standard bedroom"],mas:["هر اتاق مستر","each master bedroom"]};
+for(var bi=1;bi<=6;bi++){AW["bed"+bi]=1;AMIN["bed"+bi]=9;ANM["bed"+bi]=["اتاق خواب "+pd(String(bi)),"bedroom "+bi]}
+var BUILT=false;function ALLA(){return["aLiv","aKit","aBed1","aBed2","aBed3","aBed4","aBed5","aBed6"]}function wk(k){return k.indexOf("bed")==0?"bed":k}
+function fnum(id,d){var v=parseInt(dig($(id).value),10);return v>=0?v:d}
+function fp(v){return pd(String(Math.round(v*10)/10))}
+function isApt(){return false}function isBld(){return $("type").value=="آپارتمان"}
+function bldFl(){return isApt()?fnum("aptFl",4):nf()}
+function unitLv(){if(isApt())return 1;var u=$("unit").value;return u.indexOf("تریبلکس")>-1?3:(u.indexOf("دوبلکس")>-1?2:1)}
+function floorsVal(){if(isBld())return isEn()?"only one floor plan is required (the building's total floor count is not needed)":"فقط نقشهٔ یک طبقه (تعداد کل طبقات ساختمان مهم نیست)";var v=$("floors").value.trim(),k=nf();if(v&&parseInt(dig(v),10)>=k)return g("floors");return(v||unitLv()>1)?String(k):g("floors")}
+function masterN(){return{n:0,asm:true}}
+function mOpt(id,d){return d}
+function fdef(j){if(isBld()){var N=nf();return j==1?($("pil").value=="دارد"?"پیلوتی (پارکینگ و ورودی)، لابی، پله و آسانسور مشترک":"لابی ورودی، پله و آسانسور مشترک، واحدهای همکف"):(j==N?($("aptPh").value=="دارد"?"پنت‌هاوس با تراس خصوصی و بام فنی":"واحدهای طبقه آخر و بام"):"واحدهای طبقه تیپ")}var l=unitLv(),a=l==3?["ورودی، پذیرایی، آشپزخانه، سرویس مهمان، پله داخلی","اتاق خواب‌ها، حمام، نشیمن خانوادگی","مستر، اتاق لباس، تراس"]:(l==2?["ورودی، پذیرایی، آشپزخانه، سرویس مهمان، پله داخلی","اتاق خواب‌ها، مستر، حمام، تراس"]:null);return a&&a[j-1]?a[j-1]:(j==1?"پذیرایی، آشپزخانه، سرویس مهمان، پله":"اتاق خواب‌ها، حمام، تراس")}
+function showUnit(){var a=isApt(),l=unitLv(),h=$("unitHint"),f=$("floors"),v=a?1:l;h.hidden=a||l<2;f.value=v>1?String(v):"";if(!a&&l>1)h.textContent=(l==2?"دوبلکس":"تریبلکس")+": واحد در "+pd(String(l))+" سطح طراحی می‌شود؛ محل فضاها را با تیک‌زدن آن‌ها در کادر هر سطح (بخش «تفکیک هر سطح») مشخص کنید."}
+function showType(){var t=$("type");if(!t.value)t.value="ویلایی";var a=isApt(),q=function(s){return document.querySelector('label[for="'+s+'"]')};$("aptB").hidden=!a;$("unitW").hidden=a;$("occW").hidden=a;
+if(a)["unit","yardType","yardPos","yardM","terM"].forEach(function(i){$(i).value=""});
+q("yardType").hidden=a;$("yardType").hidden=a;q("len").textContent=a?"طول واحد (متر)":"طول زمین (متر)";q("wid").textContent=a?"عرض واحد (متر)":"عرض زمین (متر)";q("area").textContent=a?"سطح زیربنای واحد (م²)، خودکار = طول × عرض":"سطح زیربنای کل (م²)، خودکار = سطح اشغال × طبقات";
+$("aptBw").hidden=$("aptBal").value!="دارد";Array.prototype.forEach.call($("parking").options,function(o){var h=o.value.indexOf("حیاط")>-1;o.hidden=a&&h;o.disabled=a&&h});if(a&&$("parking").value.indexOf("حیاط")>-1)$("parking").value="";
+$("aptNote").textContent=a?"آپارتمان: ابعاد مربوط به همان واحد است و پلان فقط برای یک واحد در یک سطح ساخته می‌شود. دیوار مشترک با همسایه را برای واحدهای مجاور انتخاب کنید.":""}
+function secApt(){var e=isEn(),p=$("aptPos").value,b=[],fl=$("aptFl").value.trim()||"—",lv=$("aptLv").value.trim()||"—";
+b.push(T("این پروژه یک واحد آپارتمانی در ساختمان "+fl+" طبقه است (طبقه "+lv+")؛ ابعاد واردشده مربوط به همان واحد است و پلان فقط برای همین یک واحد در یک سطح طراحی شود","This project is a single apartment unit in a "+fl+"-floor building (on floor "+lv+"); the entered dimensions belong to the unit and the plan covers only this one unit on one level"));
+b.push(T("ورودی واحد از پاگرد یا راهروی مشترک پله و آسانسور باشد؛ پله و آسانسور مشترک داخل پلان واحد نیایند و فقط محل ورود نمایش داده شود","The unit entrance opens from the shared stair and elevator landing or corridor; do not draw the shared stair or elevator inside the unit, show only the entry point"));
+b.push(p?T("موقعیت واحد: "+p+"؛ "+(p=="گوشه"?"نور و پنجره از دو ضلع آزاد تأمین شود":"نور و پنجره فقط از ضلع‌های آزاد تأمین شود"),"Unit position: "+(p=="گوشه"?"corner; light from two free facades":"middle; light only from the free facades")):T("نور و پنجره فقط از ضلع‌های آزاد (بدون دیوار مشترک) تأمین شود","Take light and windows only from free facades (no shared walls)"));
+b.push(T("دیوار مشترک با واحدهای همسایه بدون پنجره و در باشد؛ شفت تأسیسات و هواکش آشپزخانه و سرویس‌ها را کنار هم و نزدیک دیوار هسته ساختمان بچین","Walls shared with neighboring units have no windows or doors; group the service shaft and kitchen and bathroom exhausts together near the building core wall"));
+b.push(T("بالکن یا تراس اختصاصی فقط طبق گزینه بالکن؛ حیاط اختصاصی وجود ندارد","A private balcony only as per the balcony option; there is no private yard"));
+return secW("1-4","ضوابط واحد آپارتمانی","Apartment unit rules",b)}
+function showMaster(){}
+function masterTxt(){var e=isEn(),s=$("master").value,b=$("masterBath").value,c=$("masterCloset").value,l=$("masterLoc").value;if(s==="")return FB;if(s==="0")return e?"None":"ندارد";return e?s+" master bedroom(s) (counted within the bedrooms)"+(b?", private bath: "+EN[b]:"")+(c?", walk-in closet: "+EN[c]:"")+(l?", location: "+(EN[l]||l):""):s+" اتاق مستر (جزو اتاق‌های خواب)"+(b?"، حمام و سرویس اختصاصی: "+b:"")+(c?"، اتاق لباس: "+c:"")+(l?"، محل: "+l:"")}
+function areaLines(){return occLine()+areaLines0()+xLines()+bsLines()}
+function areaLines0(){if(isBld())return"";var e=isEn(),n=Math.min(fnum("beds",3),6),L=[["aLiv","Living and reception area (m²)","مساحت نشیمن و پذیرایی (مترمربع)"],["aKit","Kitchen area (m²)","مساحت آشپزخانه (مترمربع)"]];for(var i=1;i<=n;i++)L.push(["aBed"+i,"Area of bedroom "+i+" (m²)","مساحت اتاق خواب "+pd(String(i))+" (مترمربع)"]);return L.map(function(x){return"\n- "+(e?x[1]:x[2])+": "+(isMan(x[0])&&!(num(x[0])>0)?(e?"none (user set zero)":"ندارد (صفر توسط کاربر)"):g(x[0]))}).join("")}
+function secW(no,fa,en,b){if(!b.length)return"";var e=isEn();return e?"\n"+no.replace("-",".")+" "+en+"\n\n- "+b.join("\n- ")+"\n":no+". "+fa+"\n\n- "+b.join("\n- ")+"\n\n"}
+
+function bldCnt(){var U=parseInt(dig($("aptUn").value),10)||0;return{N:1,U:U,tot:U}}
+function aptKind(en){var U=bldCnt().U;if(en)return U==1?"Apartment building, single-unit per floor":U>1?"Apartment building, multi-unit ("+U+" units per floor)":"Apartment building (units per floor: assume logically)";return U==1?"ساختمان آپارتمانی، تک‌واحدی (یک واحد در هر طبقه)":U>1?"ساختمان آپارتمانی، چندواحدی ("+U+" واحد در هر طبقه)":"ساختمان آپارتمانی (تعداد واحد در طبقه: فرض منطقی)"}
+function swT(el,t){if(!el)return;if(el._o===undefined)el._o=el.textContent;el.textContent=t===null?el._o:t}
+function bldUI(){var b=isBld();document.body.classList.toggle("bld",b);$("aptB").hidden=!b;$("unitW").hidden=b;
+swT($("lvHint").parentNode.firstElementChild,b?"سطح‌ها: پارکینگ و طبقه":null);
+var lm=$("lvm"),la=$("lcA"),l0=$("lc0");if(lm&&lm.children.length>1){swT(lm.children[0],b?"تفکیک سطح‌ها: پارکینگ و طبقه (اختیاری)":null);swT(lm.children[1],b?"در آپارتمان فقط دو سطح وجود دارد: سطح ۱ پارکینگ و سطح ۲ یک طبقه. تعداد کل طبقات ساختمان مهم نیست.":null)}
+if(l0&&l0.firstElementChild)swT(l0.firstElementChild,b?"سطح ۱: پارکینگ (و زیرزمین / تأسیسات، اختیاری)":null);
+if(la)la.hidden=!b;
+var ar=document.querySelector('label[for="area"]');if(ar)swT(ar,b?"سطح زیربنای یک طبقه (م²)، خودکار = سطح اشغال × مساحت زمین":null);
+if(!b)return;$("unit").value="";
+var c=bldCnt(),A=num("area"),per=(A>0&&c.U>0)?Math.round((A-25)/c.U):0,sp=$("aptFl").value.trim();
+$("lvHint").textContent="فقط دو سطح تعریف می‌شود: سطح ۱ پارکینگ (نوع و محل پارکینگ در بخش «پارکینگ» پایین‌تر) و سطح ۲ یک طبقه. اگر می‌خواهید طبقه‌ی مشخصی نقشه‌ی جدا داشته باشد، آن را در بخش «طبقه‌ای که نقشه‌اش جدا طراحی شود» بنویسید.";
+var kind=c.U==1?"تک‌واحدی؛ کل طبقه یک واحد است":(c.U>1?"چندواحدی؛ "+pd(String(c.U))+" واحد در طبقه حول هسته مشترک":"تعداد واحد در طبقه مشخص نیست و معمار فرض منطقی می‌کند");
+var inf=$("aptLvInfo");if(inf)inf.textContent="نقشه: "+(sp?"طبقه‌ی «"+sp+"» (نقشه‌ی جدا)":"طبقه‌ی تیپ")+" | نوع: "+kind+(per>0?" | مساحت تقریبی هر واحد پس از کسر هسته مشترک (حدود ۲۵ م²): "+pd(String(per))+" م²":"");
+$("aptNote").textContent="ساختمان آپارتمانی فقط با دو نقشه طراحی می‌شود: پارکینگ و یک طبقه. تعداد کل طبقات لازم نیست؛ مهم، نوع واحد (تک‌واحدی یا چندواحدی) و تعداد واحد در هر طبقه است."}
+
+var APT_ROOMS=[
+ {k:"living",fa:"پذیرایی و نشیمن",en:"Living and reception",a:24,on:1},
+ {k:"kitchen",fa:"آشپزخانه",en:"Kitchen",a:10,on:1},
+ {k:"dining",fa:"غذاخوری",en:"Dining area",a:8,on:1},
+ {k:"bed1",fa:"اتاق خواب ۱",en:"Bedroom 1",a:12,on:1,bed:1},
+ {k:"bed2",fa:"اتاق خواب ۲",en:"Bedroom 2",a:12,on:1,bed:1},
+ {k:"bed3",fa:"اتاق خواب ۳",en:"Bedroom 3",a:12,on:0,bed:1},
+ {k:"bed4",fa:"اتاق خواب ۴",en:"Bedroom 4",a:12,on:0,bed:1},
+ {k:"bath",fa:"حمام",en:"Bathroom",a:4.5,on:1},
+ {k:"wc",fa:"سرویس بهداشتی",en:"WC",a:2,on:1},
+ {k:"laundry",fa:"رختشویخانه",en:"Laundry",a:3,on:0},
+ {k:"storage",fa:"انباری داخل واحد",en:"In-unit storage",a:3,on:0},
+ {k:"study",fa:"اتاق کار",en:"Study",a:8,on:0},
+ {k:"balcony",fa:"تراس / بالکن",en:"Terrace / balcony",a:5,on:0},
+ {k:"pantry",fa:"پنتری / فضای خدماتی",en:"Pantry / service space",a:2,on:0}
+];
+function aptRoomDefs(){
+ var n=Math.max(1,Math.min(4,parseInt(dig($("aptBd").value),10)||2));
+ return APT_ROOMS.filter(function(x){return !x.bed||parseInt(x.k.slice(3),10)<=n});
+}
+function aptLayoutData(){
+ var raw=$("aptLayout").value,o={};try{o=JSON.parse(raw)||{}}catch(e){}
+ var U=Math.max(1,Math.min(6,bldCnt().U||1)),defs=aptRoomDefs();
+ o.units=Array.isArray(o.units)?o.units:[];
+ while(o.units.length<U)o.units.push({rooms:{}});
+ o.units=o.units.slice(0,U);
+ o.units.forEach(function(u){
+  if(!u.rooms)u.rooms={};
+  defs.forEach(function(d){if(!u.rooms[d.k])u.rooms[d.k]={on:!!d.on,a:d.a}});
+  Object.keys(u.rooms).forEach(function(k){if(!defs.some(function(d){return d.k===k}))delete u.rooms[k]});
+ });
+ $("aptLayout").value=JSON.stringify(o);return o;
+}
+function aptCore(){
+ var A=num("area"),U=Math.max(1,bldCnt().U||1),ev=evsz(),lift=ev?ev[0]*ev[1]*Math.max(1,fnum("elevN",1)):0;
+ var stair=8,landing=5,entry=2.5,shaft=2,shared=stair+lift+landing+entry+shaft;
+ var per=A>0?Math.max(0,(A-shared)/U-6):0;
+ return{A:A,U:U,stair:stair,lift:lift,landing:landing,entry:entry,shaft:shaft,shared:shared,private:6,per:per,total:A>0?Math.max(0,A-shared-U*6):0};
+}
+function aptUI(){
+ var c=$("lcA");if(!c||!isBld())return;
+ var data=aptLayoutData(),core=aptCore(),defs=aptRoomDefs(),e=isEn(),h="";
+ h+='<div class="ast"><label for="aptBd">تعداد اتاق خواب در هر واحد</label><select id="aptBd"><option value="">فرض منطقی (۲ اتاق)</option><option value="1">۱ اتاق خواب</option><option value="2">۲ اتاق خواب</option><option value="3">۳ اتاق خواب</option><option value="4">۴ اتاق خواب</option></select><div class="hint">با تغییر این گزینه، تعداد اتاق‌خواب‌های قابل انتخاب در کادر هر واحد به‌روزرسانی می‌شود.</div></div>';
+ h+='<div class="hint">برای هر واحد، فضاهای موردنیاز را جداگانه انتخاب کنید و مساحت هرکدام را تنظیم کنید. ظرفیت هر واحد پس از کسر خودکار هسته‌ی مشترک ساختمان و ورودی و هال داخلی همان واحد محاسبه می‌شود.</div>';
+ h+='<div class="ast"><b>محاسبه‌ی خودکار فضای قابل تخصیص</b><div class="m">زیربنای طبقه: '+fp(core.A)+' م² | تعداد واحد: '+pd(String(core.U))+'</div><div class="m">کسر هسته‌ی مشترک: پله '+fp(core.stair)+'، آسانسور '+fp(core.lift)+'، پاگرد مشترک '+fp(core.landing)+'، ورودی مشترک '+fp(core.entry)+'، شفت‌ها '+fp(core.shaft)+' = مجموع '+fp(core.shared)+' م²</div><div class="m">کسر ورودی و هال داخلی: '+fp(core.private)+' م² برای هر واحد × '+pd(String(core.U))+'</div><div class="m"><b>ظرفیت تقریبی فضاهای قابل انتخاب در هر واحد: '+fp(core.per)+' م²</b></div><div class="hint">این مقادیر برآورد اولیه‌اند و با توجه به ابعاد واقعی هسته، سازه و ضوابط باید در نقشه کنترل شوند.</div></div>';
+ data.units.forEach(function(u,i){
+  var used=0;defs.forEach(function(d){var r=u.rooms[d.k];if(r&&r.on)used+=Math.max(0,parseFloat(dig(r.a))||0)});
+  var rem=core.per-used,unitTitle=core.U==1?(e?"Main unit":"واحد اصلی"):(e?"Unit "+(i+1):"واحد "+pd(String(i+1)));
+  h+='<div class="ast apt-unit" data-unit="'+i+'"><b>'+unitTitle+'</b><div class="hint">ورودی مستقل از پاگرد مشترک؛ ورودی و هال داخلی این واحد ('+fp(core.private)+' م²) پیشاپیش از ظرفیت کسر شده است.</div>';
+  defs.forEach(function(d){
+   var r=u.rooms[d.k]||{on:false,a:d.a},checked=r.on?' checked':'',val=(r.a==null?d.a:r.a);
+   h+='<div class="xr"><label class="xl"><input type="checkbox" data-apt-on="'+d.k+'"'+checked+'><span>'+(e?d.en:d.fa)+'</span></label><input class="xa" type="number" min="0" step="0.5" data-apt-area="'+d.k+'" value="'+val+'"'+(r.on?'':' disabled')+' aria-label="مساحت '+d.fa+'"></div>';
+  });
+  h+='<div class="m '+(rem<-.05?'er':'in')+'">مجموع فضاهای انتخابی: '+fp(used)+' م² | '+(rem>=0?'باقی‌مانده: '+fp(rem):'اضافه‌ظرفیت: '+fp(-rem))+' م²</div></div>';
+ });
+ c.innerHTML='<h4>جانمایی و انتخاب فضاهای واحدها</h4>'+h;
+ if(!c._aptBound){c._aptBound=true;c.addEventListener("change",function(ev){
+  var t=ev.target;if(t&&t.id==="aptBd"){render();return}var on=t.getAttribute("data-apt-on"),area=t.getAttribute("data-apt-area");if(!on&&!area)return;
+  var d=aptLayoutData(),u=t.closest(".apt-unit"),i=u?parseInt(u.getAttribute("data-unit"),10):0;if(!d.units[i])return;
+  var key=on||area;if(!d.units[i].rooms[key])d.units[i].rooms[key]={on:false,a:0};
+  if(on)d.units[i].rooms[key].on=t.checked;
+  if(area)d.units[i].rooms[key].a=Math.max(0,parseFloat(dig(t.value))||0);
+  $("aptLayout").value=JSON.stringify(d);render();
+ });}
+}
+function aptLayoutPrompt(){
+ var data=aptLayoutData(),core=aptCore(),defs=aptRoomDefs(),b=[];
+ b.push(T("تخصیص مساحت طبقه آپارتمان: زیربنای طبقه "+fp(core.A)+" مترمربع است. ابتدا هسته‌ی مشترک شامل پله ("+fp(core.stair)+" م²)، آسانسور ("+fp(core.lift)+" م²)، پاگرد مشترک ("+fp(core.landing)+" م²)، ورودی مشترک ("+fp(core.entry)+" م²) و شفت‌ها ("+fp(core.shaft)+" م²) را کسر کن؛ سپس از ظرفیت هر واحد "+fp(core.private)+" مترمربع برای ورودی و هال داخلی همان واحد کسر شود. ظرفیت باقی‌مانده‌ی تقریبی هر واحد "+fp(core.per)+" مترمربع است. این کسرها را دوباره در مساحت اتاق‌ها محاسبه نکن.",
+ "Apartment floor allocation: floor area "+fp(core.A)+" m². First deduct the shared core: stair ("+fp(core.stair)+" m²), elevator ("+fp(core.lift)+" m²), shared landing ("+fp(core.landing)+" m²), common entrance ("+fp(core.entry)+" m²) and shafts ("+fp(core.shaft)+" m²). Then deduct "+fp(core.private)+" m² per unit for that unit's private entrance and internal hall. Approximate remaining room capacity per unit: "+fp(core.per)+" m². Do not count these deducted areas again within room areas."));
+ data.units.forEach(function(u,i){
+  var arr=[],sum=0;
+  defs.forEach(function(d){var r=u.rooms[d.k];if(r&&r.on){var a=Math.max(0,parseFloat(dig(r.a))||0);sum+=a;arr.push(d.fa+": "+fp(a)+" m²")}});
+  b.push(T("واحد "+pd(String(i+1))+": ورودی و هال داخلی "+fp(core.private)+" مترمربع (کسرشده از ظرفیت)؛ فضاهای انتخابی: "+(arr.length?arr.join("، "):"به تشخیص معمار")+"؛ جمع مساحت فضاهای انتخابی: "+fp(sum)+" مترمربع؛ ظرفیت قابل تخصیص: "+fp(core.per)+" مترمربع.",
+  "Unit "+(i+1)+": private entrance and internal hall "+fp(core.private)+" m² (already deducted); selected rooms: "+(arr.length?arr.join(", "):"architect's choice")+"; selected room area total: "+fp(sum)+" m²; allocatable capacity: "+fp(core.per)+" m²."));
+ });
+ b.push(T("اگر مجموع مساحت فضاهای انتخابی هر واحد از ظرفیت آن بیشتر شد، پیش از نهایی‌کردن پلان هشدار بده و مساحت‌ها را با حفظ حداقل‌های عملکردی اصلاح کن؛ هیچ فضایی را بدون اعلام حذف نکن. برای هر واحد ورودی مستقل، حریم خصوصی و نورگیری مناسب در نظر بگیر.",
+ "If a unit's selected room areas exceed its capacity, flag the conflict and adjust areas while preserving functional minimums before finalizing; do not silently remove any space. Provide each unit with an independent entrance, privacy and adequate daylight."));
+ return secW("1-5","جانمایی و تخصیص فضای هر واحد آپارتمانی","Apartment unit room layout and area allocation",b);
+}
+
+function secBld(){var c=bldCnt(),b=[],bd=$("aptBd").value,U=c.U,sp=$("aptFl").value.trim();
+b.push(T("این پروژه یک ساختمان آپارتمانی مسکونی است و فقط دو نقشه لازم است: (۱) پلان پارکینگ و (۲) پلان یک طبقه. تعداد کل طبقات ساختمان مهم نیست؛ طبقات دیگر را طراحی نکن","This project is a residential apartment building and only two drawings are required: (1) the parking plan and (2) the plan of one floor. The building's total floor count is irrelevant; do not design any other floors"));
+b.push(sp?T("نقشه‌ی طبقه: طبقه‌ی «"+sp+"» به‌صورت نقشه‌ی جدا و مطابق ویژگی‌های همان طبقه طراحی شود (برای نمونه لابی و ورودی در همکف، یا تراس و بام فنی در طبقه آخر یا پنت‌هاوس)","Floor plan: design the floor «"+sp+"» as a separate plan following the characteristics of that floor (for example the lobby and entrance on the ground floor, or the terrace and technical roof on the top floor or penthouse)"):T("نقشه‌ی طبقه: یک طبقه‌ی تیپ طراحی شود؛ طبقات تیپ دقیقاً روی هم قرار می‌گیرند و همین نقشه برای همه‌ی آن‌ها معتبر است","Floor plan: design one typical floor; typical floors stack exactly and this plan applies to all of them"));
+b.push(U==1?T("نوع واحد: تک‌واحدی؛ کل طبقه یک واحد است"+(bd?" با حدود "+bd+" اتاق خواب":"")+" و ورودی آن از پاگرد هسته‌ی مشترک (پله و آسانسور) باز می‌شود","Unit type: single-unit; the whole floor is one unit"+(bd?" with about "+bd+" bedroom(s)":"")+" and its entrance opens from the landing of the shared core (stair and elevator)"):U>1?T("نوع واحد: چندواحدی؛ "+U+" واحد در هر طبقه"+(bd?"، هر واحد حدود "+bd+" اتاق خواب":"")+"؛ همه‌ی واحدها حول هسته‌ی مشترک چیده شوند و هر کدام ورودی مستقل از پاگرد داشته باشد","Unit type: multi-unit; "+U+" units per floor"+(bd?", about "+bd+" bedroom(s) each":"")+"; arrange all units around the shared core, each with its own entrance from the landing"):T("تعداد واحد در هر طبقه مشخص نشده است؛ با توجه به مساحت طبقه تعداد منطقی واحد را فرض کن و اعلام کن","The number of units per floor is not specified; assume a logical number from the floor area and state it"));
+b.push(T("هسته‌ی مشترک (پله، آسانسور، پاگرد و شفت‌ها) در مرکز حرکتی طبقه باشد و پاگرد نور و تهویه داشته باشد","The shared core (stair, elevator, landing and shafts) sits at the circulation center of the floor and the landing has light and ventilation"));
+b.push(T("هر واحد نور را از ضلع‌های آزاد می‌گیرد؛ دیوار مشترک بین واحدها و با همسایه بدون پنجره و در است؛ سرویس‌ها و شفت‌های تأسیساتی هر واحد کنار هم و نزدیک هسته بچینند","Each unit takes light from free facades; walls shared between units or with neighbors have no windows or doors; group the wet areas and service shafts of each unit together near the core"));
+b.push(T("نقشه‌ی پارکینگ: حداقل یک جای پارک به ازای هر واحد؛ چون تعداد کل طبقات معلوم نیست، تعداد جای پارک را از ورودی «تعداد خودرو» بگیر و اگر نیامده، با فرض منطقی تعیین و اعلام کن؛ اتصال پارکینگ به هسته‌ی مشترک (پله و آسانسور) از داخل ساختمان باشد","Parking plan: at least one bay per unit; since the total floor count is unknown, take the bay count from the vehicle-count input and, if absent, assume and state a logical number; the parking connects to the shared core (stair and elevator) from inside the building"));
+b.push(T("خروجی شامل پلان پارکینگ، پلان طبقه و جدول واحدهای همان طبقه (شماره، مساحت، تعداد اتاق خواب) باشد؛ پلان سایر طبقات لازم نیست","The output includes the parking plan, the floor plan and a unit schedule for that floor (number, area, bedrooms); plans of other floors are not needed"));
+b.push(T("در پلان، ابتدا هسته‌ی مشترک را به‌صورت ثابت و خوانا ترسیم کن؛ سپس مرز و ورودی مستقل هر واحد را مشخص کن و فضاهای داخلی را فقط در محدوده‌ی مفید همان واحد بچین. در حالت تک‌واحدی همین کادر برای واحد اصلی و در حالت چندواحدی به‌صورت جداگانه برای تمام واحدها اجرا شود.","Draw the shared core first, clearly and consistently; then define each unit boundary and independent entrance, and place interior rooms only within that unit's usable area. In single-unit mode this applies to the main unit; in multi-unit mode repeat it separately for every unit."));
+return secW("1-4","ضوابط ساختمان آپارتمانی","Apartment building rules",b)+aptLayoutPrompt()}
+function secUnit(){if(isBld())return secBld();if(isApt())return secApt();var l=unitLv();if(l<2)return"";var b=[];
+b.push(T("این پروژه یک واحد "+(l==2?"دوبلکس (دو سطحی)":"تریبلکس (سه سطحی)")+" است: همه سطوح متعلق به یک خانواده‌اند و با پله داخلی اختصاصی به هم وصل می‌شوند (نه پله مشترک)","This project is a single "+(l==2?"duplex (two-level)":"triplex (three-level)")+" unit: all levels belong to one household and are linked by a private internal stair (not a shared stair)"));
+b.push(T("سطح ورودی: فضاهای عمومی (ورودی، پذیرایی، آشپزخانه، غذاخوری، سرویس مهمان)؛ "+(l==2?"سطح بالا: فضاهای خصوصی (اتاق خواب‌ها، مستر، حمام) با هال یا راهروی خصوصی":"سطح دوم: اتاق خواب‌ها و نشیمن خانوادگی؛ سطح سوم: مستر، تراس یا فضای چندمنظوره"),"Entry level: public spaces (entrance, living, kitchen, dining, guest WC); "+(l==2?"upper level: private spaces (bedrooms, master, bathrooms) around a private hall or corridor":"second level: bedrooms and a family lounge; third level: master suite, terrace or multipurpose space")));
+b.push(T("پله داخلی را طبق ضوابط پله در بخش 1-3 و در یک موقعیت ثابت در همه سطوح بچین؛ در هر سطح حداقل یک سرویس بهداشتی بگذار و سرویس‌ها را روی هم قرار بده","Design the internal stair to the stair rules in section 1.3, in the same position on every level; provide at least one WC per level and stack the wet areas"));
+b.push(T("بخش خواب از بخش عمومی جدا باشد و حریم صوتی و بصری حفظ شود؛ ورودی اصلی فقط در سطح ورودی قرار دارد","Separate the sleeping zone from the public zone for acoustic and visual privacy; the main entrance is only on the entry level"));
+if(l==3)b.push(T("برای واحد سه‌سطحی، چاه آسانسور داخلی اختصاصی پیش‌بینی کن (یا دست‌کم فضای آن را رزرو کن)","For the triplex, provide a private internal elevator shaft (or at least reserve its space)"));
+return secW("1-4","ضوابط واحد دوبلکس و تریبلکس","Duplex and triplex unit rules",b)}
+function secMaster(){var mm=masterN(),M=mm.n,l=$("masterLoc").value;if(mm.asm||M<1)return"";var b=[],mb=mOpt("masterBath",true),mc=mOpt("masterCloset",false);
+b.push(T("تعداد اتاق مستر: "+M+" (جزو کل اتاق‌های خواب)؛ هر کدام را در پلان و جدول فضاها با نام «اتاق مستر 1» و ... مشخص کن","Master bedrooms: "+M+" (counted within the total bedrooms); label each on the plan and in the space table as «اتاق مستر 1» and so on"));
+b.push(T("حداقل مساحت هر مستر 12 مترمربع با پهنای حداقل 2.7 متر (توصیه 14 تا 20 مترمربع)؛ جای تخت دونفره، پاتختی و رفت‌وآمد راحت را تأمین کن","Each master at least 12 m² and 2.7 m wide (14 to 20 m² recommended), with room for a double bed, bedside tables and comfortable circulation"));
+b.push(mb?T("هر مستر حمام و سرویس اختصاصی دارد که درب آن از داخل اتاق باز می‌شود و مستقیم رو به تخت نیست؛ این فضاها جزو تعداد کل حمام و سرویس‌ها هستند (اگر کمتر از تعداد مستر است، اضافه کن و اعلام کن)","Each master has its own bath and WC, entered from inside the room and not facing the bed; they count within the total baths and WCs (if there are fewer than masters, add and report it)"):T("مستر سرویس اختصاصی ندارد و از نزدیک‌ترین سرویس مشترک استفاده می‌کند","The master has no private bath and uses the nearest shared one"));
+if(mc)b.push(T("هر مستر اتاق لباس (Walk-in) حداقل 4 مترمربع با عرض حداقل 1.8 متر دارد","Each master has a walk-in closet of at least 4 m² and at least 1.8 m wide"));
+b.push(l?T("محل اتاق مستر: "+l,"Master bedroom location: "+(EN[l]||l)):T("اتاق مستر را در سطحی بگذار که حریم خصوصی بهتری دارد","Put the master on the level with better privacy"));
+b.push(T("مستر دور از ورودی و فضاهای پررفت‌وآمد، با نور طبیعی و ترجیحاً با دسترسی به تراس یا بالکن باشد؛ اگر بیش از یک مستر است، آن‌ها را مستقل و با فاصله از هم بچین","Keep the master away from the entrance and busy areas, with natural light and preferably access to a terrace or balcony; with more than one master, place them independently and apart"));
+return secW("1-5","اتاق‌های مستر","Master bedrooms",b)}
+function areaCalc(){
+var A=num("area")-(isApt()?0:uTer()),k=nf(),beds=fnum("beds",3),wcs=fnum("wcs",2),baths=fnum("baths",1),M0=masterN().n,M=Math.min(M0,beds),NB=beds-M,o={A:A,ter:(isApt()?0:uTer()),M:M,NB:NB,msgs:[],fx:[],it:[],st:"ok"},m=function(c,x){o.msgs.push({c:c,t:x})};
+if(!(A>0)){o.noA=1;return o}
+if(M0>beds)m("er","تعداد اتاق مستر ("+fp(M0)+") از تعداد اتاق‌های خواب ("+fp(beds)+") بیشتر است؛ اتاق مستر جزو اتاق‌های خواب حساب می‌شود.");
+var mb=mOpt("masterBath",true),mc=mOpt("masterCloset",A>=150),fx=o.fx,ev=evsz(),pk=$("parking").value,sl=$("storL").value,ad=function(n,v){if(v>0)fx.push([n,v])};
+ad("سرویس‌ها و حمام‌ها",wcs*2+baths*4.5);
+if(M&&mb)ad("حمام اختصاصی اضافه برای مستر",Math.max(M-baths,0)*4.5);
+if(M&&mc)ad("اتاق لباس مستر",M*5);
+if(k>=2||hasUG()||bsOn())ad("پله",k*8);
+if(ev&&!isApt())ad("آسانسور",ev[0]*ev[1]*fnum("elevN",1)*k);
+ad("ورودی و هال",5);if(!isApt()&&k>=2)ad("هال و پاگرد پله طبقات بالا",(k-1)*4);{var xsT=xTotalAll();if(xsT>0)ad("فضاهای اضافی سطوح (پذیرایی، آشپزخانه، سوئیت، اتاق کار و …)",xsT)}
+if($("stor").value=="دارد"&&(!sl||sl=="همکف"))ad("انباری",fnum("storN",1)*(parseFloat($("storA").value)||3));
+if(pk.indexOf("داخل بنا")>-1&&!isApt())ad("پارکینگ داخل بنا",parseFloat($("parkA").value)||fnum("parkN",1)*25);
+ad("دیوارها و فضای گردش (حدود ۱۷٪)",A*.17);
+var fixed=fx.reduce(function(s,x){return s+x[1]},0),av=A-fixed;o.fixed=fixed;o.av=av;
+var it=[{k:"liv",c:1,id:"aLiv"},{k:"kit",c:1,id:"aKit"}];for(var bi=1;bi<=6;bi++)it.push({k:"bed"+bi,c:bi<=NB?1:0,id:"aBed"+bi});
+it.forEach(function(x){var v=num(x.id);x.v=v>0?v:0;x.u=isMan(x.id)&&x.v>0&&x.c>0;x.z=isMan(x.id)&&!(v>0);x.n=ANM[x.k][0];x.mn=AMIN[x.k];if(x.v>0&&!x.c&&isMan(x.id))m("wa",x.n+": با تعداد فعلی اتاق‌ها این فضا وجود ندارد و مساحت واردشده نادیده گرفته شد.")});
+it=it.filter(function(x){return x.c>0&&!x.z});o.it=it;
+it.forEach(function(x){var ot=0;it.forEach(function(y){if(y!==x)ot+=(y.u?y.v:y.mn)*y.c});x.mx=(av-ot)/x.c});
+var sp=it.filter(function(x){return x.u}),un=it.filter(function(x){return!x.u}),ss=sp.reduce(function(s,x){return s+x.v*x.c},0),need=un.reduce(function(s,x){return s+x.mn*x.c},0),rem=av-ss,pool=un.slice(),inf=rem<need-.01,wsum=function(a){return a.reduce(function(s,x){return s+AW[x.k]*x.c},0)};
+sp.forEach(function(x){if(x.v<x.mn)m("er",x.n+": "+fp(x.v)+" مترمربع کمتر از حداقل مجاز ("+fp(x.mn)+") است.")});
+if(inf)un.forEach(function(x){x.s=x.mn});
+else{for(var ch=1;ch&&pool.length;){ch=0;var p=rem/wsum(pool);for(var i=0;i<pool.length;i++){var x=pool[i];if(AW[x.k]*p<x.mn){x.s=x.mn;rem-=x.mn*x.c;pool.splice(i,1);ch=1;break}}}
+if(pool.length){var p2=rem/wsum(pool);pool.forEach(function(x){x.s=Math.round(AW[x.k]*p2*2)/2})}
+var tg=un.filter(function(x){return x.k=="liv"})[0]||un.filter(function(x){return x.k=="kit"})[0],t0=ss+un.reduce(function(s,x){return s+x.s*x.c},0);if(tg)tg.s=Math.max(tg.mn,tg.s+Math.round((av-t0)*2)/2)}
+var R0=av-ss;o.un=un;o.sug=[];o.si=0;if(!inf&&un.length){o.sug=areaSug(un,R0);o.si=Math.min(Math.max(parseInt(dig($("asel").value),10)||0,0),Math.max(o.sug.length-1,0));var SS=o.sug[o.si];if(SS)un.forEach(function(x){if(SS.v[x.k]>0)x.s=SS.v[x.k]})}
+var tot=ss+un.reduce(function(s,x){return s+x.s*x.c},0),df=av-tot,tol=Math.max(3,A*.04),lv=it[0];o.tot=tot;o.df=df;
+if(inf){o.st="inf";m("er","مساحت‌های انتخابی شما ("+fp(ss)+") و حداقل فضای لازم برای بقیه ("+fp(need)+") از مساحت قابل تخصیص ("+fp(av)+") بیشتر است. یکی از مقادیر را کم کنید یا متراژ هدف را حداقل به "+fp(Math.ceil(A+need-rem))+" مترمربع برسانید.")}
+else if(!un.length&&sp.length){if(df<-tol){o.st="over";m("er","مجموع مساحت‌های شما "+fp(tot)+" است و "+fp(-df)+" مترمربع از مساحت قابل تخصیص ("+fp(av)+") بیشتر است. پیشنهاد: نشیمن را به "+fp(Math.max(lv.mn,lv.v+df))+" برسانید یا اتاق‌ها را کوچک‌تر کنید.")}else if(df>tol){o.st="under";m("wa","مجموع مساحت‌های شما "+fp(tot)+" است و "+fp(df)+" مترمربع از مساحت قابل تخصیص ("+fp(av)+") بی‌مصرف می‌ماند. پیشنهاد: نشیمن را به "+fp(lv.v+df)+" برسانید.")}else if(!o.msgs.some(function(x){return x.c=="er"}))m("ok","مجموع مساحت‌ها ("+fp(tot)+") با متراژ هدف همخوان است.")}
+else if(sp.length){if(!o.msgs.some(function(x){return x.c=="er"}))m("ok","مساحت‌های انتخابی شما قابل قبول است؛ برای بقیه فضاها این مقادیر پیشنهاد می‌شود.")}
+else m("in","هنوز مساحتی وارد نشده؛ مقادیر زیر پیشنهاد اولیه سیستم برای این متراژ است.");
+return o}
+function areaPanel(){var c=areaCalc(),b=$("astat"),h="";$("aBw").hidden=c.NB<1;for(var bi=1;bi<=6;bi++)$("aBd"+bi).hidden=bi>c.NB;$("asug").innerHTML=sugHtml(c);
+if(c.noA){$("asug").innerHTML="";b.innerHTML='<div class="m wa">⚠ برای کنترل خودکار مساحت‌ها، «سطح زیربنای کل» را در بالا وارد کنید.</div>';return}
+c.msgs.forEach(function(x){h+='<div class="m '+x.c+'">'+({ok:"✓ ",er:"✗ ",wa:"⚠ ",in:""}[x.c])+x.t+'</div>'});
+c.it.forEach(function(x){var bad=x.u&&(x.v<x.mn||x.v>x.mx+.05);h+='<div class="ar"><b>'+x.n+(x.c>1?" ("+fp(x.c)+" عدد)":"")+'</b><span class="'+(x.u?(bad?"er":"ok"):"")+'">'+(x.u?"عدد شما: "+fp(x.v):"پیشنهاد: "+fp(x.s))+' م²</span><span class="rg">'+(x.mx>=x.mn?"مجاز: "+fp(x.mn)+" تا "+fp(x.mx):"مجاز: —")+' م²</span></div>'});
+if(c.ter>0)h+='<div class="m in">کسر تراس و باغچه‌ی طبقات بالا از زیربنا: '+fp(c.ter)+' م²</div>';h+='<div class="m in">مساحت قابل تخصیص: '+fp(c.av)+' از '+fp(c.A)+' مترمربع</div><details><summary>سهم فضاهای ثابت و خدماتی ('+fp(c.fixed)+' م²)</summary>'+c.fx.map(function(x){return'<div class="m in">'+x[0]+': '+fp(x[1])+'</div>'}).join("")+'</details>';b.innerHTML=h}
+function isMan(id){return(","+$("aman").value+",").indexOf(","+id+",")>-1}
+var SGP=[["متعادل",{liv:3,kit:1,bed:1}],["پذیرایی بزرگ‌تر",{liv:4,kit:1,bed:1}],["اتاق‌خواب‌های بزرگ‌تر",{liv:2.4,kit:1,bed:1.35}],["آشپزخانه بزرگ‌تر",{liv:3,kit:1.6,bed:1}],["خانوادگی",{liv:3.4,kit:1.3,bed:1.15}],["فشرده و اقتصادی",{liv:2.6,kit:.9,bed:1}],["مهمان‌پذیر",{liv:4.8,kit:1.2,bed:.9}]];
+function areaSug(un,R0){var out=[],seen={};SGP.forEach(function(p){var W=p[1],pool=un.slice(),s={},rem=R0,ws=function(a){return a.reduce(function(t,x){return t+W[wk(x.k)]*x.c},0)};
+for(var ch=1;ch&&pool.length;){ch=0;var q=rem/ws(pool);for(var i=0;i<pool.length;i++){var x=pool[i];if(W[wk(x.k)]*q<x.mn){s[x.k]=x.mn;rem-=x.mn*x.c;pool.splice(i,1);ch=1;break}}}
+if(pool.length){var q2=rem/ws(pool);pool.forEach(function(x){s[x.k]=Math.round(W[wk(x.k)]*q2*2)/2})}
+var t0=un.reduce(function(t,x){return t+s[x.k]*x.c},0),tg=un.filter(function(x){return x.k=="liv"})[0]||un.filter(function(x){return x.k=="kit"})[0]||un[0];
+if(tg)s[tg.k]=Math.max(tg.mn,s[tg.k]+Math.round((R0-t0)*2)/2);
+if(un.some(function(x){return!(s[x.k]>=x.mn)}))return;
+var key=un.map(function(x){return s[x.k]}).join("|");if(seen[key])return;seen[key]=1;out.push({n:p[0],v:s})});return out.slice(0,7)}
+function sugHtml(c){if(!c.sug||!c.sug.length)return"";var h='<div class="hint" style="margin-top:10px">پیشنهادهای مساحت (با انتخاب هر کدام، فیلدهای خودکار پر می‌شوند):</div><div class="sg">';c.sug.forEach(function(S,i){h+='<button type="button" data-i="'+i+'" aria-pressed="'+(i==c.si)+'"><span><b>'+pd(String(i+1))+'. '+S.n+'</b></span><span>'+c.un.map(function(x){return ANM[x.k][0]+': '+fp(S.v[x.k])}).join(' | ')+' م²</span></button>'});return h+'</div>'}
+function autoFill(){var c=areaCalc(),m={};(c.it||[]).forEach(function(x){m[x.id]=x});ALLA().forEach(function(id){if(isMan(id))return;var x=m[id];$(id).value=(!c.noA&&x&&x.s>0&&!x.u)?pd(String(x.s)):""})}
+function yman(id){return(","+$("yman").value+",").indexOf(","+id+",")>-1}
+function yardSug(){if(isApt())return null;var t=$("yardType").value;if(t=="ندارد"||t=="تراس")return null;var L=num("len"),W=num("wid");if(!(L>0&&W>0))return null;var P=pdim(),E=entrySide().s,w=(E=="top"||E=="bottom")?P.w:P.d,S=L*W,k=nf(),A=num("area"),ef=A>0?A/k:S*occPct().sel/100,op=S-ef;if(!(op>0)||!(w>0))return null;
+var inP=$("parking").value.indexOf("حیاط")>-1,cap=op*.75,ds=[2,3,4,5,6,8,10],pos,c,d=0,pick=function(max,min,n){var r=0;ds.forEach(function(m){if(m<=max&&m>=min&&m*w*n<=cap)r=m});return r};
+if(inP){pos="جلویی";c=1;d=pick(8,6,1)}else{pos="جلویی و پشتی";c=2;d=pick(5,3,2);if(!d){pos="جلویی";c=1;d=pick(6,2,1)}}
+if(!d)return{none:1,op:op};return{pos:pos,d:d,c:c,w:w,A:d*w*c,op:op}}
+function yardAuto(){var b=$("ysug"),s=yardSug(),has=$("yardType").value.indexOf("حیاط")>-1;if(!s){b.hidden=true;return}
+b.hidden=false;if(s.none){b.innerHTML='<div class="m wa">⚠ فضای باز باقی‌مانده ('+fp(s.op)+' م²) برای حیاط مناسب کافی نیست؛ سطح اشغال را کمتر کنید.</div>';return}
+if(has){if(!yman("yardPos"))$("yardPos").value=s.pos;if(!yman("yardM"))$("yardM").value=String(s.d)}
+b.innerHTML='<div class="m in"><b>پیشنهاد حیاط:</b> موقعیت «'+s.pos+'»، عمق '+fp(s.d)+' متر، عرض حدود '+fp(s.w)+' متر؛ مساحت حدود '+fp(s.A)+' م² از '+fp(s.op)+' م² فضای باز باقی‌مانده.</div>'+(has?'':'<button type="button" class="sec-btn" id="yapply">افزودن حیاط با این پیشنهاد</button>')}
+var OTE={"تراس":"terrace","حیاط معلق (باغچه)":"elevated garden","روف‌گاردن":"roof garden","نشیمن روباز بام":"open roof lounge"};
+function oman(id){return(","+$("oman").value+",").indexOf(","+id+",")>-1}
+function oClr(id){$("oman").value=$("oman").value.split(",").filter(function(i){return i&&i!=id}).join(",")}
+function oOn(j){var t=$("ot"+j).value;return!!t&&t!="ندارد"}
+function plate(){var A=num("area"),k=nf();return A>0?A/k:0}
+function terAt(j){return(j>=2&&j<=nf()&&oOn(j))?Math.max(num("oa"+j)||0,0):0}
+function uTer(){if(isApt()||nf()<2)return 0;var s=0;for(var j=2;j<=nf();j++)s+=terAt(j);return s}
+function oMax(j){var F=plate();if(j==6)return(F-terAt(nf()))*.9;return Math.min(F*.5,F-(j>2?terAt(j-1):0))}
+function oSug(j){var F=plate();if(!(F>0))return 0;if(j==6)return Math.round((F-terAt(nf()))*.6);return Math.min(Math.max(6,Math.round(F*.2)),Math.round(oMax(j)))}
+function autoOut(){$("ysec").hidden=isApt();var k=nf(),on=!isApt()&&k>1,F=plate();$("olv").hidden=!on;$("oapply").hidden=!on;
+for(var j=2;j<=6;j++){var show=on&&(j==6||j<=k);$("or"+j).hidden=!show;if(!show)continue;var a=$("oa"+j),h=$("oh"+j),ac=oOn(j);
+if(!ac){a.value="";oClr("oa"+j)}else if(!oman("oa"+j))a.value=F>0?pd(String(oSug(j))):"";
+a.disabled=!ac;
+h.textContent=!(F>0)?"ابتدا ابعاد زمین را وارد کنید.":(ac?"پیشنهاد: "+fp(oSug(j))+" م² | حداکثر مجاز: "+fp(oMax(j))+" م²"+(j<6?" (کسر از زیربنا)":" (جزو زیربنا نیست)"):"برای فعال شدن نوع فضا را انتخاب کنید؛ مساحت پیشنهادی: "+fp(oSug(j))+" م²")}
+var s=uTer();autoX();syncCards();$("osum").textContent=s>0?"مجموع تراس و باغچه‌ی طبقات بالا: "+fp(s)+" م² که از زیربنای کل کسر و در تفکیک مساحت اعمال شد.":""}
+function bsMode(){return $("bsm").value}
+function bsOn(){return!isApt()&&["زیرزمین کامل","نیم‌زیرزمین","فقط تأسیسات و انباری"].indexOf(bsMode())>-1}
+function bsCov(){var v=parseInt($("bsc").value,10);return v>0?v/100:1}
+function xMulti(x){return x[6]=="m"}
+function xSel(){return($("xsel").value||"").split(",").filter(Boolean)}
+function xOn(j,k){return xSel().indexOf(j+"_"+k)>-1}
+function xman(id){return(","+$("xman").value+",").indexOf(","+id+",")>-1}
+function xClrMan(id){$("xman").value=$("xman").value.split(",").filter(function(i){return i&&i!=id}).join(",")}
+function xLvOn(j){return j==0?bsOn():(j==1?true:(!isApt()&&nf()>=j))}
+function xTgt(j){var k=nf();if(j<1||k<2||isApt())return 0;if(k==2)return 3-j;return j==1?2:(j==2?3:2)}
+function xQ(j,k){var v=parseInt($("xq"+j+"_"+k).value,10);return v>0?Math.min(v,6):1}
+function xE(j){var v=parseInt($("xe"+j).value,10)||0;return Math.min(Math.max(v,0),xQ(j,"bed"))}
+function xDes(j,x){var F=plate()*(j==0?bsCov():1),f=F>0?Math.min(Math.max(F/110,.75),1.6):1;return Math.max(x[4],Math.round(x[3]*f*2)/2)}
+function xBreak(j){var F=plate();if(!(F>0))return null;var ev=evsz(),k=nf(),el=(ev&&!isApt())?ev[0]*ev[1]*fnum("elevN",1):0;
+if(j==0){var F0=F*bsCov(),pk=hasUG()?(parseFloat(dig($("parkA").value))||fnum("parkN",1)*25):0,b0={F:F0,T:0,N:F0,wp:10,wall:F0*.10,corr:F0*.09,stair:8,elev:el,land:0,park:pk,ramp:hasUG()?20:0};b0.cap=Math.max(F0-b0.wall-b0.corr-b0.stair-b0.elev-b0.park-b0.ramp,0);return b0}
+var T=terAt(j),N=Math.max(F-T,0),b={F:F,T:T,N:N,wp:8,wall:N*.08,corr:N*.09,stair:k>=2?8:0,elev:el,land:j>=2?4:(j==1?5:0),base:j==1?(AMIN.liv+AMIN.kit):0,park:0,ramp:0};b.cap=Math.max(N-b.wall-b.corr-b.stair-b.elev-b.land-b.base,0);return b}
+function xCap(j){var b=xBreak(j);return b?b.cap:0}
+function xBkHtml(j,al){var b=xBreak(j);if(!b)return"ابتدا ابعاد زمین را وارد کنید.";var r=function(n,v,c){return"<tr"+(c?' class="t"':"")+"><td>"+n+"</td><td>"+fp(v)+" م²</td></tr>"};return'<table class="xbk">'+r(j==0?"مساحت زیرزمین (نسبت به همکف)":"زیربنای این سطح",b.F)+(b.T>0?r("− تراس / فضای باز این سطح",b.T):"")+r("− دیوارها ("+pd(String(b.wp))+"٪"+(j==0?"، شامل دیوار حائل":"")+")",b.wall)+r("− راهرو و فضای گردش (۹٪)",b.corr)+(b.stair>0?r("− پله",b.stair):"")+(b.elev>0?r("− آسانسور (چاه آسانسور)",b.elev):"")+(j==1?r("− ورودی و هال",b.land)+r("− پذیرایی و آشپزخانه‌ی اصلی (حداقل)",b.base):(j>0?r("− هال و پاگرد پله",b.land):""))+(b.park>0?r("− پارکینگ زیرزمین",b.park):"")+(b.ramp>0?r("− رمپ خودرو (برآورد)",b.ramp):"")+r("= ظرفیت قابل استفاده برای فضاها",b.cap,1)+r("پر شده با فضاهای انتخابی",Math.min(al.used,al.cap+999))+r("باقی‌مانده",Math.max(al.rem,0),1)+"</table><div class=\"hint\">این مقادیر به‌صورت خودکار از ابعاد زمین، تعداد طبقات، آسانسور و پارکینگ محاسبه می‌شوند."+(j==0?" زیرزمین جدا از زیربنای طبقات بالای زمین است.":" ورودی و هال همکف جزو سطح ۱ است.")+"</div>"}
+function xAlloc(j){var cap=xCap(j),fixed=0,res={},auto=[];
+xCat(j).forEach(function(x){if(!xOn(j,x[0]))return;if(xMulti(x)){var c=xQ(j,x[0])*x[3]+(x[0]=="bed"?xE(j)*3.5:0);res[x[0]]=c;fixed+=c;return}
+var id="xa"+j+"_"+x[0];if(xman(id)){var v=num(id)||0;res[x[0]]=v;fixed+=v}else auto.push(x)});
+var ord=xSel().filter(function(i){return i.indexOf(j+"_")==0}).map(function(i){return i.slice(2)});
+auto.sort(function(a,b){return ord.indexOf(a[0])-ord.indexOf(b[0])});
+var rem=cap-fixed,mnAft=auto.reduce(function(a,x){return a+x[4]},0);auto.forEach(function(x){mnAft-=x[4];var v=Math.round(Math.max(x[4],Math.min(xDes(j,x),rem-mnAft))*2)/2;res[x[0]]=v;rem-=v});
+return{cap:cap,used:cap-rem,rem:rem,res:res}}
+function xItems(j){var a=[];if(!xLvOn(j))return a;xCat(j).forEach(function(x){if(xMulti(x)||!xOn(j,x[0]))return;var v=num("xa"+j+"_"+x[0]);if(v>0)a.push({k:x[0],fa:x[1],en:x[2],t:x[5],v:v})});return a}
+function xTotal(j){return xItems(j).reduce(function(s,x){return s+x.v},0)}
+function xTotalAll(){return xTotal(1)+xTotal(2)+xTotal(3)}
+function xMin(j){return Math.min.apply(null,xCat(j).map(function(x){return x[4]}))}
+function xCost(j,x){return xMulti(x)?xQ(j,x[0])*x[3]+(x[0]=="bed"?xE(j)*3.5:0):(num("xa"+j+"_"+x[0])||0)}
+function xHl(j,x){return j==0&&x[7]==1&&bsMode()=="فقط تأسیسات و انباری"}
+function xNm(j){return j==0?"زیرزمین":"سطح "+pd(String(j))}
+var FIXMSG={};
+function xFitLevel(j){
+  if(!xLvOn(j))return;
+  var F=plate();if(!(F>0))return;
+  var cat=xCat(j),notes=[],guard=0;
+  var over=function(){var a=xAlloc(j);return a.used>a.cap+.05};
+  if(!over())return;
+  var setMan=function(id,v){$(id).value=pd(String(v));var m=$("xman").value?$("xman").value.split(","):[];m=m.filter(function(i){return i!=id});m.push(id);$("xman").value=m.join(",")};
+  /* مرحله ۱: کوچک‌کردن متناسب اندازه‌های دستی تا حد مجاز (حداقل هر فضا حفظ می‌شود) */
+  var al=xAlloc(j),ex=al.used-al.cap,list=[],red=0;
+  cat.forEach(function(x){if(xMulti(x)||!xOn(j,x[0]))return;var id="xa"+j+"_"+x[0];if(!xman(id))return;var v=num(id)||0;if(v>x[4]){list.push({id:id,x:x,v:v,room:v-x[4]});red+=v-x[4]}});
+  if(red>0){var k=Math.min(1,ex/red);list.forEach(function(o){var nv=Math.max(o.x[4],Math.floor((o.v-o.room*k)*2)/2);if(nv<o.v){setMan(o.id,nv);notes.push(o.x[1]+" به "+fp(nv)+" م²")}})}
+  /* مرحله ۲: اگر هنوز جا نشد، اندازه‌های دستی پاک شوند تا خودکار تنظیم شوند */
+  if(over()){cat.forEach(function(x){if(xMulti(x)||!xOn(j,x[0]))return;var id="xa"+j+"_"+x[0];if(xman(id)){$(id).value="";xClrMan(id)}})}
+  /* مرحله ۳: کم‌کردن تعداد (اتاق خواب، حمام، WC) و تعداد حمام اختصاصی */
+  while(over()&&guard++<60){
+    var done=false;
+    if(xOn(j,"bed")&&xE(j)>0){$("xe"+j).value=String(xE(j)-1);notes.push("حمام اختصاصی اتاق‌خواب‌ها به "+pd(String(xE(j)))+" عدد");done=true}
+    else{
+      var ms=cat.filter(function(x){return xMulti(x)&&xOn(j,x[0])&&xQ(j,x[0])>1});
+      if(ms.length){var x=ms.sort(function(a,b){return xQ(j,b[0])*b[3]-xQ(j,a[0])*a[3]})[0];$("xq"+j+"_"+x[0]).value=String(xQ(j,x[0])-1);notes.push("تعداد "+x[1]+" به "+pd(String(xQ(j,x[0]))));done=true}
+    }
+    if(!done)break;
+  }
+  /* مرحله ۴: آخرین راه، حذف آخرین فضای انتخاب‌شده در این سطح */
+  guard=0;
+  while(over()&&guard++<30){
+    var ord=xSel().filter(function(i){return i.indexOf(j+"_")==0});if(!ord.length)break;
+    var last=ord[ord.length-1],kk=last.slice(2),xx=cat.filter(function(x){return x[0]==kk})[0];
+    $("xsel").value=xSel().filter(function(i){return i!=last}).join(",");
+    var ai=$("xa"+last);if(ai){ai.value="";xClrMan("xa"+last)}
+    if(xx)notes.push(xx[1]+" برداشته شد (جای کافی نبود)");
+  }
+  if(notes.length)FIXMSG[j]="✓ مشکل خودکار حل شد؛ اندازه‌ها و تعدادها با ظرفیت "+xNm(j)+" هماهنگ شد: "+notes.slice(0,6).join("، ")+(notes.length>6?" و …":"")+".";
+}
+function autoX(){[0,1,2,3].forEach(xFitLevel);var F=plate(),AL={0:xAlloc(0),1:xAlloc(1),2:xAlloc(2),3:xAlloc(3)};$("bsw").hidden=!bsOn();
+[0,1,2,3].forEach(function(j){var lv=xLvOn(j),box=$("xd"+j);box.hidden=!lv;var al=AL[j],rem=al.rem,o=xTgt(j),full=F>0&&rem<xMin(j)-.001,n=0;
+xCat(j).forEach(function(x){var id=j+"_"+x[0],on=xOn(j,x[0]),cb=$("xc"+id),row=$("xrw"+id),h=$("xh"+id),ch=$("xch"+id),mv=$("xmv"+id),m=xMulti(x),hl=xHl(j,x);
+if(on)n++;cb.checked=on;var lock=!on&&F>0&&(rem<x[4]-.001||hl);cb.disabled=!on&&(!(F>0)||lock);row.classList.toggle("lk",lock);ch.innerHTML="";
+if(!on){if(m){$("xqw"+id).hidden=true;$("xv"+id).textContent=""}else{var a0=$("xa"+id);a0.disabled=true;a0.value="";xClrMan("xa"+id)}mv.hidden=true;
+h.textContent=!(F>0)?"ابتدا ابعاد زمین را وارد کنید.":(lock?(hl?"🔒 در حالت «فقط تأسیسات و انباری» مجاز نیست.":"🔒 جای کافی نیست؛ حداقل "+fp(x[4])+" م² لازم است."):"پیشنهاد: "+fp(m?x[3]:xDes(j,x))+" م²"+(m?" برای هر مورد":"")+" | حداقل: "+fp(x[4])+" م²");return}
+var mvOk=j>0&&o>0;mv.hidden=!mvOk;
+if(mvOk){var cs=xCost(j,x),od=AL[o],can=!xOn(o,x[0])&&cs<=od.rem+.001;mv.disabled=!can;mv.textContent="انتقال به سطح "+pd(String(o));mv.title=can?"":(xOn(o,x[0])?"این فضا در سطح دیگر هم انتخاب شده":"ظرفیت سطح دیگر کافی نیست")}
+if(m){var q=xQ(j,x[0]),e=x[0]=="bed"?xE(j):0;$("xqw"+id).hidden=false;$("xq"+id).value=String(q);
+Array.prototype.forEach.call($("xq"+id).options,function(op){var nn=+op.value;op.disabled=nn>q&&(nn-q)*x[3]>rem+.001});
+if(x[0]=="bed"){var es=$("xe"+j);es.value=String(e);Array.prototype.forEach.call(es.options,function(op){var nn=+op.value;op.disabled=nn>q||(nn>e&&(nn-e)*3.5>rem+.001)})}
+$("xv"+id).textContent=pd(String(q))+" × "+pd(String(x[3]))+" = "+pd(String(r1(xCost(j,x))))+" م²";
+h.textContent="اندازه‌ی پیشنهادی هر مورد: "+fp(x[3])+" م²"+(x[0]=="bed"?" (حمام اختصاصی هر اتاق حدود ۳٫۵ م² جدا حساب می‌شود)؛ مساحت دقیق‌تر اتاق‌خواب‌ها را در بخش «تفکیک مساحت فضاها» تنظیم کنید":"")+"."}
+else{var a=$("xa"+id);a.disabled=false;if(!xman(id))a.value=F>0?pd(String(al.res[x[0]])):"";var v=num("xa"+id)||0,mx=Math.max(al.cap-(al.used-v),0),d=xDes(j,x),sg=Math.round(Math.max(x[4],Math.min(d,mx))*2)/2;
+h.textContent=F>0?(hl?"⚠ در حالت «فقط تأسیسات و انباری» مجاز نیست؛ این فضا را بردارید. ":"")+"پیشنهاد: "+fp(sg)+" م² | حداقل: "+fp(x[4])+" م² | حداکثر ممکن در این سطح: "+fp(mx)+" م²"+(v>0&&v<x[4]-.05?" — کمتر از حداقل است":"")+(v>mx+.05?" — از ظرفیت بیشتر است":""):"ابتدا ابعاد زمین را وارد کنید.";
+if(F>0){var opts=[["کوچک",Math.max(x[4],Math.round(d*.7*2)/2)],["پیشنهادی",sg],["بزرگ",Math.round(d*1.4*2)/2]],seen={},hh="";opts.forEach(function(p){if(p[1]<x[4]-.001||p[1]>mx+.05||seen[p[1]])return;seen[p[1]]=1;hh+='<button type="button" class="xchip" data-a="xa'+id+'" data-v="'+p[1]+'">'+p[0]+" "+fp(p[1])+" م²</button>"});ch.innerHTML=hh}}});
+var t=$("xt"+j),b=$("xb"+j),pc=al.cap>0?Math.min(100,al.used/al.cap*100):0,over=F>0&&al.used>al.cap+.05;b.style.width=pc+"%";var fx=!!FIXMSG[j]&&!over;$("xbw"+j).className="xbar"+(over?" full":(fx||full?" ok":""));t.className="hint xt"+(over?" er":((fx||full)?" ok":""));
+t.textContent=!(F>0)?"ابتدا ابعاد زمین را وارد کنید.":(FIXMSG[j]&&!over?FIXMSG[j]+" ":"")+"پر شده: "+fp(al.used)+" از "+fp(al.cap)+" م² ("+pd(String(Math.round(pc)))+"٪)، باقی‌مانده: "+fp(Math.max(rem,0))+" م²"+(over?" — ظرفیت پر و از آن بیشتر شده؛ یک فضا را بردارید یا کوچک کنید.":(full?" — پر شد و بقیه‌ی گزینه‌ها قفل شدند؛ برای افزودن فضای جدید یک فضا را بردارید، کوچک کنید"+(j>0&&o>0?" یا به سطح دیگر منتقل کنید":"")+".":""))+" (پله، آسانسور، هال، راهرو و دیوارها خودکار کسر شده‌اند)";$("xbk"+j).innerHTML=xBkHtml(j,al)});
+for(var q2=1;q2<=3;q2++){if(!xLvOn(q2))continue;var bd=xOn(q2,"bed");$("pf"+q2+"b").value=bd?String(xQ(q2,"bed")):"";$("pf"+q2+"e").value=bd?String(xE(q2)):"";$("pf"+q2+"w").value=xOn(q2,"wc")?String(xQ(q2,"wc")):"";$("pf"+q2+"h").value=xOn(q2,"bath")?String(xQ(q2,"bath")):""}
+syncPlc()}
+function xErrs(){var e=[];[0,1,2,3].forEach(function(j){if(!xLvOn(j)||!(plate()>0))return;var al=xAlloc(j);if(al.used>al.cap+.05)e.push("مجموع فضاهای انتخابی "+xNm(j)+" ("+fp(al.used)+" م²) از ظرفیت آن ("+fp(al.cap)+" م²) بیشتر است؛ یک فضا را بردارید یا کوچک کنید.");xCat(j).forEach(function(x){if(xMulti(x)||!xOn(j,x[0]))return;var v=num("xa"+j+"_"+x[0]);if(v>0&&v<x[4]-.05)e.push(x[1]+" ("+xNm(j)+"): "+fp(v)+" م² کمتر از حداقل ("+fp(x[4])+" م²) است.");if(xHl(j,x))e.push(x[1]+" در حالت «فقط تأسیسات و انباری» مجاز نیست؛ آن را بردارید یا حالت زیرزمین را عوض کنید.")})});return e}
+function xLines(){var e=isEn(),a=[];for(var j=1;j<=3;j++){var it=xItems(j);if(!it.length)continue;a.push(e?"level "+j+": "+it.map(function(x){return x.en+" about "+r1(x.v)+" m²"}).join(", "):"سطح "+pd(String(j))+": "+it.map(function(x){return x.fa+" حدود "+pd(String(r1(x.v)))+" مترمربع"}).join("، "))}
+if(!a.length)return"";return"\n- "+(e?"Extra spaces per level (each lies on the stated level, is part of the total built area and is already deducted from the living, kitchen and bedroom areas above; draw each as its own room on that level): ":"فضاهای اضافی هر سطح (هر کدام در همان سطح قرار می‌گیرد، جزو سطح زیربنای کل است و از مساحت‌های نشیمن، آشپزخانه و اتاق‌خواب‌های بالا کسر شده؛ هر کدام را به‌صورت یک اتاق مستقل در پلان همان سطح ترسیم کن): ")+a.join(e?"; ":"؛ ")}
+function bsLines(){if(!bsOn())return"";var e=isEn(),md=bsMode(),it=xItems(0),cov=Math.round(bsCov()*100),A0=Math.round(plate()*bsCov()),mE={"زیرزمین کامل":"Full basement (entirely below ground)","نیم‌زیرزمین":"Semi-basement (half buried, high windows)","فقط تأسیسات و انباری":"Utility and storage only"},
+list=it.map(function(x){return e?x.en+" about "+r1(x.v)+" m²":x.fa+" حدود "+pd(String(r1(x.v)))+" مترمربع"}).join(e?", ":"، ");
+return"\n- "+(e?"Basement / utility level (below the ground floor; optional, chosen by the owner): "+mE[md]+"; footprint about "+A0+" m² ("+cov+"% of the ground floor), separate from the built area above ground; stair from the ground floor"+(hasUG()?"; it shares the underground level with the parking":"")+(list?"; spaces: "+list:""):"زیرزمین / فضای تأسیسات (زیر همکف؛ اختیاری و به انتخاب کاربر): "+md+"؛ مساحت حدود "+pd(String(A0))+" مترمربع ("+pd(String(cov))+"٪ همکف) و جدا از زیربنای طبقات بالای زمین؛ دسترسی با پله از همکف"+(hasUG()?"؛ در همان سطح زیرزمین کنار پارکینگ قرار دارد":"")+(list?"؛ فضاها: "+list:""))}
+function bsRules(r){var A=function(fa,en){r.push(T(fa,en))};
+A("زیرزمین / تأسیسات: کل این سطح زیر تراز همکف و داخل محدوده‌ی بنا قرار می‌گیرد؛ پله‌ی آن هم‌راستای پله‌ی طبقات است و همان ضوابط پله (عرض مفید حداقل 1.1 متر، ارتفاع آزاد حداقل 2.05 متر) را دارد و مسیر خروج از آن از طریق پله‌ی اصلی به همکف و بدون مانع است","Basement / utility: the whole level lies below the ground floor inside the building footprint; its stair is aligned with the upper stairs and follows the same stair rules (clear width at least 1.1 m, headroom at least 2.05 m); the exit route is through the main stair to the ground floor and must stay unobstructed");
+A("ارتفاع مفید فضاهای مورد استفاده‌ی دائم در زیرزمین (سینما، باشگاه، اتاق بازی، کارگاه و …) حداقل 2.4 متر و در سرویس، انباری و تأسیسات حداقل 2.2 متر باشد","Clear height in permanently used basement spaces (cinema, gym, game room, workshop and so on) at least 2.4 m, and at least 2.2 m in WCs, storage and utility rooms");
+A("فضاهای مورد استفاده‌ی دائم در زیرزمین باید نورگیر، حیاط انگلیسی یا پاسیو و تهویه‌ی کافی (طبیعی یا مکانیکی) داشته باشند؛ در حالت «فقط تأسیسات و انباری» از اتاق اقامتی و فعالیت دائم در زیرزمین خودداری شود","Permanently used basement spaces need a light well, sunken court or patio and adequate ventilation (natural or mechanical); in the utility-and-storage-only mode no habitable or permanent-use rooms are allowed in the basement");
+A("اتاق تأسیسات و موتورخانه: درب مقاوم، تهویه و هوای احتراق مطابق مبحث 14 و در صورت گازسوز بودن مطابق مبحث 17، دودکش مستقل، دسترسی آسان از راهرو یا پله و دور از فضاهای خواب؛ تابلو برق دور از رطوبت مطابق مبحث 13","Utility and boiler room: sturdy door, ventilation and combustion air per chapters 14 and 17 (if gas-fired), its own flue, easy access from the corridor or stair and away from sleeping areas; electrical panel away from moisture per chapter 13");
+A("رطوبت‌بندی و آب‌بندی دیوار حائل و کف، زهکشی و چاهک با پمپ تخلیه‌ی آب پیش‌بینی شود (مبحث 7 و مبحث 16)؛ اتاق تأسیسات و انباری با دیوار و درب مقاوم حریق از بقیه‌ی زیرزمین جدا شود (مبحث 3)","Provide waterproofing of the retaining walls and floor, drainage and a sump with a drainage pump (chapters 7 and 16); separate the utility and storage rooms from the rest of the basement with fire-resistant walls and doors (chapter 3)");
+A("سرویس بهداشتی زیرزمین با ابعاد حداقلی همین سند و مسیر پمپ تخلیه‌ی فاضلاب طراحی شود؛ سطح اشغال و تراکم زیرزمین طبق ضوابط شهرداری محل محاسبه می‌شود و اگر سخت‌گیرانه‌تر بود همان ملاک است","Size the basement WC to the minimum dimensions given in this document and plan a sewage lift pump; the basement's site coverage and density follow the local municipality rules, which govern if stricter")}
+function xFl(j){if(j<1||j>3||!xLvOn(j))return"";var a=[];XS.forEach(function(x){if(!xOn(j,x[0]))return;if(xMulti(x))a.push(pd(String(xQ(j,x[0])))+" "+x[1]);else if(num("xa"+j+"_"+x[0])>0)a.push(x[1])});if(!a.length)return"";if(j==1)a.unshift("ورودی","پذیرایی و آشپزخانه اصلی");return a.join("، ")+"، پله داخلی"}
+function xPrompt(i){var it=xItems(i);if(!it.length)return"";var l=it.map(function(x){return"«"+x.fa+"» t:"+x.t+" about "+r1(x.v)+" m2"}).join("; ");
+if(i==0)return"BASEMENT SPACES ON THIS LEVEL (required, checked by the designer): draw each as its own rectangle with the given Persian name n, room type t and area close to the stated value: "+l+". Every such room needs a door; keep the utility room and storage rooms together near the stair and away from permanently used rooms, and show a light well or ventilation for permanently used rooms (cinema, gym, spa, workshop, game room).";
+return"EXTRA SPACES ON THIS LEVEL (required, checked by the designer): draw each as its own rectangle with the given Persian name n, room type t and area close to the stated value: "+l+". The suite includes its own bath and dressing area inside the same rectangle (do not draw them as separate bed, bath or wc rooms, so the bedroom and bath counts stay unchanged). Every such room needs a door and every one of type living or kitchen needs a window on an exterior wall."}
+function xMigrate(){for(var j=1;j<=3;j++){if(xSel().some(function(i){return i.indexOf(j+"_")==0}))continue;var a=xSel(),b=parseInt($("pf"+j+"b").value,10),e=parseInt($("pf"+j+"e").value,10),w=parseInt($("pf"+j+"w").value,10),h=parseInt($("pf"+j+"h").value,10);
+if(b>0){a.push(j+"_bed");$("xq"+j+"_bed").value=String(Math.min(b,6));$("xe"+j).value=String(Math.min(e||0,b))}if(h>0){a.push(j+"_bath");$("xq"+j+"_bath").value=String(Math.min(h,6))}if(w>0){a.push(j+"_wc");$("xq"+j+"_wc").value=String(Math.min(w,6))}$("xsel").value=a.join(",")}}
+function outErrs0(){var e=[],k=nf();if(isApt()||k<2)return e;if(!(plate()>0))return e;for(var j=2;j<=k;j++){if(!oOn(j))continue;var v=num("oa"+j)||0;if(v>oMax(j)+.05)e.push("فضای باز سطح "+pd(String(j))+" ("+fp(v)+" م²) از حداکثر مجاز ("+fp(oMax(j))+" م²) بیشتر است؛ حداکثر ۵۰٪ سطح هر طبقه و در محدوده‌ی سقف طبقه‌ی پایین.")}
+if(oOn(6)){var r=num("oa6")||0;if(r>oMax(6)+.05)e.push("مساحت روف ("+fp(r)+" م²) از ۹۰٪ سطح بام ("+fp(oMax(6))+" م²) بیشتر است.")}return e}
+function outErrs(){return outErrs0().concat(xErrs())}
+function outTxt(){var k=nf(),e=isEn(),a=[];if(isApt()||k<2)return"";for(var j=2;j<=k;j++){if(!oOn(j))continue;var t=$("ot"+j).value,v=num("oa"+j);a.push(e?"level "+j+": "+(OTE[t]||t)+(v>0?", about "+r1(v)+" m² (deducted from that level's built area; on the roof of level "+(j-1)+")":""):"سطح "+pd(String(j))+": "+t+(v>0?" حدود "+pd(String(r1(v)))+" مترمربع (از زیربنای همان سطح کسر شده؛ روی سقف سطح "+pd(String(j-1))+")":""))}
+if(oOn(6)){var t6=$("ot6").value,v6=num("oa6");a.push(e?"roof: "+(OTE[t6]||t6)+(v6>0?", about "+r1(v6)+" m² (not counted in built area)":""):"روف: "+t6+(v6>0?" حدود "+pd(String(r1(v6)))+" مترمربع (جزو زیربنا حساب نمی‌شود)":""))}
+return a.join(e?"; ":"؛ ")}
+function formErrors(){var e=[];try{var c=areaCalc();(c.msgs||[]).forEach(function(x){if(x.c=="er")e.push(x.t)});
+if(!isApt()){var L=num("len"),W=num("wid");if(L>0&&W>0){var P=occPct(),k=nf(),S=L*W,A=num("area"),ef=A>0?A/k:S*P.sel/100,pc=ef/S*100;if(pc>P.max+OCC_SOFT+.5)e.push("سطح اشغال "+fp(pc)+"٪ بسیار بیشتر از حد مجاز ("+fp(P.max)+"٪) است؛ عدد سطح اشغال را کمتر کنید.");var yi=yardInfo(layout());if(yi.on&&yi.A>S-ef+.1)e.push("حیاط انتخابی (حدود "+fp(yi.A)+" م²) از فضای باز باقی‌مانده ("+fp(S-ef)+" م²) بیشتر است؛ عمق حیاط را کم کنید یا سطح اشغال را کمتر بگیرید.")}}
+var en0=$("entry").value;if(en0&&entrySide().conf)e.push("ضلع ورودی انتخابی ("+en0+") دیوار مشترک با همسایه است و ورودی نمی‌تواند روی آن باشد؛ ضلع ورودی را عوض کنید یا ضلع مشترک را تغییر دهید.");e=e.concat(outErrs());for(var j=1;j<=nf();j++){var q=plcVals(j);if(q&&q.e>(q.b||0))e.push("در سطح "+pd(String(j))+" تعداد اتاق‌های دارای حمام اختصاصی از تعداد اتاق خواب بیشتر است.")}}catch(x){}return e}
+function vsMode(){var v=!isBld()&&unitLv()==1,p=$("parking"),ok=["","داخل حیاط (روباز)","سرپوشیده در حیاط (اتاقک)"],sk=["","همکف","حیاط"],sl=$("storL");
+if(v){Array.prototype.forEach.call(p.options,function(o){var h=ok.indexOf(o.value)<0;o.hidden=h;o.disabled=h});if(ok.indexOf(p.value)<0)p.value="";
+Array.prototype.forEach.call(sl.options,function(o){var h=sk.indexOf(o.value)<0;o.hidden=h;o.disabled=h});if(sk.indexOf(sl.value)<0)sl.value=""}
+else Array.prototype.forEach.call(sl.options,function(o){o.hidden=false;o.disabled=false});
+["elev","pil"].forEach(function(i){var e=$(i);if(v){if(e.value!=="ندارد"){e.value="ندارد";e._f=1}e.disabled=true}else{if(e._f){e.value="";e._f=0}e.disabled=false}});
+["parkN","parkA"].forEach(function(i){$(i).disabled=v;if(v)$(i).value=""});$("vsNote").hidden=!v}
+function lockBtns(){var e=formErrors(),b=$("errBox"),bad=e.length>0;b.className="ast"+(bad?" bad":"");b.innerHTML=bad?'<div class="m er"><b>خطاهای فرم؛ تا رفع آن‌ها «تولید پرامپت» و «کپی پرامپت» قفل است:</b></div>'+e.map(function(x){return'<div class="m er">✗ '+x+'</div>'}).join(""):'<div class="m ok">✓ خطایی وجود ندارد؛ می‌توانید پرامپت را بسازید و کپی کنید.</div>';["gen","copy"].forEach(function(i){var d=bad||(i=="copy"&&!BUILT);$(i).disabled=d;$(i).setAttribute("aria-disabled",String(d))})}
+function secArea(){if(isBld())return"";var c=areaCalc();if(c.noA||!(c.it&&c.it.length))return"";var e=isEn(),b=[];
+b.push(T("متراژ هدف بنا (مجموع زیربنای همه طبقات با دیوارها): "+r1(c.A)+" مترمربع؛ پس از کسر فضاهای ثابت و خدماتی (سرویس‌ها، پله، آسانسور، ورودی، دیوارها و گردش، حدود "+r1(c.fixed)+" مترمربع) حدود "+r1(c.av)+" مترمربع برای فضاهای اصلی باقی می‌ماند","Target built area (total of all floors including walls): "+r1(c.A)+" m²; after the fixed and service spaces (WCs, baths, stairs, elevator, entry, walls and circulation, about "+r1(c.fixed)+" m²) about "+r1(c.av)+" m² remains for the main spaces"));
+c.it.forEach(function(x){var u=x.u,v=r1(u?x.v:x.s),nm=ANM[x.k][e?1:0]+(x.c>1?" × "+x.c:"");b.push(e?nm+": "+(u?"exactly ":"about ")+v+" m² "+(u?"(fixed by the user, do not change)":"(suggested; adjust only to balance the total)"):nm+": "+(u?"":"حدود ")+pd(String(v))+" مترمربع "+(u?"(تعیین‌شده توسط کاربر؛ ثابت و غیرقابل تغییر)":"(پیشنهادی؛ فقط برای تعادل مجموع قابل تنظیم)"))});
+if(c.st!="ok")b.push(T("مغایرت: مجموع مساحت‌های واردشده با مساحت قابل تخصیص همخوان نیست (اختلاف "+r1(Math.abs(c.df))+" مترمربع)؛ نزدیک‌ترین تعادل را پیشنهاد کن و اعلام کن کدام عدد تغییر کرده است","Conflict: the entered areas do not match the allocatable area (difference "+r1(Math.abs(c.df))+" m²); propose the closest balance and state which number you changed"));
+b.push(T("مجموع مساحت فضاها باید با متراژ هدف همخوان باشد (اختلاف حداکثر 5 درصد)؛ مساحت هر فضا را در پلان و جدول فضاها با این اعداد تطبیق بده و هر اختلاف را اعلام کن","The total of all spaces must match the target area (at most 5 percent difference); match each space on the plan and in the space table to these numbers and report any difference"));
+return secW("1-6","تخصیص مساحت فضاها","Area allocation",b)}
+function mastersPrompt(ug){var mm=masterN();if(ug||mm.asm||mm.n<1)return"";return"MASTER BEDROOMS: the whole building needs "+mm.n+" master bedroom(s); masters already placed on earlier levels count toward this total. Make each a room of type bed whose Persian name contains «مستر» (for example «اتاق مستر 1»), at least 12 m2 and 2.7 m wide"+(mOpt("masterBath",true)?", with its own bath or wc room (type bath) sharing a wall with it and a door from inside the master":"")+". Place them on the level(s) the brief gives; no other room may have مستر in its name."}
+function pfinExtra(fa){var w=[],mm=masterN(),R=[];fa.forEach(function(p){R=R.concat(p.rooms)});var mr=R.filter(function(r){return r.t=="bed"&&r.n.indexOf("مستر")>-1});
+if(!mm.asm&&mm.n>0&&mr.length<mm.n)w.push("تعداد اتاق مستر در پلان ("+mr.length+") کمتر از درخواست ("+mm.n+") است");
+(areaCalc().it||[]).forEach(function(x){if(!x.u||x.k.indexOf("bed")==0)return;var rs=R.filter(function(r){return x.k=="liv"?r.t=="living":x.k=="kit"?r.t=="kitchen":x.k=="mas"?mr.indexOf(r)>-1:(r.t=="bed"&&mr.indexOf(r)<0)}),a=rs.reduce(function(s,r){return s+r.w*r.h},0),pa=(x.k=="liv"||x.k=="kit")?a:(rs.length?a/rs.length:0);if(pa>0&&Math.abs(pa-x.v)/x.v>.15)w.push(x.n+": در پلان "+Math.round(pa*10)/10+" مترمربع شده ولی "+x.v+" مترمربع خواسته شده بود")});return w}
+function save(){try{var o={};IDS.forEach(function(i){o[i]=$(i).value});localStorage.setItem("planPromptForm",JSON.stringify(o))}catch(e){}}
+function load(){try{var s=localStorage.getItem("planPromptForm");if(s){var o=JSON.parse(s);IDS.forEach(function(i){if(o[i]!=null)$(i).value=o[i]})}}catch(e){}}
+function render(){$("limits").value="";lockOcc();showType();bldUI();syncShare();showFloors(false);showUnit();syncLv();bldUI();aptUI();vsMode();syncPlc();autoArea();autoOut();showMaster();autoFill();areaPanel();yardAuto();occPanel();showYard();showPark();showExtras();syncChips();lockBtns();var o=$("out");if(BUILT)o.value=build();o.style.direction=isEn()?"ltr":"rtl";o.style.textAlign=isEn()?"left":"right";save()}
+function say(t){["msg","msg2"].forEach(function(id){var e=$(id);e.textContent=t;setTimeout(function(){e.textContent=""},2200)})}
+function showFloors(fill){var k=nf();$("fls").hidden=true;for(var j=1;j<=5;j++){$("fw"+j).hidden=j>k;}}
+function pl(){try{return JSON.parse(localStorage.getItem("planPromptProjects"))||{}}catch(e){return{}}}
+function pw(o){try{localStorage.setItem("planPromptProjects",JSON.stringify(o))}catch(e){say("ذخیره در این مرورگر ممکن نیست")}}
+function fillList(sel){var s=$("plist");s.innerHTML="<option value=''>پروژه‌های ذخیره‌شده</option>";Object.keys(pl()).forEach(function(k){var e=document.createElement("option");e.value=k;e.textContent=k;s.appendChild(e)});s.value=sel||""}
+for(var k=1;k<=5;k++){var d=document.createElement("div");d.id="fw"+k;d.innerHTML='<label for="fl'+k+'">کاربری طبقه '+k+'</label><input id="fl'+k+'" type="text">';$("fls").appendChild(d)}
+["yardM","terM"].forEach(function(id){var s=$(id);s.innerHTML="<option value=''>انتخاب کنید</option>";[2,3,4,5,6,8,10].forEach(function(m){var o=document.createElement("option");o.value=m;o.textContent=m+" متر";s.appendChild(o)})});
+LIMS.forEach(function(l){var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=l[0];b.setAttribute("aria-pressed","false");b.addEventListener("click",function(){var a=limArr(),ix=a.indexOf(l[0]);if(ix>-1)a.splice(ix,1);else a.push(l[0]);$("limits").value=a.join("|");render()});$("chips").appendChild(b)});
+[["parkN",6," خودرو"],["parkLv",4," طبقه"]].forEach(function(c){var s=$(c[0]);s.innerHTML="<option value=''>انتخاب کنید</option>";for(var m=1;m<=c[1];m++){var o=document.createElement("option");o.value=m;o.textContent=m+c[2];s.appendChild(o)}});
+function fillSel(id,arr,suf,first){var s=$(id);s.innerHTML="<option value=''>"+first+"</option>";arr.forEach(function(m){var o=document.createElement("option");o.value=m;o.textContent=m+suf;s.appendChild(o)})}
+fillSel("parkA",[15,20,25,30,40,50,60,80,100,150]," متر مربع","خودکار (حدود 25 متر مربع برای هر خودرو)");fillSel("elevN",[1,2,3,4]," اتاقک","انتخاب کنید");fillSel("storN",[1,2,3,4,5,6]," انباری","انتخاب کنید");fillSel("storA",[2,3,4,5,6,8]," متر مربع","فرض منطقی");fillSel("pilH",[2.4,2.7,3,3.3,3.6]," متر","فرض منطقی");
+/* ---- سطح اشغال، قفل طبقات، جانمایی در طبقات ---- */
+var lastAuto="",autoF=0;
+var OCC_MAX=60,OCC_SOFT=10;function lockOcc(){var e=$("occMax");e.value=String(OCC_MAX);e.readOnly=true}
+function occPct(){var m=OCC_MAX,o=num("occ");return{max:m,sel:o>0?Math.min(o,100):m}}
+function autoVal(){var L=num("len"),W=num("wid");if(isApt())return(L>0&&W>0)?pd(String(Math.round(L*W))):"";if(!(L>0&&W>0))return"";return pd(String(Math.round(L*W*occPct().sel/100*nf())))}
+function autoArea(){var f=$("area");f.value=autoVal();f.readOnly=true}
+function occLine(){var L=num("len"),W=num("wid");if(isApt()||!(L>0&&W>0))return"";if(!(L>0&&W>0))return"";var P=occPct(),A=num("area"),ef=A>0?A/nf()/(L*W)*100:P.sel;return"\n- "+T("سطح اشغال زمین: "+r1(ef)+" درصد زمین (حداکثر مجاز "+r1(P.max)+" درصد)، حدود "+r1(L*W*ef/100)+" مترمربع در هر طبقه (فقط زیربنا؛ حیاط و فضای باز جزو سطح اشغال نیست و از "+r1(100-ef)+" درصد باقی‌مانده تأمین می‌شود)"+(ef>P.max+.5?" — توجه: بیش از حد مجاز است و فقط با جریمهٔ کمیسیون ماده ۱۰۰ شهرداری قابل ابقاست؛ این موضوع را در یادداشت‌های پلان اعلام کن":""),"Site coverage: "+r1(ef)+"% of the plot (legal maximum "+r1(P.max)+"%), about "+r1(L*W*ef/100)+" m² per floor (built area only; yard and open ground are not coverage and come from the remaining "+r1(100-ef)+"%)"+(ef>P.max+.5?" — NOTE: exceeds the legal maximum; it can only be retained with a municipal Article 100 commission fine, so state this clearly in the plan notes":""))}
+function occPanel(){var L=num("len"),W=num("wid"),b=$("occS");if(isApt())return;if(!(L>0&&W>0)){b.innerHTML='<div class="m wa">⚠ برای محاسبه خودکار سطح اشغال، طول و عرض زمین را وارد کنید.</div>';return}
+var P=occPct(),k=nf(),S=L*W,A=num("area"),ef=A>0?A/k:S*P.sel/100,pc=ef/S*100,h='<div class="m in">مساحت زمین: '+fp(S)+' م² | سطح اشغال '+fp(pc)+'٪ = '+fp(ef)+' م² در هر طبقه | زیربنای کل: '+fp(ef*k)+' م²'+(isBld()?'':' ('+fp(k)+' طبقه)')+'</div>';
+h+=pc<=P.max+.5?'<div class="m ok">✓ در حد مجاز ضوابط است (حداکثر '+fp(P.max)+'٪).</div>':(pc<=P.max+OCC_SOFT+.5?'<div class="m wa">⚠ سطح اشغال '+fp(pc-P.max)+' درصد بیش از حد مجاز است. این مقدار تخلف ساختمانی محسوب می‌شود و فقط با رأی کمیسیون ماده ۱۰۰ و پرداخت جریمه امکان ابقا دارد؛ ابقا قطعی نیست و میزان جریمه در هر شهر فرق می‌کند. پیش از طراحی نهایی از شهرداری استعلام بگیرید.</div>':'<div class="m er">✗ سطح اشغال '+fp(pc-P.max)+' درصد بیش از حد مجاز است؛ مازاد بسیار زیاد، ریسک رأی تخریب یا جریمه سنگین را بالا می‌برد و از محدودهٔ مازاد معمول خارج است. پیشنهاد می‌شود عدد را کمتر کنید یا حتماً از شهرداری استعلام بگیرید.</div>');
+var Ly=layout(),yi=yardInfo(Ly);h+='<div class="m in">فضای باز باقی‌مانده: '+fp(S-ef)+' م² ('+fp(100-pc)+'٪ زمین). حیاط و فضای سبز از همین مقدار تأمین می‌شود و جزو سطح اشغال نیست.</div>';
+if(yi.on)h+=yi.A>S-ef+.1?'<div class="m er">✗ حیاط انتخابی (حدود '+fp(yi.A)+' م²) از فضای باز باقی‌مانده ('+fp(S-ef)+' م²) بیشتر است؛ عمق حیاط را کم کنید یا سطح اشغال را کمتر بگیرید.</div>':'<div class="m ok">✓ حیاط (حدود '+fp(yi.A)+' م²) داخل فضای باز باقی‌مانده جا می‌شود.</div>';
+h+='<div class="m in">حداکثر مجاز روی ۶۰٪ قفل است. سطح اشغال انتخابی آزاد است؛ بیش از ۶۰٪ فقط با جریمهٔ کمیسیون ماده ۱۰۰ ممکن است و حد مجاز مازاد در یک قانون سراسری ثابت نیست (طرح تفصیلی و تعرفهٔ هر شهر فرق می‌کند). هشدار قرمز از ۱۰ واحد بالاتر از حد مجاز فعال می‌شود و این عدد تقریبی است.</div>';b.innerHTML=h}
+function plcVals(j){var o={},any=0;["b","e","w","h"].forEach(function(k){var v=$("pf"+j+k).value;o[k]=v===""?null:parseInt(v,10);if(v!=="")any=1});return any?o:null}
+function syncPlc(){var k=nf(),s={b:0,e:0,w:0,h:0},a={},bad="";for(var j=1;j<=5;j++){$("pr"+j).hidden=j>k;if(j>k)continue;["b","e","w","h"].forEach(function(x){var v=$("pf"+j+x).value;if(v!==""){a[x]=1;s[x]+=parseInt(v,10)}});var q=plcVals(j);if(q&&q.e>(q.b||0))bad=" ⚠ در طبقه "+pd(String(j))+" تعداد اتاق‌های دارای حمام اختصاصی از تعداد اتاق خواب بیشتر است."}
+$("beds").value=a.b?String(s.b):"";$("wcs").value=a.w?String(s.w):"";$("baths").value=(a.h||a.e)?String(s.h+s.e):"";$("ptot").textContent=(a.b||a.w||a.h||a.e)?"جمع کل: "+pd(String(s.b))+" اتاق خواب، "+pd(String(s.w))+" WC، "+pd(String(s.h+s.e))+" حمام"+bad:""}
+function secPlc(){var k=nf(),b=[],any=0,e=isEn();for(var j=1;j<=k;j++){var v=plcVals(j);if(!v){b.push(T("طبقه "+j+": به تشخیص معمار","Floor "+j+": architect's choice"));continue}any=1;var f=function(x,fa,en){return x==null?"":(e?en+" "+x:fa+" "+x)},p=[f(v.b,"اتاق خواب","bedrooms"),f(v.e,"اتاق دارای حمام/سرویس اختصاصی داخل اتاق","bedrooms with a private bath inside"),f(v.w,"WC عمومی جداگانه","separate common WCs"),f(v.h,"حمام عمومی جداگانه","separate common baths")].filter(Boolean);b.push((e?"Floor ":"طبقه ")+j+": "+p.join(e?"; ":"؛ "))}
+if(!any)return"";b.push(T("تعداد و محل فضاها دقیقاً مطابق فهرست بالا باشد؛ جمع کل اتاق خواب: "+g("beds")+"، WC: "+g("wcs")+"، حمام (عمومی و اختصاصی): "+g("baths")+"؛ سرویس‌های اختصاصی داخل اتاق جدا از عمومی شمرده می‌شوند","Counts and locations must match the list above exactly; totals: bedrooms "+g("beds")+", WCs "+g("wcs")+", baths (common and private) "+g("baths")+"; private baths inside bedrooms are counted separately from common ones"));return secW("1-7","جانمایی اتاق‌ها و سرویس‌ها در طبقات","Room and bathroom placement per floor",b)}
+(function(){var w=$("plc"),h=document.createElement("div");h.innerHTML='<label>تعداد اتاق‌ها و سرویس‌ها در هر سطح (اختیاری)</label><div class="hint">برای هر سطح تعداد اتاق خواب، اتاق‌های دارای حمام یا سرویس اختصاصی، WC عمومی و حمام عمومی را انتخاب کنید؛ جمع کل خودکار حساب می‌شود.</div>';w.appendChild(h);for(var j=1;j<=5;j++){var d=document.createElement("div");d.id="pr"+j;d.className="ast";d.innerHTML='<b>سطح '+j+'</b><div class="row">'+[["b","اتاق خواب"],["e","اتاق با حمام/سرویس اختصاصی"],["w","WC عمومی"],["h","حمام عمومی"]].map(function(x){return'<div><label for="pf'+j+x[0]+'">'+x[1]+'</label><select id="pf'+j+x[0]+'"><option value="">—</option>'+[0,1,2,3,4,5,6].map(function(n){return'<option>'+n+'</option>'}).join("")+'</select></div>'}).join("")+'</div>';w.appendChild(d)}})();
+
+function syncLv(){var k=nf(),a=isApt(),p=$("lvPick"),h=$("lvHint"),ids=["lvLiv","lvKit","lvBed","lvWc"],any=false;
+p.hidden=true;
+h.textContent=k<2?"واحد یک‌سطحی است و همهٔ فضاها در همین سطح قرار می‌گیرند؛ فقط در صورت تمایل، فضاها، تعداد اتاق‌خواب‌ها و سرویس‌ها را در کادر «سطح ۱» پایین‌تر تیک بزنید.":"واحد "+pd(String(k))+"‌سطحی است. محل هر فضا با تیک‌زدن آن در کادر همان سطح (پایین‌تر) مشخص می‌شود و «تیک نخورده» یعنی خود طراح تصمیم می‌گیرد.";
+ids.forEach(function(i){$(i).value=""});
+for(var j=1;j<=5;j++){var t="";if(k>1&&j<=k){if(!any)t=fdef(j);else{var q=[];if(j==1)q.push("ورودی");if($("lvLiv").value==String(j))q.push("پذیرایی و نشیمن");if($("lvKit").value==String(j))q.push("آشپزخانه");if($("lvBed").value==String(j)||$("lvBed").value=="all")q.push("اتاق‌خواب‌ها");if($("lvWc").value==String(j)||$("lvWc").value=="all")q.push("سرویس‌های عمومی");q.push("پله داخلی");if(q.length<=(j==1?2:1))q.push("سایر فضاها به تشخیص معمار");t=q.join("، ")}}$("fl"+j).value=(xFl(j)||t)}}
+(function(){var inp=$("style"),box=$("cbStyle"),ul=$("styleList"),lis=Array.prototype.slice.call(ul.children),cur=-1;
+function vis(){return lis.filter(function(x){return!x.hidden})}
+function setAct(n){var v=vis();lis.forEach(function(x){x.classList.remove("act")});cur=v.length?(n+v.length)%v.length:-1;if(cur>-1){v[cur].classList.add("act");v[cur].scrollIntoView({block:"nearest"})}}
+function open(){box.classList.add("open");inp.setAttribute("aria-expanded","true")}
+function close(){box.classList.remove("open");inp.setAttribute("aria-expanded","false");cur=-1;lis.forEach(function(x){x.classList.remove("act")})}
+function filt(){var q=inp.value.trim();lis.forEach(function(x){x.hidden=!!q&&x.textContent.indexOf(q)<0});if(!vis().length)close()}
+function pick(li){inp.value=li.textContent;inp.dispatchEvent(new Event("input",{bubbles:true}));close()}
+inp.addEventListener("focus",function(){lis.forEach(function(x){x.hidden=false});open()});
+inp.addEventListener("input",function(){filt();if(vis().length)open()});
+inp.addEventListener("blur",function(){close()});
+inp.addEventListener("keydown",function(e){var v=vis();if(e.key=="ArrowDown"){e.preventDefault();open();setAct(cur+1)}else if(e.key=="ArrowUp"){e.preventDefault();open();setAct(cur-1)}else if(e.key=="Enter"&&cur>-1&&v[cur]){e.preventDefault();pick(v[cur])}else if(e.key=="Escape"){close()}});
+ul.addEventListener("pointerdown",function(e){e.preventDefault()});
+ul.addEventListener("click",function(e){var li=e.target.closest("li");if(li)pick(li)});
+$("styleArrow").addEventListener("pointerdown",function(e){e.preventDefault()});
+$("styleArrow").addEventListener("click",function(){if(box.classList.contains("open")){close()}else{lis.forEach(function(x){x.hidden=false});inp.focus();open()}});
+})();
+function syncCards(){for(var j=1;j<=6;j++){var c=$("lc"+j);if(!c)continue;var v=false;((j<=3)?[$("xd"+j),$("or"+j)]:[$("pr"+j),$("or"+j)]).forEach(function(e){if(e&&!e.hidden)v=true});c.hidden=!v}var z=$("lc0");if(z)z.hidden=isApt()}
+(function(){var plc=$("plc"),olv=$("olv"),host=document.createElement("div"),N=["۱","۲","۳","۴","۵","۶"];host.id="lvm";var stash=document.createElement("div");stash.hidden=true;stash.id="pfstash";
+host.innerHTML='<label>تفکیک هر سطح: اتاق‌ها و سرویس‌ها، فضای باز و فضاهای داخلی (اختیاری)</label><div class="hint">در دوبلکس و تریبلکس هر سطح کادر جداگانه دارد. در هر سطح (۱ تا ۳) از فهرست فضاها (اتاق خواب، حمام، WC، پذیرایی، آشپزخانه، سوئیت، اتاق کار و …) هر کدام را برای آن سطح می‌خواهید تیک بزنید؛ اندازه‌ی هر فضا پیشنهاد می‌شود و ظرفیت سطح با هر انتخاب پر می‌شود. بعد از آن، فضای باز (تراس / باغچه) همان سطح را تنظیم کنید. جمع کل خودکار حساب می‌شود.</div>';
+plc.parentNode.insertBefore(host,plc);host.appendChild(stash);if(plc.firstElementChild)plc.removeChild(plc.firstElementChild);
+for(var j=1;j<=6;j++){var c=document.createElement("div");c.className="lc";c.id="lc"+j;var h=document.createElement("h4");h.textContent=j==6?"روف (بام بالاترین سطح)":"سطح "+N[j-1];c.appendChild(h);
+var p=$("pr"+j),o=$("or"+j),xd=$("xd"+j);
+if(p){if(j<=3){stash.appendChild(p)}else{p.firstElementChild.textContent="۱) تعداد اتاق‌ها و سرویس‌ها";c.appendChild(p)}}
+if(xd)c.appendChild(xd);
+if(o){o.firstElementChild.textContent=j==6?"فضای باز بام":((j==2||j==3)?"۲) فضای باز (تراس / باغچه)":"۲) فضای باز (تراس / باغچه)");c.appendChild(o)}
+host.appendChild(c)}
+var c0=document.createElement("div");c0.className="lc";c0.id="lc0";var h0=document.createElement("h4");h0.textContent="زیرزمین / فضای تأسیسات (اختیاری)";c0.appendChild(h0);c0.appendChild($("bsc0"));c0.appendChild($("xd0"));var bx=$("bsx");if(bx&&bx.parentNode)bx.parentNode.removeChild(bx);host.appendChild(c0);var cA=document.createElement("div");cA.className="lc";cA.id="lcA";cA.hidden=true;var hA=document.createElement("h4");hA.textContent="سطح ۲: طبقه";cA.appendChild(hA);var iA=document.createElement("div");iA.id="aptLvInfo";iA.className="hint";cA.appendChild(iA);host.appendChild(cA);
+host.appendChild($("ptot"));host.appendChild($("oapply"));host.appendChild($("osum"));
+if(olv&&olv.firstElementChild)olv.firstElementChild.hidden=true})();
+IDS.forEach(function(i){$(i).addEventListener("input",render);$(i).addEventListener("change",render)});
+
+$("psave").addEventListener("click",function(){var n=$("pname").value.trim();if(!n){say("نام پروژه را وارد کنید");return}var o=pl(),d={};IDS.forEach(function(i){d[i]=$(i).value});o[n]=d;pw(o);fillList(n);say("پروژه ذخیره شد")});
+$("plist").addEventListener("change",function(){var d=pl()[this.value];if(d){IDS.forEach(function(i){if(d[i]!=null)$(i).value=d[i]});xMigrate();render();say("پروژه باز شد")}});
+$("pdel").addEventListener("click",function(){var k=$("plist").value;if(!k){say("پروژه‌ای انتخاب نشده");return}var o=pl();delete o[k];pw(o);fillList("");say("پروژه حذف شد")});
+$("gen").addEventListener("click",function(){BUILT=true;render();var b=$("box");b.scrollIntoView({behavior:"smooth",block:"start"});b.classList.add("flash");setTimeout(function(){b.classList.remove("flash")},700);say("پرامپت به‌روز شد")});
+$("copy").addEventListener("click",function(){
+var t=$("out").value,done=function(){say("کپی شد")},fb=function(){$("out").focus();$("out").select();try{document.execCommand("copy")?done():say("متن را دستی کپی کنید")}catch(e){say("متن را دستی کپی کنید")}};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fb)}else{fb()}});
+$("reset").addEventListener("click",function(){BUILT=false;$("out").value="";IDS.forEach(function(i){if(i!="lang")$(i).value=""});render();say("فرم پاک شد")});
+$("mk").addEventListener("click",mkPlan);$("fsel").addEventListener("change",function(){CUR=+this.value;pshow()});$("dsvg").addEventListener("click",function(){dlPlan("svg")});$("dpng").addEventListener("click",function(){dlPlan("png")});
+$("unit").addEventListener("change",function(){showFloors(true);render()});$("aclear").addEventListener("click",function(){ALLA().forEach(function(i){$(i).value=""});$("aman").value="";$("asel").value="";$("xman").value="";render()});
+document.addEventListener("change",function(e){var c=e.target;if(!c||!c.classList||!c.classList.contains("xc"))return;var id=c.getAttribute("data-id"),a=xSel().filter(function(i){return i!=id});if(c.checked)a.push(id);else{var ai=$("xa"+id);if(ai){ai.value="";xClrMan("xa"+id)}}$("xsel").value=a.join(",");render()});
+document.addEventListener("click",function(e){var b=e.target.closest?e.target.closest(".xchip,.xmv"):null;if(!b)return;
+if(b.classList.contains("xchip")){var a=b.getAttribute("data-a");$(a).value=pd(String(b.getAttribute("data-v")));var m=$("xman").value?$("xman").value.split(","):[];m=m.filter(function(i){return i!=a});m.push(a);$("xman").value=m.join(",");render();return}
+var id=b.getAttribute("data-id"),j=+id.charAt(0),k=id.slice(2),o=xTgt(j),nid=o+"_"+k;if(!o||b.disabled||xOn(o,k))return;
+var sl=xSel().map(function(i){return i==id?nid:i});$("xsel").value=sl.join(",");
+if($("xa"+id)){var man=xman("xa"+id),val=$("xa"+id).value;$("xa"+id).value="";xClrMan("xa"+id);if(man){$("xa"+nid).value=val;var mm=$("xman").value?$("xman").value.split(","):[];mm.push("xa"+nid);$("xman").value=mm.join(",")}}
+else{$("xq"+nid).value=$("xq"+id).value;if(k=="bed")$("xe"+o).value=$("xe"+j).value}
+render()});
+["input","change"].forEach(function(ev){document.addEventListener(ev,function(e){if(!e.isTrusted)return;var id=e.target.id,k=ALLA().indexOf(id)>-1?"aman":(["yardPos","yardM"].indexOf(id)>-1?"yman":(/^oa\d$/.test(id)?"oman":(/^xa\d_/.test(id)?"xman":"")));if(!k)return;var a=$(k).value?$(k).value.split(","):[];a=a.filter(function(i){return i!=id});if(e.target.value.trim()!=="")a.push(id);$(k).value=a.join(",")},true)});
+$("oapply").addEventListener("click",function(){var k=nf();if(k<2)return;if(!$("ot"+k).value)$("ot"+k).value="تراس";if(!$("ot6").value)$("ot6").value="روف‌گاردن";render()});
+$("asug").addEventListener("click",function(e){var b=e.target.closest("button[data-i]");if(!b)return;$("asel").value=b.getAttribute("data-i");render()});
+$("ysug").addEventListener("click",function(e){if(e.target.id=="yapply"){$("yardType").value="حیاط";$("yman").value="";render()}});
+["input","change","click"].forEach(function(ev){document.addEventListener(ev,function(e){if(e.isTrusted)FIXMSG={}},true)});load();xMigrate();fillList();render();
+</script>
+
+
+</body></html>
